@@ -1,0 +1,22 @@
+# Unity
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Pp]rofiler[Cc]aptures/
+
+# Asset meta data should be tracked
+!/[Aa]ssets/**/*.meta
+!/[Pp]roject[Ss]ettings/*.meta
+
+# IDE
+.idea/
+.vs/
+*.sln.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db
