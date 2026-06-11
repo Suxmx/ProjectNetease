@@ -1,0 +1,3 @@
+[submodule "Assets/Scripts/Skill"]
+	path = Assets/Scripts/Skill
+	url = https://github.com/Suxmx/ProjectNetease-Skill.git
