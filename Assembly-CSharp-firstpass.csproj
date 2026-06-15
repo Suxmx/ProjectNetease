@@ -46,7 +46,6 @@
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
     <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\Plugins\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\Plugins\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Plugins\FishNet\Upgrading\MirrorUpgrade.cs" />
@@ -470,47 +469,47 @@
     <Reference Include="UnityEditor.XRModule">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEditor.XRModule.dll</HintPath>
     </Reference>
+    <Reference Include="Sirenix.Reflection.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Reflection.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Collections.LowLevel.ILSupport">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.collections@5b6ebd78ccc0\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="FishNet.CodeAnalysis">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.Serialization">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.Serialization.Config">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.OdinInspector.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.OdinInspector.Attributes">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Attributes.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO.Hashing">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.collections@5b6ebd78ccc0\Unity.Collections.Tests\System.IO.Hashing\System.IO.Hashing.dll</HintPath>
     </Reference>
+    <Reference Include="Sirenix.Utilities">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Sirenix.Utilities.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.collections@5b6ebd78ccc0\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="FishNet.CodeAnalysis">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Reflection.Editor">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Reflection.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.OdinInspector.Attributes">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Attributes.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Serialization.Config">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.Config.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Utilities.Editor">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Utilities">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.OdinInspector.Editor">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Serialization">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\NetStandard\ref\2.1.0\netstandard.dll</HintPath>
@@ -899,6 +898,9 @@
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Splines.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Splines.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.2D.Editor.Overrides">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.2D.Editor.Overrides.dll</HintPath>
     </Reference>
@@ -941,8 +943,14 @@
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Cinemachine.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Cinemachine.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.UnifiedRayTracing.Runtime">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.UnifiedRayTracing.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Cinemachine">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Cinemachine.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
@@ -1043,6 +1051,12 @@
     <Reference Include="Unity.InputSystem">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Settings.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Settings.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Splines">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Splines.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -1056,9 +1070,17 @@
       <Project>{45159dbe-9cb2-b6b6-731e-33dda4173c68}</Project>
       <Name>GameKit.Dependencies</Name>
     </ProjectReference>
+    <ProjectReference Include="ALINE.csproj">
+      <Project>{b7babb3f-a7d5-1e5f-0356-19ae5e66c591}</Project>
+      <Name>ALINE</Name>
+    </ProjectReference>
     <ProjectReference Include="SynapseSocket.csproj">
       <Project>{9331b437-b52a-229e-f959-d75efdb47180}</Project>
       <Name>SynapseSocket</Name>
+    </ProjectReference>
+    <ProjectReference Include="Kybernetik.Animancer.FSM.csproj">
+      <Project>{7a283799-97cb-6385-4932-dc2eb7bcdf5e}</Project>
+      <Name>Kybernetik.Animancer.FSM</Name>
     </ProjectReference>
     <ProjectReference Include="SLATE.csproj">
       <Project>{55901934-992c-01b8-a55c-d6d251eb4486}</Project>
@@ -1076,6 +1098,10 @@
       <Project>{6972eee9-8334-03c7-9d1f-edc2893da80d}</Project>
       <Name>ALINEEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="Kybernetik.Animancer.csproj">
+      <Project>{84e098ba-37d2-25eb-5c76-fa33dabc0685}</Project>
+      <Name>Kybernetik.Animancer</Name>
+    </ProjectReference>
     <ProjectReference Include="FishNet.Runtime.csproj">
       <Project>{86dfd987-b9be-260d-495d-a79a153d6339}</Project>
       <Name>FishNet.Runtime</Name>
@@ -1084,10 +1110,6 @@
       <Project>{8cdcbc94-3d55-f3cf-ad49-9e5b08fe8531}</Project>
       <Name>ALINEPackageToolsEditor</Name>
     </ProjectReference>
-    <ProjectReference Include="ALINE.csproj">
-      <Project>{b7babb3f-a7d5-1e5f-0356-19ae5e66c591}</Project>
-      <Name>ALINE</Name>
-    </ProjectReference>
     <ProjectReference Include="FishNet.Demos.csproj">
       <Project>{a4fa2f3d-7588-cdcc-47af-3bb352b7dc7e}</Project>
       <Name>FishNet.Demos</Name>
@@ -1095,6 +1117,10 @@
     <ProjectReference Include="FishNet.Codegen.Cecil.csproj">
       <Project>{7a15c32f-e1c1-6aea-2e4d-9e5d66a05dcc}</Project>
       <Name>FishNet.Codegen.Cecil</Name>
+    </ProjectReference>
+    <ProjectReference Include="Kybernetik.Animancer.Editor.csproj">
+      <Project>{5a90d7b1-110d-1bf4-89bb-e236b1ed0b3e}</Project>
+      <Name>Kybernetik.Animancer.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

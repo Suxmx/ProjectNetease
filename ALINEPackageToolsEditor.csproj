@@ -47,8 +47,8 @@
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Packages\com.arongranberg.aline\PackageTools\Editor\DependencyCheck.cs" />
-    <None Include="Packages\com.arongranberg.aline\PackageTools\Editor\PackageToolsEditor.asmdef" />
+    <Compile Include="Assets\Scripts\Skill\ALINE\PackageTools\Editor\DependencyCheck.cs" />
+    <None Include="Assets\Scripts\Skill\ALINE\PackageTools\Editor\PackageToolsEditor.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
