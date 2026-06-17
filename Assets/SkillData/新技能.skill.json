@@ -1,0 +1,163 @@
+{
+    "version": 1,
+    "characterReference": "",
+    "updateMode": 0,
+    "wrapMode": 0,
+    "stopMode": 0,
+    "playbackSpeed": 1.0,
+    "playOnStart": false,
+    "length": 30.0,
+    "viewTimeMin": 0.0,
+    "viewTimeMax": 5.0,
+    "playTimeMin": 2.0,
+    "playTimeMax": 4.0,
+    "groups": [
+        {
+            "groupId": 1,
+            "name": "",
+            "isCollapsed": false,
+            "active": true,
+            "isLocked": false,
+            "actorReference": "",
+            "referenceMode": 0,
+            "initialCoordinates": 0,
+            "initialLocalPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "initialLocalRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "tracks": [
+                {
+                    "trackId": 101,
+                    "name": "Skill Action Track",
+                    "color": {
+                        "r": 0.1899999976158142,
+                        "g": 0.5400000214576721,
+                        "b": 0.9200000166893005,
+                        "a": 1.0
+                    },
+                    "active": true,
+                    "isLocked": false,
+                    "isCollapsed": false,
+                    "clips": [
+                        {
+                            "clipId": 1004,
+                            "startTime": 0.47999998927116396,
+                            "length": 3.0,
+                            "blendIn": 0.0,
+                            "blendOut": 0.0,
+                            "line": 2,
+                            "customFields": [
+                                {
+                                    "name": "Shape",
+                                    "value": "Box"
+                                },
+                                {
+                                    "name": "Space",
+                                    "value": "AimDirection"
+                                },
+                                {
+                                    "name": "Offset",
+                                    "value": "(0.00, 0.60, 1.20)"
+                                },
+                                {
+                                    "name": "HalfExtents",
+                                    "value": "(0.80, 0.60, 0.90)"
+                                },
+                                {
+                                    "name": "Radius",
+                                    "value": "0.6"
+                                },
+                                {
+                                    "name": "Distance",
+                                    "value": "4"
+                                },
+                                {
+                                    "name": "HitMask",
+                                    "value": "UnityEngine.LayerMask"
+                                },
+                                {
+                                    "name": "Damage",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        {
+                            "clipId": 1006,
+                            "startTime": 0.7899999618530273,
+                            "length": 0.10000000149011612,
+                            "blendIn": 0.0,
+                            "blendOut": 0.0,
+                            "line": 1,
+                            "customFields": [
+                                {
+                                    "name": "AttributeKey",
+                                    "value": ""
+                                },
+                                {
+                                    "name": "AddValue",
+                                    "value": "0"
+                                },
+                                {
+                                    "name": "MultiplyValue",
+                                    "value": "1"
+                                },
+                                {
+                                    "name": "DurationSeconds",
+                                    "value": "0"
+                                }
+                            ]
+                        },
+                        {
+                            "clipId": 1004,
+                            "startTime": 1.4299999475479127,
+                            "length": 3.0,
+                            "blendIn": 0.0,
+                            "blendOut": 0.0,
+                            "line": 1,
+                            "customFields": [
+                                {
+                                    "name": "Shape",
+                                    "value": "Box"
+                                },
+                                {
+                                    "name": "Space",
+                                    "value": "AimDirection"
+                                },
+                                {
+                                    "name": "Offset",
+                                    "value": "(0.00, 0.60, 1.20)"
+                                },
+                                {
+                                    "name": "HalfExtents",
+                                    "value": "(0.80, 0.60, 0.90)"
+                                },
+                                {
+                                    "name": "Radius",
+                                    "value": "0.6"
+                                },
+                                {
+                                    "name": "Distance",
+                                    "value": "4"
+                                },
+                                {
+                                    "name": "HitMask",
+                                    "value": "UnityEngine.LayerMask"
+                                },
+                                {
+                                    "name": "Damage",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

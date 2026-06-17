@@ -48,17 +48,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\CollisionClip.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Compiled\SkillDefinition.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\MoveVelocityClip.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\AttributeModifierClip.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\SpawnProjectileClip.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Compiled\SkillNodePayloads.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Generated\SkillGeneratedSerializationServices.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Track\SkillActionTrack.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillSerializer.cs" />
-    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\TestSimpleClip.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Generated\SkillSerializationAttributes.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\MoveDisplacementClip.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Draw\SkillDraw.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\TeleportClip.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillData.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillGeneratedEditorSerializationServices.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Editor\CodeGen\SkillSerializationCodeGenerator.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillEditor.cs" />
-    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\ISkillClipSerializer.cs" />
-    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\CollisionClipData.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillFileManager.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Track\CollisionTrack.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Generated\SkillBuiltInExternalTypes.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\SkillFileRef.cs" />
-    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\SerializableActionClip.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Editor\Compiler\SkillDefinitionCompiler.cs" />
     <None Include="Assets\Scripts\Skill\Skill\HoshinoSkill.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

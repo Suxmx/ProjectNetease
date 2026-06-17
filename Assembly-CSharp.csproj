@@ -48,19 +48,38 @@
     <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\Plugins\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattlePlayerInput.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoPlayerVisual.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\CollisionClipExecutor.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleLagCompensatedHitResolver.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleSkillExecutionContext.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleSkillController.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoHealth.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattleAttributeSet.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\World\BattleCaptureObjective.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattleOwnerCamera.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\TeleportClipExecutor.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoNetworkHud.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\AttributeModifierClipExecutor.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\MoveDisplacementClipExecutor.cs" />
+    <Compile Include="Assets\Scripts\Generated\Skill\Runtime\SkillGeneratedSerialization.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoPredictedMotor.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\SpawnProjectileClipExecutor.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattlePlayerMotor.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleSkillRuntimeServices.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\MoveVelocityClipExecutor.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleSkillNodeExecutor.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoOwnerCamera.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattleCombatState.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoCombat.cs" />
-    <None Include="Assets\SkillData\新技能2.json" />
-    <None Include="Assets\SkillData\新技能6.json" />
-    <None Include="Assets\SkillData\新技能.json" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattleTypes.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleProjectile.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleSkillNodeUtility.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\World\BattleDestructibleObject.cs" />
     <None Include="Packages\com.kybernetik.animancer\Package.json" />
-    <None Include="Assets\SkillData\新技能4.json" />
-    <None Include="Assets\SkillData\新技能3.json" />
+    <None Include="Assets\SkillData\新技能.skill.json" />
     <None Include="Packages\com.kybernetik.animancer\License.txt" />
+    <None Include="Assets\SkillData\Compiled\新技能.compiled.json" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

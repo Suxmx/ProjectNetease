@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\NetDemo\Editor\NetDemoSetup.cs" />
+    <Compile Include="Assets\Scripts\Generated\Skill\Editor\SkillGeneratedEditorSerialization.cs" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
