@@ -43,18 +43,17 @@ namespace Battle
 
     public static class BattleSkillNodeExecutorRegistry
     {
-        private static Dictionary<string, IBattleSkillNodeExecutor> _executors;
+        private static Dictionary<uint, IBattleSkillNodeExecutor> _executors;
 
-        public static bool TryGet(uint clipId, SkillNodeExecutionDomain domain, out IBattleSkillNodeExecutor executor)
+        public static bool TryGet(uint clipId, out IBattleSkillNodeExecutor executor)
         {
             EnsureInitialized();
-            string key = BuildKey(clipId, domain);
-            if (_executors.TryGetValue(key, out executor))
+            if (_executors.TryGetValue(clipId, out executor))
                 return true;
 
-            if (!SkillGeneratedExecutorBindings.TryGet(clipId, domain, out string executorTypeName))
-                return false;
+            if (!SkillGeneratedExecutorBindings.TryGet(clipId, out string executorTypeName))
 
+                return false;
             Type type = ResolveType(executorTypeName);
             if (type == null || type.IsAbstract || !typeof(IBattleSkillNodeExecutor).IsAssignableFrom(type))
             {
@@ -63,7 +62,7 @@ namespace Battle
             }
 
             executor = (IBattleSkillNodeExecutor)Activator.CreateInstance(type);
-            _executors.Add(key, executor);
+            _executors.Add(clipId, executor);
             return true;
         }
 
@@ -72,7 +71,7 @@ namespace Battle
             if (_executors != null)
                 return;
 
-            _executors = new Dictionary<string, IBattleSkillNodeExecutor>();
+            _executors = new Dictionary<uint, IBattleSkillNodeExecutor>();
         }
 
         private static Type ResolveType(string typeName)
@@ -94,11 +93,6 @@ namespace Battle
             }
 
             return null;
-        }
-
-        private static string BuildKey(uint clipId, SkillNodeExecutionDomain domain)
-        {
-            return $"{clipId}|{(byte)domain}";
         }
 
         private static IEnumerable<Type> GetLoadableTypes(Assembly assembly)

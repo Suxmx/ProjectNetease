@@ -26,7 +26,7 @@ namespace Battle
         private byte _phase;
         private bool _isActive;
         private readonly HashSet<int> _executedServerNodeKeys = new();
-        private readonly HashSet<string> _missingExecutorKeys = new();
+        private readonly HashSet<uint> _missingExecutorKeys = new();
         private readonly Dictionary<byte, SkillDefinition> _skillsBySlot = new();
         private readonly Dictionary<int, SkillDefinition> _skillsById = new();
         private bool _skillCacheBuilt;
@@ -75,7 +75,7 @@ namespace Battle
                 if (domain != SkillNodeExecutionDomain.Predicted || !node.IsActiveAt(elapsedTicks))
                     continue;
 
-                ExecuteNode(motor, command, aimDirection, currentTick, elapsedTicks, delta, state, node, domain);
+                ExecuteNode(motor, command, aimDirection, currentTick, elapsedTicks, delta, state, node);
             }
         }
 
@@ -100,7 +100,7 @@ namespace Battle
                 if (!_executedServerNodeKeys.Add(executionKey))
                     continue;
 
-                ExecuteNode(motor, command, aimDirection, currentTick, elapsedTicks, (float)motor.TimeManager.TickDelta, state, node, domain);
+                ExecuteNode(motor, command, aimDirection, currentTick, elapsedTicks, (float)motor.TimeManager.TickDelta, state, node);
             }
         }
 
@@ -140,13 +140,12 @@ namespace Battle
             return _skillsById.TryGetValue(skillId, out SkillDefinition skill) ? skill : null;
         }
 
-        private void ExecuteNode(BattlePlayerMotor motor, BattleSkillCommand command, Vector3 aimDirection, uint currentTick, int elapsedTicks, float delta, ReplicateState state, SkillRuntimeNode node, SkillNodeExecutionDomain domain)
+        private void ExecuteNode(BattlePlayerMotor motor, BattleSkillCommand command, Vector3 aimDirection, uint currentTick, int elapsedTicks, float delta, ReplicateState state, SkillRuntimeNode node)
         {
-            if (!BattleSkillNodeExecutorRegistry.TryGet(node.ClipId, domain, out IBattleSkillNodeExecutor executor))
+            if (!BattleSkillNodeExecutorRegistry.TryGet(node.ClipId, out IBattleSkillNodeExecutor executor))
             {
-                string key = $"{node.ClipId}|{domain}";
-                if (_missingExecutorKeys.Add(key))
-                    Debug.LogError($"[BattleSkill] Missing executor for clip id {node.ClipId} / {domain}.");
+                if (_missingExecutorKeys.Add(node.ClipId))
+                    Debug.LogError($"[BattleSkill] Missing executor for clip id {node.ClipId}.");
                 return;
             }
 

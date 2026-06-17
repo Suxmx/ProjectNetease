@@ -90,9 +90,9 @@ namespace Hoshino
             return SkillGeneratedNodeDataBlob.TryGetExecutionDomain(clipId, out domain);
         }
 
-        public bool TryGetExecutorTypeName(uint clipId, SkillNodeExecutionDomain domain, out string executorTypeName)
+        public bool TryGetExecutorTypeName(uint clipId, out string executorTypeName)
         {
-            return SkillGeneratedExecutorBindings.TryGet(clipId, domain, out executorTypeName);
+            return SkillGeneratedExecutorBindings.TryGet(clipId, out executorTypeName);
         }
     }
 
@@ -300,52 +300,28 @@ namespace Hoshino
 
     public static class SkillGeneratedExecutorBindings
     {
-        public static bool TryGet(uint clipId, SkillNodeExecutionDomain domain, out string executorTypeName)
+        public static bool TryGet(uint clipId, out string executorTypeName)
         {
             switch (clipId)
             {
                 case SkillGeneratedIds.MoveVelocityClip:
-                    if (domain == SkillNodeExecutionDomain.Predicted)
-                    {
-                        executorTypeName = "Battle.MoveVelocityClipExecutor";
-                        return true;
-                    }
-                    break;
+                    executorTypeName = "Battle.MoveVelocityClipExecutor";
+                    return true;
                 case SkillGeneratedIds.MoveDisplacementClip:
-                    if (domain == SkillNodeExecutionDomain.Predicted)
-                    {
-                        executorTypeName = "Battle.MoveDisplacementClipExecutor";
-                        return true;
-                    }
-                    break;
+                    executorTypeName = "Battle.MoveDisplacementClipExecutor";
+                    return true;
                 case SkillGeneratedIds.TeleportClip:
-                    if (domain == SkillNodeExecutionDomain.Predicted)
-                    {
-                        executorTypeName = "Battle.TeleportClipExecutor";
-                        return true;
-                    }
-                    break;
+                    executorTypeName = "Battle.TeleportClipExecutor";
+                    return true;
                 case SkillGeneratedIds.CollisionClip:
-                    if (domain == SkillNodeExecutionDomain.LagCompensatedQuery)
-                    {
-                        executorTypeName = "Battle.CollisionClipExecutor";
-                        return true;
-                    }
-                    break;
+                    executorTypeName = "Battle.CollisionClipExecutor";
+                    return true;
                 case SkillGeneratedIds.SpawnProjectileClip:
-                    if (domain == SkillNodeExecutionDomain.ServerAuthority)
-                    {
-                        executorTypeName = "Battle.SpawnProjectileClipExecutor";
-                        return true;
-                    }
-                    break;
+                    executorTypeName = "Battle.SpawnProjectileClipExecutor";
+                    return true;
                 case SkillGeneratedIds.AttributeModifierClip:
-                    if (domain == SkillNodeExecutionDomain.ServerAuthority)
-                    {
-                        executorTypeName = "Battle.AttributeModifierClipExecutor";
-                        return true;
-                    }
-                    break;
+                    executorTypeName = "Battle.AttributeModifierClipExecutor";
+                    return true;
             }
             executorTypeName = null;
             return false;
