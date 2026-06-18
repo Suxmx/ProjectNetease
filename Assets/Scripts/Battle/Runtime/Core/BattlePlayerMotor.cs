@@ -6,9 +6,18 @@ using UnityEngine;
 
 namespace Battle
 {
+    /// <summary>
+    /// 玩家移动控制器。FishNet 预测系统的核心载体，
+    /// 驱动移动、旋转、技能调度和 reconcile。
+    /// 挂载于角色 prefab，聚合 Input/CombatState/AttributeSet/SkillController 等组件。
+    /// </summary>
     [RequireComponent(typeof(Rigidbody))]
     public sealed class BattlePlayerMotor : TickNetworkBehaviour
     {
+        /// <summary>
+        /// Reconcile 快照数据。包含刚体状态、技能状态、朝向和死亡标记，
+        /// 由服务端产生并回滚客户端预测。
+        /// </summary>
         public struct BattleReconcileData : IReconcileData
         {
             public PredictionRigidbody Rigidbody;
@@ -77,6 +86,7 @@ namespace Battle
             CreateReconcile();
         }
 
+        /// <summary>采集技能 reconcile 快照并发送回滚。</summary>
         public override void CreateReconcile()
         {
             BattleSkillReconcileState skillState = _skillController != null
@@ -87,22 +97,26 @@ namespace Battle
             PerformReconcile(data);
         }
 
+        /// <summary>累加预测速度（由技能 Executor 调用）。</summary>
         public void AddPredictedVelocity(Vector3 value)
         {
             _predictedVelocity += value;
         }
 
+        /// <summary>累加预测位移（由技能 Executor 调用）。</summary>
         public void AddPredictedDisplacement(Vector3 value)
         {
             _predictedDisplacement += value;
         }
 
+        /// <summary>设置待执行的传送位置（由技能 Executor 调用）。</summary>
         public void TeleportPredicted(Vector3 position)
         {
             _hasPendingTeleport = true;
             _pendingTeleportPosition = position;
         }
 
+        /// <summary>从输入组件构建当前 tick 的 Replicate 数据。</summary>
         private BattleReplicateData BuildReplicateData()
         {
             if (!IsOwner || _input == null)
@@ -112,6 +126,7 @@ namespace Battle
             Vector3 aim = _input.ReadAimDirection(transform.position, _aimDirection);
             BattleSkillCommand command = _input.ConsumeSkillCommand(aim, TimeManager.LocalTick);
 
+            // --- 按 slot 查找技能 ID ---
             if (command.Type != BattleSkillCommandType.None && _skillController != null && command.SkillId == 0)
             {
                 Hoshino.SkillDefinition skill = _skillController.FindSkillBySlot(command.Slot);
@@ -122,24 +137,32 @@ namespace Battle
             return new BattleReplicateData(move, aim, command);
         }
 
+        /// <summary>
+        /// FishNet Replicate 回调。每 tick 在客户端和服务端同步执行，
+        /// 驱动技能调度、移动、旋转，并通过 PredictionRigidbody 模拟物理。
+        /// </summary>
         [Replicate]
         private void PerformReplicate(BattleReplicateData data, ReplicateState state = ReplicateState.Invalid, Channel channel = Channel.Unreliable)
         {
             float delta = (float)TimeManager.TickDelta;
             bool canAct = _combatState == null || _combatState.CanAct;
 
+            // --- 更新朝向 ---
             Vector3 aim = data.AimDirection;
             aim.y = 0f;
             if (aim.sqrMagnitude > 0.0001f)
                 _aimDirection = aim.normalized;
 
+            // --- 重置上一 tick 的预测修改器 ---
             ResetPredictedModifiers();
 
+            // --- 执行技能节点（预测 + 服务端权威） ---
             if (canAct)
                 _skillController?.TickPredicted(this, data.SkillCommand, _aimDirection, data.GetTick(), state, delta);
             if (canAct && IsServerStarted)
                 _skillController?.TickServerAuthority(this, data.SkillCommand, _aimDirection, data.GetTick(), state);
 
+            // --- 计算移动速度（输入 + 属性加成 + 技能预测速度） ---
             Vector3 desiredVelocity = Vector3.zero;
             if (canAct)
             {
@@ -150,11 +173,13 @@ namespace Battle
 
             desiredVelocity += _predictedVelocity;
 
+            // --- 应用传送或位移 ---
             if (_hasPendingTeleport)
                 _predictionRigidbody.MovePosition(_pendingTeleportPosition);
             else if (_predictedDisplacement.sqrMagnitude > 0.000001f)
                 _predictionRigidbody.MovePosition(_rigidbody.position + _predictedDisplacement);
 
+            // --- 朝向旋转 ---
             if (_aimDirection.sqrMagnitude > 0.0001f)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(_aimDirection, Vector3.up);
@@ -162,6 +187,7 @@ namespace Battle
                 _predictionRigidbody.MoveRotation(nextRotation);
             }
 
+            // --- 写入速度并模拟物理 ---
             Vector3 velocity = GetVelocity(_rigidbody);
             velocity.x = desiredVelocity.x;
             velocity.z = desiredVelocity.z;
@@ -172,6 +198,7 @@ namespace Battle
             _predictionRigidbody.Simulate();
         }
 
+        /// <summary>FishNet Reconcile 回调。回滚刚体状态、朝向和技能状态。</summary>
         [Reconcile]
         private void PerformReconcile(BattleReconcileData data, Channel channel = Channel.Unreliable)
         {
@@ -180,6 +207,7 @@ namespace Battle
             _skillController?.ApplyState(data.SkillState);
         }
 
+        /// <summary>清零本 tick 的预测速度/位移/传送缓存。</summary>
         private void ResetPredictedModifiers()
         {
             _predictedVelocity = Vector3.zero;
@@ -188,6 +216,7 @@ namespace Battle
             _pendingTeleportPosition = Vector3.zero;
         }
 
+        /// <summary>兼容 Unity 6 的 linearVelocity 重命名。</summary>
         private static Vector3 GetVelocity(Rigidbody rb)
         {
 #if UNITY_6000_0_OR_NEWER

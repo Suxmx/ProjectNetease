@@ -2,10 +2,16 @@ using UnityEngine;
 
 namespace Battle
 {
+    /// <summary>
+    /// 技能运行时服务容器。聚合场景级共享依赖（如命中解析器），
+    /// 供 <see cref="BattleSkillController"/> 和 Executor 通过 context.Services 访问。
+    /// 挂载于场景中，由 Controller 自动查找。
+    /// </summary>
     public sealed class BattleSkillRuntimeServices : MonoBehaviour
     {
         [SerializeField] private BattleLagCompensatedHitResolver _hitResolver;
 
+        /// <summary>获取滞后补偿命中解析器（未指定时自动查找）。</summary>
         public BattleLagCompensatedHitResolver HitResolver
         {
             get

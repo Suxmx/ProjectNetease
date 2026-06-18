@@ -4,6 +4,11 @@ using UnityEngine.InputSystem.Controls;
 
 namespace Battle
 {
+    /// <summary>
+    /// 玩家输入采集。读取键盘移动、鼠标瞄准和技能按键，
+    /// 产生 <see cref="BattleSkillCommand"/> 供 Motor 的 Replicate 数据使用。
+    /// 非网络组件，仅在本地客户端运行。
+    /// </summary>
     public sealed class BattlePlayerInput : MonoBehaviour
     {
         [SerializeField] private Camera _camera;
@@ -15,6 +20,7 @@ namespace Battle
         private readonly bool[] _heldSlots = new bool[8];
         private readonly ushort[] _chargeTicks = new ushort[8];
 
+        /// <summary>读取 WASD 移动输入并归一化。</summary>
         public Vector2 ReadMove()
         {
             Keyboard keyboard = Keyboard.current;
@@ -34,6 +40,7 @@ namespace Battle
             return move.sqrMagnitude > 1f ? move.normalized : move;
         }
 
+        /// <summary>通过鼠标射线投射到地面平面，计算瞄准方向。</summary>
         public Vector3 ReadAimDirection(Vector3 origin, Vector3 fallback)
         {
             Camera camera = ResolveCamera();
@@ -41,10 +48,12 @@ namespace Battle
             if (camera == null || mouse == null)
                 return FlattenOrFallback(fallback);
 
+            // --- 先尝试射线命中物理表面 ---
             Ray ray = camera.ScreenPointToRay(mouse.position.ReadValue());
             if (Physics.Raycast(ray, out RaycastHit hit, _fallbackAimDistance * 4f, _aimPlaneMask, QueryTriggerInteraction.Ignore))
                 return FlattenOrFallback(hit.point - origin);
 
+            // --- 命中失败则投射到角色所在的水平面 ---
             Plane ground = new(Vector3.up, origin);
             if (ground.Raycast(ray, out float distance))
                 return FlattenOrFallback(ray.GetPoint(distance) - origin);
@@ -52,6 +61,7 @@ namespace Battle
             return FlattenOrFallback(ray.direction);
         }
 
+        /// <summary>采集并清空当前待发的技能指令。</summary>
         public BattleSkillCommand ConsumeSkillCommand(Vector3 aimDirection, uint inputTick)
         {
             UpdateKeyboardSkillCommands(aimDirection, inputTick);
@@ -61,6 +71,7 @@ namespace Battle
             return result;
         }
 
+        /// <summary>轮询各技能槽按键状态。</summary>
         private void UpdateKeyboardSkillCommands(Vector3 aimDirection, uint inputTick)
         {
             Keyboard keyboard = Keyboard.current;
@@ -75,6 +86,7 @@ namespace Battle
             UpdateSlot(5, keyboard.eKey, aimDirection, inputTick);
         }
 
+        /// <summary>处理单个技能槽的 Press/Hold/Release 状态转换。</summary>
         private void UpdateSlot(byte slot, KeyControl key, Vector3 aimDirection, uint inputTick)
         {
             if (key == null)
@@ -99,6 +111,7 @@ namespace Battle
             }
         }
 
+        /// <summary>构造技能指令并暂存，等待 ConsumeSkillCommand 取走。</summary>
         private void QueueCommand(BattleSkillCommandType type, byte slot, Vector3 aimDirection, uint inputTick)
         {
             _pendingCommand = new BattleSkillCommand
@@ -113,6 +126,7 @@ namespace Battle
             };
         }
 
+        /// <summary>解析瞄准用的相机（优先 Inspector 指定，回退 Camera.main）。</summary>
         private Camera ResolveCamera()
         {
             if (_camera != null)
@@ -122,6 +136,7 @@ namespace Battle
             return _camera;
         }
 
+        /// <summary>将向量拍平到水平面并归一化，无效时回退 forward。</summary>
         private static Vector3 FlattenOrFallback(Vector3 value)
         {
             value.y = 0f;

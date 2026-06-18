@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace Battle
 {
+    /// <summary>
+    /// 移动速度节点 Executor（Predicted 域）。
+    /// 在节点 active 区间内每 tick 向 Motor 添加预测速度，参与预测回滚。
+    /// 当前为测试态：仅 log 节点数据，实际功能代码已注释。
+    /// </summary>
     [BattleSkillExecutor(SkillGeneratedIds.MoveVelocityClip, SkillNodeExecutionDomain.Predicted)]
     public sealed class MoveVelocityClipExecutor : BattleSkillNodeExecutor<MoveVelocityNodeData>
     {

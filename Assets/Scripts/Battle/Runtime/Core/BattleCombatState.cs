@@ -5,7 +5,12 @@ using UnityEngine;
 
 namespace Battle
 {
-    public sealed class BattleCombatState : NetworkBehaviour
+    /// <summary>
+    /// 角色战斗状态。管理血量、死亡、队伍归属，
+    /// 实现 <see cref="IBattleDamageTarget"/> 接收统一伤害分发。
+    /// 挂载于角色 prefab，与 <see cref="BattleAttributeSet"/> 同级。
+    /// </summary>
+    public sealed class BattleCombatState : NetworkBehaviour, IBattleDamageTarget
     {
         [SerializeField] private int _maxHitPoints = 100;
         [SerializeField] private BattleTeam _initialTeam = BattleTeam.Neutral;
@@ -26,6 +31,7 @@ namespace Battle
             _attributeSet = GetComponent<BattleAttributeSet>();
         }
 
+        /// <summary>服务端初始化血量和队伍。</summary>
         public override void OnStartServer()
         {
             _hitPoints.Value = Mathf.Max(1, _maxHitPoints);
@@ -33,29 +39,36 @@ namespace Battle
             _team.Value = _initialTeam;
         }
 
+        /// <summary>服务端设置队伍归属。</summary>
         [Server]
         public void SetTeam(BattleTeam team)
         {
             _team.Value = team;
         }
 
-        [Server]
-        public bool TryTakeDamage(int amount, NetworkConnection attacker)
+        /// <summary>获取挂载的属性集，供 <see cref="BattleDamageDispatcher"/> 查询抗性。</summary>
+        public BattleAttributeSet GetAttributeSet() => _attributeSet;
+
+        /// <summary>
+        /// 施加最终伤害（已缩放），返回是否致命。
+        /// 仅由 <see cref="BattleDamageDispatcher.Apply"/> 调用，外部不直接调。
+        /// </summary>
+        bool IBattleDamageTarget.ApplyDamageInternal(int amount, NetworkConnection attacker)
         {
-            float incomingMultiplier = _attributeSet != null ? _attributeSet.IncomingDamageMultiplier : 1f;
-            int scaledAmount = Mathf.CeilToInt(amount * Mathf.Max(0f, incomingMultiplier));
-            if (_isDead.Value || scaledAmount <= 0)
+            if (_isDead.Value || amount <= 0)
                 return false;
 
-            int next = Mathf.Max(0, _hitPoints.Value - scaledAmount);
+            int next = Mathf.Max(0, _hitPoints.Value - amount);
             _hitPoints.Value = next;
 
-            if (next == 0)
+            bool lethal = next == 0;
+            if (lethal)
                 _isDead.Value = true;
 
-            return true;
+            return lethal;
         }
 
+        /// <summary>服务端复活：重置血量、位置、死亡状态。</summary>
         [Server]
         public void Revive(Vector3 position)
         {

@@ -5,6 +5,11 @@ using UnityEngine;
 
 namespace Battle
 {
+    /// <summary>
+    /// 技能节点执行上下文。Executor 通过此结构访问运行时依赖
+    /// （Motor/CombatState/AttributeSet/Services/技能数据/输入/时间等），
+    /// 保持 Executor 插件化，不直接依赖场景单例。
+    /// </summary>
     public readonly struct BattleSkillExecutionContext
     {
         public BattleSkillExecutionContext(
@@ -51,14 +56,32 @@ namespace Battle
         public float Delta { get; }
         public ReplicateState ReplicateState { get; }
 
+        /// <summary>当前 tick 是否为节点起始 tick。</summary>
         public bool IsNodeStartTick => ElapsedTicks == Node.StartTick;
 
+        /// <summary>返回非负的伤害原始值（缩放由 <see cref="BattleDamageDispatcher"/> 统一处理）。</summary>
         public int ScaleOutgoingDamage(int amount)
         {
-            float multiplier = AttributeSet != null ? AttributeSet.OutgoingDamageMultiplier : 1f;
-            return Mathf.Max(0, Mathf.RoundToInt(amount * Mathf.Max(0f, multiplier)));
+            return Mathf.Max(0, amount);
         }
 
+        /// <summary>构造伤害信息，自动填充 Source/SourceConnection/SourceClipId/Tick。</summary>
+        public BattleDamageInfo CreateDamageInfo(int amount, BattleDamageType type, Vector3 hitPoint)
+        {
+            return new BattleDamageInfo
+            {
+                Type = type,
+                Amount = amount,
+                Source = CombatState,
+                Target = null,
+                SourceConnection = Motor != null ? Motor.Owner : default,
+                SourceClipId = Node.ClipId,
+                HitPoint = hitPoint,
+                Tick = CurrentTick
+            };
+        }
+
+        /// <summary>获取当前 tick 对应的 PreciseTick，用于滞后补偿查询。</summary>
         public PreciseTick GetCurrentPreciseTick()
         {
             uint queryTick = CurrentTick != 0u ? CurrentTick : Command.InputTick;
