@@ -85,14 +85,9 @@ namespace Hoshino
             return SkillGeneratedNodeDataBlob.TryRead(skill, node, out data);
         }
 
-        public bool TryGetExecutionDomain(uint clipId, out SkillNodeExecutionDomain domain)
+        public bool IsClipKnown(uint clipId)
         {
-            return SkillGeneratedNodeDataBlob.TryGetExecutionDomain(clipId, out domain);
-        }
-
-        public bool TryGetExecutorTypeName(uint clipId, out string executorTypeName)
-        {
-            return SkillGeneratedExecutorBindings.TryGet(clipId, out executorTypeName);
+            return SkillGeneratedNodeDataBlob.IsClipKnown(clipId);
         }
     }
 
@@ -236,30 +231,23 @@ namespace Hoshino
             }
         }
 
-        public static bool TryGetExecutionDomain(uint clipId, out SkillNodeExecutionDomain domain)
+        public static bool IsClipKnown(uint clipId)
         {
             switch (clipId)
             {
                 case SkillGeneratedIds.MoveVelocityClip:
-                    domain = SkillNodeExecutionDomain.Predicted;
                     return true;
                 case SkillGeneratedIds.MoveDisplacementClip:
-                    domain = SkillNodeExecutionDomain.Predicted;
                     return true;
                 case SkillGeneratedIds.TeleportClip:
-                    domain = SkillNodeExecutionDomain.Predicted;
                     return true;
                 case SkillGeneratedIds.CollisionClip:
-                    domain = SkillNodeExecutionDomain.LagCompensatedQuery;
                     return true;
                 case SkillGeneratedIds.SpawnProjectileClip:
-                    domain = SkillNodeExecutionDomain.ServerAuthority;
                     return true;
                 case SkillGeneratedIds.AttributeModifierClip:
-                    domain = SkillNodeExecutionDomain.ServerAuthority;
                     return true;
                 default:
-                    domain = default;
                     return false;
             }
         }
@@ -296,35 +284,5 @@ namespace Hoshino
         private static Quaternion ReadQuaternion(BinaryReader reader) { return new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()); }
         private static void WriteColor(BinaryWriter writer, Color value) { writer.Write(value.r); writer.Write(value.g); writer.Write(value.b); writer.Write(value.a); }
         private static Color ReadColor(BinaryReader reader) { return new Color(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()); }
-    }
-
-    public static class SkillGeneratedExecutorBindings
-    {
-        public static bool TryGet(uint clipId, out string executorTypeName)
-        {
-            switch (clipId)
-            {
-                case SkillGeneratedIds.MoveVelocityClip:
-                    executorTypeName = "Battle.MoveVelocityClipExecutor";
-                    return true;
-                case SkillGeneratedIds.MoveDisplacementClip:
-                    executorTypeName = "Battle.MoveDisplacementClipExecutor";
-                    return true;
-                case SkillGeneratedIds.TeleportClip:
-                    executorTypeName = "Battle.TeleportClipExecutor";
-                    return true;
-                case SkillGeneratedIds.CollisionClip:
-                    executorTypeName = "Battle.CollisionClipExecutor";
-                    return true;
-                case SkillGeneratedIds.SpawnProjectileClip:
-                    executorTypeName = "Battle.SpawnProjectileClipExecutor";
-                    return true;
-                case SkillGeneratedIds.AttributeModifierClip:
-                    executorTypeName = "Battle.AttributeModifierClipExecutor";
-                    return true;
-            }
-            executorTypeName = null;
-            return false;
-        }
     }
 }

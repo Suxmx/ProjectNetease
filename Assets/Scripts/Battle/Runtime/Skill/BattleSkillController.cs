@@ -70,7 +70,7 @@ namespace Battle
 
             foreach (SkillRuntimeNode node in _activeSkill.Nodes)
             {
-                if (!SkillGeneratedNodeDataBlob.TryGetExecutionDomain(node.ClipId, out SkillNodeExecutionDomain domain))
+                if (!BattleSkillExecutorDomains.TryGet(node.ClipId, out SkillNodeExecutionDomain domain))
                     continue;
                 if (domain != SkillNodeExecutionDomain.Predicted || !node.IsActiveAt(elapsedTicks))
                     continue;
@@ -89,7 +89,7 @@ namespace Battle
             int elapsedTicks = currentTick >= _startTick ? (int)(currentTick - _startTick) : 0;
             foreach (SkillRuntimeNode node in _activeSkill.Nodes)
             {
-                if (!SkillGeneratedNodeDataBlob.TryGetExecutionDomain(node.ClipId, out SkillNodeExecutionDomain domain))
+                if (!BattleSkillExecutorDomains.TryGet(node.ClipId, out SkillNodeExecutionDomain domain))
                     continue;
                 if (domain != SkillNodeExecutionDomain.LagCompensatedQuery && domain != SkillNodeExecutionDomain.ServerAuthority)
                     continue;
