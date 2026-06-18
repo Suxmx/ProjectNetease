@@ -14,7 +14,6 @@ namespace Hoshino
         public const uint MoveDisplacementClip = 1002u;
         public const uint TeleportClip = 1003u;
         public const uint CollisionClip = 1004u;
-        public const uint SpawnProjectileClip = 1005u;
         public const uint AttributeModifierClip = 1006u;
     }
 
@@ -50,17 +49,6 @@ namespace Hoshino
         public float Radius;
         public float Distance;
         public LayerMask HitMask;
-        public int Damage;
-    }
-
-    [Serializable]
-    public struct SpawnProjectileNodeData
-    {
-        public int ProjectileId;
-        public float Speed;
-        public float LifetimeSeconds;
-        public SkillSpace DirectionSpace;
-        public Vector3 SpawnOffset;
         public int Damage;
     }
 
@@ -129,17 +117,6 @@ namespace Hoshino
                     writer.Write(value.Radius);
                     writer.Write(value.Distance);
                     writer.Write(value.HitMask.value);
-                    writer.Write(value.Damage);
-                    break;
-                }
-                case SkillGeneratedIds.SpawnProjectileClip:
-                {
-                    SpawnProjectileNodeData value = data is SpawnProjectileNodeData typed ? typed : default;
-                    writer.Write(value.ProjectileId);
-                    writer.Write(value.Speed);
-                    writer.Write(value.LifetimeSeconds);
-                    writer.Write((int)value.DirectionSpace);
-                    WriteVector3(writer, value.SpawnOffset);
                     writer.Write(value.Damage);
                     break;
                 }
@@ -223,8 +200,6 @@ namespace Hoshino
                     return new TeleportNodeData { Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), UseCommandTargetPoint = reader.ReadBoolean() };
                 case SkillGeneratedIds.CollisionClip:
                     return new CollisionNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32() };
-                case SkillGeneratedIds.SpawnProjectileClip:
-                    return new SpawnProjectileNodeData { ProjectileId = reader.ReadInt32(), Speed = reader.ReadSingle(), LifetimeSeconds = reader.ReadSingle(), DirectionSpace = (SkillSpace)reader.ReadInt32(), SpawnOffset = ReadVector3(reader), Damage = reader.ReadInt32() };
                 case SkillGeneratedIds.AttributeModifierClip:
                     return new AttributeModifierNodeData { AttributeKey = reader.ReadString(), AddValue = reader.ReadSingle(), MultiplyValue = reader.ReadSingle(), DurationSeconds = reader.ReadSingle() };
                 default: throw new InvalidOperationException($"No generated node data reader for clip id {clipId}.");
@@ -242,8 +217,6 @@ namespace Hoshino
                 case SkillGeneratedIds.TeleportClip:
                     return true;
                 case SkillGeneratedIds.CollisionClip:
-                    return true;
-                case SkillGeneratedIds.SpawnProjectileClip:
                     return true;
                 case SkillGeneratedIds.AttributeModifierClip:
                     return true;

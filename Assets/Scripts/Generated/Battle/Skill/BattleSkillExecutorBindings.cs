@@ -20,7 +20,6 @@ namespace Battle
             { SkillGeneratedIds.MoveDisplacementClip, new ExecutorEntry { ExecutorTypeName = "Battle.MoveDisplacementClipExecutor", Domain = SkillNodeExecutionDomain.Predicted } },
             { SkillGeneratedIds.TeleportClip, new ExecutorEntry { ExecutorTypeName = "Battle.TeleportClipExecutor", Domain = SkillNodeExecutionDomain.Predicted } },
             { SkillGeneratedIds.CollisionClip, new ExecutorEntry { ExecutorTypeName = "Battle.CollisionClipExecutor", Domain = SkillNodeExecutionDomain.LagCompensatedQuery } },
-            { SkillGeneratedIds.SpawnProjectileClip, new ExecutorEntry { ExecutorTypeName = "Battle.SpawnProjectileClipExecutor", Domain = SkillNodeExecutionDomain.ServerAuthority } },
             { SkillGeneratedIds.AttributeModifierClip, new ExecutorEntry { ExecutorTypeName = "Battle.AttributeModifierClipExecutor", Domain = SkillNodeExecutionDomain.ServerAuthority } },
         };
 
