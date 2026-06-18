@@ -8,8 +8,9 @@ namespace Battle
     {
         protected override void Execute(in BattleSkillExecutionContext context, in MoveVelocityNodeData data)
         {
-            Vector3 velocity = BattleSkillNodeUtility.ResolveVector(data.Space, data.Velocity, context.Motor.transform, context.AimDirection);
-            context.Motor.AddPredictedVelocity(velocity);
+            Debug.Log($"[SkillTest] {nameof(MoveVelocityNodeData)} @ elapsed={context.ElapsedTicks} clipId={context.Node.ClipId} domain=Predicted: {JsonUtility.ToJson(data)}");
+            // Vector3 velocity = BattleSkillNodeUtility.ResolveVector(data.Space, data.Velocity, context.Motor.transform, context.AimDirection);
+            // context.Motor.AddPredictedVelocity(velocity);
         }
     }
 }

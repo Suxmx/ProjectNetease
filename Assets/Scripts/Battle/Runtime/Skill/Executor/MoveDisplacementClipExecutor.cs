@@ -8,8 +8,9 @@ namespace Battle
     {
         protected override void Execute(in BattleSkillExecutionContext context, in MoveDisplacementNodeData data)
         {
-            Vector3 displacement = BattleSkillNodeUtility.ResolveVector(data.Space, data.DisplacementPerSecond, context.Motor.transform, context.AimDirection) * context.Delta;
-            context.Motor.AddPredictedDisplacement(displacement);
+            Debug.Log($"[SkillTest] {nameof(MoveDisplacementNodeData)} @ elapsed={context.ElapsedTicks} clipId={context.Node.ClipId} domain=Predicted: {JsonUtility.ToJson(data)}");
+            // Vector3 displacement = BattleSkillNodeUtility.ResolveVector(data.Space, data.DisplacementPerSecond, context.Motor.transform, context.AimDirection) * context.Delta;
+            // context.Motor.AddPredictedDisplacement(displacement);
         }
     }
 }

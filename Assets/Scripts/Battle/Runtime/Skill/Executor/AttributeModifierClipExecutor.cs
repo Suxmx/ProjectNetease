@@ -1,4 +1,5 @@
 using Hoshino;
+using UnityEngine;
 
 namespace Battle
 {
@@ -7,10 +8,11 @@ namespace Battle
     {
         protected override void Execute(in BattleSkillExecutionContext context, in AttributeModifierNodeData data)
         {
-            if (context.AttributeSet == null)
-                return;
-
-            context.AttributeSet.ApplyModifier(data.AttributeKey, data.AddValue, data.MultiplyValue, data.DurationSeconds);
+            Debug.Log($"[SkillTest] {nameof(AttributeModifierNodeData)} @ elapsed={context.ElapsedTicks} clipId={context.Node.ClipId} domain=ServerAuthority: {JsonUtility.ToJson(data)}");
+            // if (context.AttributeSet == null)
+            //     return;
+            //
+            // context.AttributeSet.ApplyModifier(data.AttributeKey, data.AddValue, data.MultiplyValue, data.DurationSeconds);
         }
     }
 }
