@@ -25,7 +25,8 @@ namespace Battle
             uint currentTick,
             int elapsedTicks,
             float delta,
-            ReplicateState replicateState)
+            ReplicateState replicateState,
+            BattleSkillNodeLifecyclePhase lifecyclePhase)
         {
             Motor = motor;
             Controller = controller;
@@ -40,6 +41,7 @@ namespace Battle
             ElapsedTicks = elapsedTicks;
             Delta = delta;
             ReplicateState = replicateState;
+            LifecyclePhase = lifecyclePhase;
         }
 
         public BattlePlayerMotor Motor { get; }
@@ -55,6 +57,8 @@ namespace Battle
         public int ElapsedTicks { get; }
         public float Delta { get; }
         public ReplicateState ReplicateState { get; }
+        /// <summary>当前生命周期阶段，domain 基类据此分发到 OnStart/OnTick/OnEnd。</summary>
+        public BattleSkillNodeLifecyclePhase LifecyclePhase { get; }
 
         /// <summary>当前 tick 是否为节点起始 tick。</summary>
         public bool IsNodeStartTick => ElapsedTicks == Node.StartTick;

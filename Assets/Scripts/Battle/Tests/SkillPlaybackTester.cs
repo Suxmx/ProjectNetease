@@ -15,12 +15,13 @@ namespace Battle
     public sealed class SkillPlaybackTester : MonoBehaviour
     {
         [SerializeField] private TextAsset _skillBinary;
-        [SerializeField] private bool _logPredictedEveryTick = true;
 
         private SkillDefinition _skill;
         private float _elapsedSeconds;
         private bool _running;
-        private readonly HashSet<int> _executedServerNodeIds = new();
+        private readonly HashSet<int> _activeClientPredictionNodeIds = new();
+        private readonly HashSet<int> _activeClientOnlyNodeIds = new();
+        private readonly HashSet<int> _activeServerOnlyNodeIds = new();
 
         private void Start()
         {
@@ -31,7 +32,9 @@ namespace Battle
         [ContextMenu("Reload & Start")]
         public void ReloadAndStart()
         {
-            _executedServerNodeIds.Clear();
+            _activeClientPredictionNodeIds.Clear();
+            _activeClientOnlyNodeIds.Clear();
+            _activeServerOnlyNodeIds.Clear();
             _elapsedSeconds = 0f;
             _running = false;
 
@@ -65,7 +68,7 @@ namespace Battle
                 for (int i = 0; i < _skill.Nodes.Length; i++)
                 {
                     SkillRuntimeNode n = _skill.Nodes[i];
-                    BattleSkillExecutorDomains.TryGet(n.ClipId, out SkillNodeExecutionDomain d);
+                    SkillGeneratedExecutorMetas.TryGetDomain(n.ClipId, out SkillNodeExecutionDomain d);
                     Debug.Log($"[SkillPlaybackTester] node#{n.NodeId} track={n.SourceTrackName} clipId={n.ClipId} domain={d} start={n.StartTick} end={n.EndTick} dataLen={n.DataLength}");
                 }
             }
@@ -73,7 +76,7 @@ namespace Battle
             _running = true;
         }
 
-        /// <summary>每帧累加时间，换算为 tick，按域规则派发节点。</summary>
+        /// <summary>每帧累加时间，换算为 tick，按域状态跟踪派发节点。</summary>
         private void Update()
         {
             if (!_running || _skill == null)
@@ -85,6 +88,8 @@ namespace Battle
 
             if (elapsedTicks > _skill.LengthTicks)
             {
+                // --- 技能结束：对所有 active 节点触发 OnEnd ---
+                StopAllActiveNodes(elapsedTicks);
                 _running = false;
                 Debug.Log($"[SkillPlaybackTester] done at elapsedTicks={elapsedTicks} (lengthTicks={_skill.LengthTicks})");
                 return;
@@ -97,39 +102,74 @@ namespace Battle
             float delta = Time.deltaTime;
             uint currentTick = (uint)elapsedTicks;
 
-            // --- 遍历节点，按域决定是否派发 ---
+            // --- 三个 domain 分别状态跟踪调度 ---
+            TickDomain(nodes, elapsedTicks, delta, currentTick, SkillNodeExecutionDomain.ClientPrediction, _activeClientPredictionNodeIds);
+            TickDomain(nodes, elapsedTicks, delta, currentTick, SkillNodeExecutionDomain.ClientOnly, _activeClientOnlyNodeIds);
+            TickDomain(nodes, elapsedTicks, delta, currentTick, SkillNodeExecutionDomain.ServerOnly, _activeServerOnlyNodeIds);
+        }
+
+        /// <summary>单 domain 状态跟踪调度，触发 OnStart/OnTick/OnEnd。</summary>
+        private void TickDomain(SkillRuntimeNode[] nodes, int elapsedTicks, float delta, uint currentTick, SkillNodeExecutionDomain domain, HashSet<int> activeNodeIds)
+        {
             for (int i = 0; i < nodes.Length; i++)
             {
                 SkillRuntimeNode node = nodes[i];
-                if (!BattleSkillExecutorDomains.TryGet(node.ClipId, out SkillNodeExecutionDomain domain))
+                if (!SkillGeneratedExecutorMetas.TryGetDomain(node.ClipId, out SkillNodeExecutionDomain nodeDomain))
+                    continue;
+                if (nodeDomain != domain)
                     continue;
 
-                bool shouldDispatch;
-                switch (domain)
+                int nodeId = node.NodeId;
+                bool isActive = node.IsActiveAt(elapsedTicks);
+                bool wasActive = activeNodeIds.Contains(nodeId);
+
+                if (isActive && !wasActive)
                 {
-                    // --- Predicted：active 区间内每 tick（或仅起始 tick） ---
-                    case SkillNodeExecutionDomain.Predicted:
-                        shouldDispatch = node.IsActiveAt(elapsedTicks) && (_logPredictedEveryTick || elapsedTicks == node.StartTick);
-                        break;
-                    // --- Server/Lag：仅起始 tick 执行一次，HashSet 去重 ---
-                    case SkillNodeExecutionDomain.ServerAuthority:
-                    case SkillNodeExecutionDomain.LagCompensatedQuery:
-                        shouldDispatch = elapsedTicks == node.StartTick && _executedServerNodeIds.Add(node.NodeId);
-                        break;
-                    default:
-                        shouldDispatch = false;
-                        break;
+                    activeNodeIds.Add(nodeId);
+                    DispatchNode(node, domain, currentTick, elapsedTicks, delta, BattleSkillNodeLifecyclePhase.Start);
                 }
-
-                if (!shouldDispatch)
-                    continue;
-
-                DispatchNode(node, domain, currentTick, elapsedTicks, delta);
+                else if (isActive && wasActive)
+                {
+                    DispatchNode(node, domain, currentTick, elapsedTicks, delta, BattleSkillNodeLifecyclePhase.Tick);
+                }
+                else if (!isActive && wasActive)
+                {
+                    activeNodeIds.Remove(nodeId);
+                    DispatchNode(node, domain, currentTick, elapsedTicks, delta, BattleSkillNodeLifecyclePhase.End);
+                }
             }
         }
 
+        /// <summary>技能结束时对所有 active 节点触发 OnEnd。</summary>
+        private void StopAllActiveNodes(int elapsedTicks)
+        {
+            float delta = Time.deltaTime;
+            uint currentTick = (uint)elapsedTicks;
+            StopDomainNodes(elapsedTicks, delta, currentTick, SkillNodeExecutionDomain.ClientPrediction, _activeClientPredictionNodeIds);
+            StopDomainNodes(elapsedTicks, delta, currentTick, SkillNodeExecutionDomain.ClientOnly, _activeClientOnlyNodeIds);
+            StopDomainNodes(elapsedTicks, delta, currentTick, SkillNodeExecutionDomain.ServerOnly, _activeServerOnlyNodeIds);
+        }
+
+        /// <summary>对单个 domain 的 active 节点触发 OnEnd 并清空。</summary>
+        private void StopDomainNodes(int elapsedTicks, float delta, uint currentTick, SkillNodeExecutionDomain domain, HashSet<int> activeNodeIds)
+        {
+            if (activeNodeIds.Count == 0 || _skill?.Nodes == null)
+                return;
+
+            SkillRuntimeNode[] nodes = _skill.Nodes;
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                SkillRuntimeNode node = nodes[i];
+                if (!activeNodeIds.Contains(node.NodeId))
+                    continue;
+
+                DispatchNode(node, domain, currentTick, elapsedTicks, delta, BattleSkillNodeLifecyclePhase.End);
+            }
+            activeNodeIds.Clear();
+        }
+
         /// <summary>查找 Executor 并派发执行（context 依赖全 null，Executor 为 log-only）。</summary>
-        private void DispatchNode(SkillRuntimeNode node, SkillNodeExecutionDomain domain, uint currentTick, int elapsedTicks, float delta)
+        private void DispatchNode(SkillRuntimeNode node, SkillNodeExecutionDomain domain, uint currentTick, int elapsedTicks, float delta, BattleSkillNodeLifecyclePhase phase)
         {
             if (!BattleSkillNodeExecutorRegistry.TryGet(node.ClipId, out IBattleSkillNodeExecutor executor))
             {
@@ -151,9 +191,10 @@ namespace Battle
                 currentTick: currentTick,
                 elapsedTicks: elapsedTicks,
                 delta: delta,
-                replicateState: default);
+                replicateState: default,
+                lifecyclePhase: phase);
 
-            Debug.Log($"[SkillPlaybackTester] -> dispatch node#{node.NodeId} clipId={node.ClipId} domain={domain} elapsed={elapsedTicks}");
+            Debug.Log($"[SkillPlaybackTester] -> dispatch node#{node.NodeId} clipId={node.ClipId} domain={domain} phase={phase} elapsed={elapsedTicks}");
             executor.Execute(context);
         }
     }

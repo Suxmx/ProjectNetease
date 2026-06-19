@@ -1,22 +1,20 @@
 using System;
-using Hoshino;
 
 namespace Battle
 {
     /// <summary>
-    /// 标记一个类为技能节点 Executor，绑定 ClipId 和执行域。
-    /// 代码生成器扫描此特性生成 <see cref="SkillGeneratedExecutorMetas"/>。
+    /// 标记一个类为技能节点 Executor，绑定 ClipId。
+    /// domain 由继承的基类（ClientPredictionSkillExecutor/ClientOnlySkillExecutor/ServerOnlySkillExecutor）自动推断，
+    /// 代码生成器扫描此特性 + 继承链生成 <see cref="SkillGeneratedExecutorMetas"/>。
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public sealed class BattleSkillExecutorAttribute : Attribute
     {
-        public BattleSkillExecutorAttribute(uint clipId, SkillNodeExecutionDomain domain)
+        public BattleSkillExecutorAttribute(uint clipId)
         {
             ClipId = clipId;
-            Domain = domain;
         }
 
         public uint ClipId { get; }
-        public SkillNodeExecutionDomain Domain { get; }
     }
 }

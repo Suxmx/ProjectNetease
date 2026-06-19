@@ -156,11 +156,13 @@ namespace Battle
             // --- 重置上一 tick 的预测修改器 ---
             ResetPredictedModifiers();
 
-            // --- 执行技能节点（预测 + 服务端权威） ---
+            // --- 执行技能节点（ClientPrediction 所有身份 + ServerOnly 服务器 + ClientOnly 客户端） ---
             if (canAct)
-                _skillController?.TickPredicted(this, data.SkillCommand, _aimDirection, data.GetTick(), state, delta);
+                _skillController?.TickClientPrediction(this, data.SkillCommand, _aimDirection, data.GetTick(), state, delta);
             if (canAct && IsServerStarted)
-                _skillController?.TickServerAuthority(this, data.SkillCommand, _aimDirection, data.GetTick(), state);
+                _skillController?.TickServerOnly(this, data.SkillCommand, _aimDirection, data.GetTick(), state);
+            if (canAct && IsClientStarted)
+                _skillController?.TickClientOnly(this, data.SkillCommand, _aimDirection, data.GetTick(), state, delta);
 
             // --- 计算移动速度（输入 + 属性加成 + 技能预测速度） ---
             Vector3 desiredVelocity = Vector3.zero;

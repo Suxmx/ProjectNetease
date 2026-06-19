@@ -6,7 +6,7 @@ using Hoshino;
 
 namespace Battle
 {
-    public static class SkillGeneratedExecutorBindings
+    public static class SkillGeneratedExecutorMetas
     {
         public struct ExecutorEntry
         {
@@ -16,14 +16,14 @@ namespace Battle
 
         private static readonly Dictionary<uint, ExecutorEntry> _entries = new()
         {
-            { SkillGeneratedIds.MoveVelocityClip, new ExecutorEntry { ExecutorTypeName = "Battle.MoveVelocityClipExecutor", Domain = SkillNodeExecutionDomain.Predicted } },
-            { SkillGeneratedIds.MoveDisplacementClip, new ExecutorEntry { ExecutorTypeName = "Battle.MoveDisplacementClipExecutor", Domain = SkillNodeExecutionDomain.Predicted } },
-            { SkillGeneratedIds.TeleportClip, new ExecutorEntry { ExecutorTypeName = "Battle.TeleportClipExecutor", Domain = SkillNodeExecutionDomain.Predicted } },
-            { SkillGeneratedIds.CollisionClip, new ExecutorEntry { ExecutorTypeName = "Battle.CollisionClipExecutor", Domain = SkillNodeExecutionDomain.LagCompensatedQuery } },
-            { SkillGeneratedIds.AttributeModifierClip, new ExecutorEntry { ExecutorTypeName = "Battle.AttributeModifierClipExecutor", Domain = SkillNodeExecutionDomain.ServerAuthority } },
+            { SkillGeneratedIds.MoveVelocityClip, new ExecutorEntry { ExecutorTypeName = "Battle.MoveVelocityClipExecutor", Domain = SkillNodeExecutionDomain.ClientPrediction } },
+            { SkillGeneratedIds.MoveDisplacementClip, new ExecutorEntry { ExecutorTypeName = "Battle.MoveDisplacementClipExecutor", Domain = SkillNodeExecutionDomain.ClientPrediction } },
+            { SkillGeneratedIds.TeleportClip, new ExecutorEntry { ExecutorTypeName = "Battle.TeleportClipExecutor", Domain = SkillNodeExecutionDomain.ClientPrediction } },
+            { SkillGeneratedIds.CollisionClip, new ExecutorEntry { ExecutorTypeName = "Battle.CollisionClipExecutor", Domain = SkillNodeExecutionDomain.ServerOnly } },
+            { SkillGeneratedIds.AttributeModifierClip, new ExecutorEntry { ExecutorTypeName = "Battle.AttributeModifierClipExecutor", Domain = SkillNodeExecutionDomain.ServerOnly } },
         };
 
-        public static bool TryGet(uint clipId, out string executorTypeName)
+        public static bool TryGetName(uint clipId, out string executorTypeName)
         {
             if (_entries.TryGetValue(clipId, out ExecutorEntry entry))
             {
@@ -34,23 +34,20 @@ namespace Battle
             return false;
         }
 
-        public static bool TryGetEntry(uint clipId, out ExecutorEntry entry)
+        public static bool TryGetDomain(uint clipId, out SkillNodeExecutionDomain domain)
         {
-            return _entries.TryGetValue(clipId, out entry);
-        }
-    }
-
-    public static class BattleSkillExecutorDomains
-    {
-        public static bool TryGet(uint clipId, out SkillNodeExecutionDomain domain)
-        {
-            if (SkillGeneratedExecutorBindings.TryGetEntry(clipId, out SkillGeneratedExecutorBindings.ExecutorEntry entry))
+            if (TryGetEntry(clipId, out ExecutorEntry entry))
             {
                 domain = entry.Domain;
                 return true;
             }
             domain = default;
             return false;
+        }
+
+        public static bool TryGetEntry(uint clipId, out ExecutorEntry entry)
+        {
+            return _entries.TryGetValue(clipId, out entry);
         }
     }
 }

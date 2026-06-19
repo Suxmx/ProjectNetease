@@ -58,16 +58,51 @@ namespace Battle
                     if (results.ContainsKey(clipId))
                         throw new InvalidOperationException($"Duplicate [BattleSkillExecutor] binding for clip id {clipId}.");
 
+                    SkillNodeExecutionDomain domain = InferDomain(type);
+
                     results.Add(clipId, new ExecutorBinding
                     {
                         ClipId = clipId,
-                        Domain = attribute.Domain,
+                        Domain = domain,
                         ExecutorTypeName = type.FullName
                     });
                 }
             }
 
             return results;
+        }
+
+        /// <summary>
+        /// 从 Executor 类型的基类继承链推断 domain。
+        /// 匹配 ClientPredictionSkillExecutor&lt;&gt;/ClientOnlySkillExecutor&lt;&gt;/ServerOnlySkillExecutor&lt;&gt; 的泛型定义。
+        /// 未匹配到 domain 基类则抛错。
+        /// </summary>
+        private static SkillNodeExecutionDomain InferDomain(Type executorType)
+        {
+            Type clientPredictionBase = typeof(ClientPredictionSkillExecutor<>);
+            Type clientOnlyBase = typeof(ClientOnlySkillExecutor<>);
+            Type serverOnlyBase = typeof(ServerOnlySkillExecutor<>);
+
+            Type current = executorType;
+            while (current != null && current != typeof(object))
+            {
+                if (current.IsGenericType)
+                {
+                    Type genericDef = current.GetGenericTypeDefinition();
+                    if (genericDef == clientPredictionBase)
+                        return SkillNodeExecutionDomain.ClientPrediction;
+                    if (genericDef == clientOnlyBase)
+                        return SkillNodeExecutionDomain.ClientOnly;
+                    if (genericDef == serverOnlyBase)
+                        return SkillNodeExecutionDomain.ServerOnly;
+                }
+                current = current.BaseType;
+            }
+
+            throw new InvalidOperationException(
+                $"Executor {executorType.FullName} does not inherit from any domain base class " +
+                "(ClientPredictionSkillExecutor<>/ClientOnlySkillExecutor<>/ServerOnlySkillExecutor<>). " +
+                "Executors must inherit from a domain base class.");
         }
 
         private static void ValidateBindings(List<SkillTypeInfo> clips, Dictionary<uint, ExecutorBinding> bindings)
@@ -90,7 +125,7 @@ namespace Battle
             sb.AppendLine();
             sb.AppendLine("namespace Battle");
             sb.AppendLine("{");
-            sb.AppendLine("    public static class SkillGeneratedExecutorBindings");
+            sb.AppendLine("    public static class SkillGeneratedExecutorMetas");
             sb.AppendLine("    {");
             sb.AppendLine("        public struct ExecutorEntry");
             sb.AppendLine("        {");
@@ -109,7 +144,7 @@ namespace Battle
             }
             sb.AppendLine("        };");
             sb.AppendLine();
-            sb.AppendLine("        public static bool TryGet(uint clipId, out string executorTypeName)");
+            sb.AppendLine("        public static bool TryGetName(uint clipId, out string executorTypeName)");
             sb.AppendLine("        {");
             sb.AppendLine("            if (_entries.TryGetValue(clipId, out ExecutorEntry entry))");
             sb.AppendLine("            {");
@@ -120,23 +155,20 @@ namespace Battle
             sb.AppendLine("            return false;");
             sb.AppendLine("        }");
             sb.AppendLine();
-            sb.AppendLine("        public static bool TryGetEntry(uint clipId, out ExecutorEntry entry)");
+            sb.AppendLine("        public static bool TryGetDomain(uint clipId, out SkillNodeExecutionDomain domain)");
             sb.AppendLine("        {");
-            sb.AppendLine("            return _entries.TryGetValue(clipId, out entry);");
-            sb.AppendLine("        }");
-            sb.AppendLine("    }");
-            sb.AppendLine();
-            sb.AppendLine("    public static class BattleSkillExecutorDomains");
-            sb.AppendLine("    {");
-            sb.AppendLine("        public static bool TryGet(uint clipId, out SkillNodeExecutionDomain domain)");
-            sb.AppendLine("        {");
-            sb.AppendLine("            if (SkillGeneratedExecutorBindings.TryGetEntry(clipId, out SkillGeneratedExecutorBindings.ExecutorEntry entry))");
+            sb.AppendLine("            if (TryGetEntry(clipId, out ExecutorEntry entry))");
             sb.AppendLine("            {");
             sb.AppendLine("                domain = entry.Domain;");
             sb.AppendLine("                return true;");
             sb.AppendLine("            }");
             sb.AppendLine("            domain = default;");
             sb.AppendLine("            return false;");
+            sb.AppendLine("        }");
+            sb.AppendLine();
+            sb.AppendLine("        public static bool TryGetEntry(uint clipId, out ExecutorEntry entry)");
+            sb.AppendLine("        {");
+            sb.AppendLine("            return _entries.TryGetValue(clipId, out entry);");
             sb.AppendLine("        }");
             sb.AppendLine("    }");
             sb.AppendLine("}");
