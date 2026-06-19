@@ -27,7 +27,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\Bin\Debug\Assembly-CSharp\</OutputPath>
-    <DefineConstants>UNITY_6000_4_10;UNITY_6000_4;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;UNITY_6000_1_OR_NEWER;UNITY_6000_2_OR_NEWER;UNITY_6000_3_OR_NEWER;UNITY_6000_4_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_AUDIO_SCRIPTABLE_PIPELINE;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_UNITY_CONSENT;ENABLE_UNITY_CLOUD_IDENTIFIERS;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_ACCESSIBILITY_SCREEN_READER;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_CLOUD_SERVICES_ENGINE_DIAGNOSTICS;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;ENABLE_PROFILER_ASSISTANT_INTEGRATION;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;TEXTCORE_FONT_ENGINE_1_6_OR_NEWER;FISHNET;FISHNET_V4;FISHNET_PRO;ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;ODIN_INSPECTOR_3_2;ODIN_INSPECTOR_3_3;SLATE;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>UNITY_6000_4_10;UNITY_6000_4;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;UNITY_6000_1_OR_NEWER;UNITY_6000_2_OR_NEWER;UNITY_6000_3_OR_NEWER;UNITY_6000_4_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_AUDIO_SCRIPTABLE_PIPELINE;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_UNITY_CONSENT;ENABLE_UNITY_CLOUD_IDENTIFIERS;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;ENABLE_ACCESSIBILITY_SCREEN_READER;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_CLOUD_SERVICES_ENGINE_DIAGNOSTICS;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;ENABLE_PROFILER_ASSISTANT_INTEGRATION;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_INPUT_SYSTEM;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;TEXTCORE_FONT_ENGINE_1_6_OR_NEWER;FISHNET;FISHNET_V4;FISHNET_PRO;ODIN_INSPECTOR;ODIN_INSPECTOR_3;ODIN_INSPECTOR_3_1;ODIN_INSPECTOR_3_2;ODIN_INSPECTOR_3_3;SLATE;DOTWEEN;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169,0649</NoWarn>
@@ -53,29 +53,40 @@
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\CollisionClipExecutor.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleLagCompensatedHitResolver.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleSkillExecutionContext.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Damage\IBattleDamageTarget.cs" />
+    <Compile Include="Assets\Scripts\Generated\Battle\Skill\BattleSkillExecutorBindings.cs" />
+    <Compile Include="Assets\MemoFramework\Framework\Extension\Input\InputEvent.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleSkillController.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoHealth.cs" />
+    <Compile Include="Assets\MemoFramework\Framework\Extension\Input\InputData.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattleAttributeSet.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\World\BattleCaptureObjective.cs" />
+    <Compile Include="Assets\MemoFramework\Framework\Extension\Input\MainInputs.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattleOwnerCamera.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\TeleportClipExecutor.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Damage\BattleDamageType.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoNetworkHud.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\AttributeModifierClipExecutor.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\MoveDisplacementClipExecutor.cs" />
     <Compile Include="Assets\Scripts\Generated\Skill\Runtime\SkillGeneratedSerialization.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoPredictedMotor.cs" />
-    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\SpawnProjectileClipExecutor.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattleTimeUtility.cs" />
+    <Compile Include="Assets\MemoFramework\Framework\Extension\Input\InputComponent.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattlePlayerMotor.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleSkillRuntimeServices.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\MoveVelocityClipExecutor.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleSkillNodeExecutor.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoOwnerCamera.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Damage\BattleDamageInfo.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Damage\BattleDamageDispatcher.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattleCombatState.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoCombat.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\BattleTypes.cs" />
-    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleProjectile.cs" />
+    <Compile Include="Assets\MemoFramework\Framework\Extension\MF.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\BattleSkillNodeUtility.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\World\BattleDestructibleObject.cs" />
+    <Compile Include="Assets\Scripts\Battle\Tests\SkillPlaybackTester.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Damage\BattleDamageAppliedEvent.cs" />
     <None Include="Packages\com.kybernetik.animancer\Package.json" />
     <None Include="Assets\SkillData\新技能.skill.json" />
     <None Include="Packages\com.kybernetik.animancer\License.txt" />
@@ -503,6 +514,9 @@
     <Reference Include="Sirenix.Serialization">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>
     </Reference>
+    <Reference Include="DemiLib">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Demigiant\DemiLib\Core\DemiLib.dll</HintPath>
+    </Reference>
     <Reference Include="Sirenix.Serialization.Config">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.Config.dll</HintPath>
     </Reference>
@@ -518,8 +532,14 @@
     <Reference Include="Sirenix.Utilities">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.visualscripting@8bed5ad90189\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenPro">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Demigiant\DOTweenPro\DOTweenPro.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Utilities.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\Plugins\Sirenix\Assemblies\Sirenix.Utilities.Editor.dll</HintPath>
@@ -914,17 +934,11 @@
     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Splines.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Splines.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.2D.Editor.Overrides">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.2D.Editor.Overrides.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Universal.Editor">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.AI.Navigation.Updater">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
@@ -935,8 +949,14 @@
     <Reference Include="Unity.AI.Navigation.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.RenderPipelines.Universal.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.PathTracing.Runtime">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.PathTracing.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime.Shared">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.Shared.dll</HintPath>
@@ -1037,11 +1057,11 @@
     <Reference Include="Unity.InternalAPIEngineBridge.004">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.InternalAPIEngineBridge.004.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Multiplayer.Center.Editor">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Multiplayer.Center.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.PathTracing.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.PathTracing.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Multiplayer.Center.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Multiplayer.Center.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
@@ -1105,13 +1125,29 @@
       <Project>{7a283799-97cb-6385-4932-dc2eb7bcdf5e}</Project>
       <Name>Kybernetik.Animancer.FSM</Name>
     </ProjectReference>
+    <ProjectReference Include="DOTween.Modules.csproj">
+      <Project>{b503d373-4b65-9028-a5e9-d3f1e4a7388d}</Project>
+      <Name>DOTween.Modules</Name>
+    </ProjectReference>
     <ProjectReference Include="SLATE.csproj">
       <Project>{55901934-992c-01b8-a55c-d6d251eb4486}</Project>
       <Name>SLATE</Name>
     </ProjectReference>
+    <ProjectReference Include="MF.Editor.csproj">
+      <Project>{102652e0-2e4c-a4ac-c82e-f2feb9402eb0}</Project>
+      <Name>MF.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="HoshinoSkill.csproj">
       <Project>{49033bc7-8051-573f-6b41-1e95af32f318}</Project>
       <Name>HoshinoSkill</Name>
+    </ProjectReference>
+    <ProjectReference Include="ImprovedTimers.csproj">
+      <Project>{81a2babd-671b-b60c-e8fb-5839ca517966}</Project>
+      <Name>ImprovedTimers</Name>
+    </ProjectReference>
+    <ProjectReference Include="DOTweenPro.Scripts.csproj">
+      <Project>{7d4eef30-0a7c-389b-20cf-48f7062e3724}</Project>
+      <Name>DOTweenPro.Scripts</Name>
     </ProjectReference>
     <ProjectReference Include="ParrelSync.csproj">
       <Project>{5fd24082-9209-f03f-b0d5-03a706a2e8a3}</Project>
@@ -1120,6 +1156,10 @@
     <ProjectReference Include="ALINEEditor.csproj">
       <Project>{6972eee9-8334-03c7-9d1f-edc2893da80d}</Project>
       <Name>ALINEEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="MF.csproj">
+      <Project>{856505a3-9e70-fba2-13e8-2c966a2ba029}</Project>
+      <Name>MF</Name>
     </ProjectReference>
     <ProjectReference Include="Kybernetik.Animancer.csproj">
       <Project>{84e098ba-37d2-25eb-5c76-fa33dabc0685}</Project>
@@ -1133,6 +1173,10 @@
       <Project>{8cdcbc94-3d55-f3cf-ad49-9e5b08fe8531}</Project>
       <Name>ALINEPackageToolsEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="UnityFsm.csproj">
+      <Project>{2696a942-d4ca-8594-1d29-3b428dc1f4f3}</Project>
+      <Name>UnityFsm</Name>
+    </ProjectReference>
     <ProjectReference Include="FishNet.Demos.csproj">
       <Project>{a4fa2f3d-7588-cdcc-47af-3bb352b7dc7e}</Project>
       <Name>FishNet.Demos</Name>
@@ -1144,6 +1188,10 @@
     <ProjectReference Include="Kybernetik.Animancer.Editor.csproj">
       <Project>{5a90d7b1-110d-1bf4-89bb-e236b1ed0b3e}</Project>
       <Name>Kybernetik.Animancer.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="EnhancedScroller.csproj">
+      <Project>{798c5f1f-2d71-707b-824f-e2298106f2aa}</Project>
+      <Name>EnhancedScroller</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

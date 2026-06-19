@@ -42,6 +42,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Assets\Plugins\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
     <None Include="Assets\Plugins\Sirenix\Odin Inspector\Assets\Editor\Hidden\ExtractSpriteShader.shader" />
     <None Include="Assets\Plugins\Sirenix\Odin Inspector\Assets\Editor\Hidden\GUIUtilShader.shader" />
     <None Include="Assets\Plugins\Sirenix\Odin Inspector\Assets\Editor\Hidden\SdfIconShader.shader" />

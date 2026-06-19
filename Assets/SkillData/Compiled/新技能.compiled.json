@@ -4,39 +4,46 @@
     "skillKey": "新技能",
     "sourceTickRate": 60,
     "lengthTicks": 1800,
-    "nodeDataBlobLength": 109,
+    "nodeDataBlobLength": 125,
     "nodes": [
         {
             "nodeId": 1,
             "sourceTrackName": "Skill Action Track",
-            "clipId": 1004,
-            "domain": "LagCompensatedQuery",
-            "sourceLine": 2,
+            "clipId": 1001,
+            "sourceLine": 1,
             "startTick": 29,
-            "endTick": 209,
+            "endTick": 89,
             "dataOffset": 0,
-            "dataLength": 48
+            "dataLength": 16
         },
         {
             "nodeId": 2,
             "sourceTrackName": "Skill Action Track",
-            "clipId": 1006,
-            "domain": "ServerAuthority",
-            "sourceLine": 1,
-            "startTick": 47,
-            "endTick": 53,
-            "dataOffset": 48,
-            "dataLength": 13
+            "clipId": 1004,
+            "sourceLine": 2,
+            "startTick": 29,
+            "endTick": 209,
+            "dataOffset": 16,
+            "dataLength": 48
         },
         {
             "nodeId": 3,
             "sourceTrackName": "Skill Action Track",
+            "clipId": 1006,
+            "sourceLine": 1,
+            "startTick": 49,
+            "endTick": 53,
+            "dataOffset": 64,
+            "dataLength": 13
+        },
+        {
+            "nodeId": 4,
+            "sourceTrackName": "Skill Action Track",
             "clipId": 1004,
-            "domain": "LagCompensatedQuery",
             "sourceLine": 1,
             "startTick": 86,
             "endTick": 266,
-            "dataOffset": 61,
+            "dataOffset": 77,
             "dataLength": 48
         }
     ]

@@ -1,0 +1,18 @@
+{
+    "name": "MF.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e7c2b152e8264bf18294ee8213b2d1c2"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
