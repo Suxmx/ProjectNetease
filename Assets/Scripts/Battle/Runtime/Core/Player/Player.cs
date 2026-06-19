@@ -92,11 +92,14 @@ namespace Battle
         {
             float delta = (float)TimeManager.TickDelta;
 
-            // --- Motor 移动 ---
-            _motor.TickReplicate(data, state, delta);
+            // --- Motor 前半段：朝向 + 清零上 tick 预测修改器 ---
+            _motor.BeginTick(data);
 
-            // --- 技能调度 ---
+            // --- 技能调度：Executor 在此期间累加本 tick 的预测速度/位移 ---
             _skillController?.TickReplicate(data.SkillCommand, _motor.AimDirection, data.GetTick(), state, delta);
+
+            // --- Motor 后半段：算最终速度 + Simulate ---
+            _motor.EndTick(data, delta);
         }
 
         /// <summary>FishNet Reconcile 回调。分发到 Motor 和 SkillController。</summary>

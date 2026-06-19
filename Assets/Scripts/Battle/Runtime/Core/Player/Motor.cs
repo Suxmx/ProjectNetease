@@ -48,21 +48,28 @@ namespace Battle
         }
 
         /// <summary>
-        /// 每 tick 的移动逻辑。由 Player 在 Replicate 回调中调用。
-        /// 内部处理输入移动、技能位移、传送、旋转和物理模拟。
+        /// tick 前半段：更新朝向 + 清零上一 tick 的预测修改器。
+        /// 由 Player 在技能调度前调用，确保技能 Executor 累加的是本 tick 的位移。
         /// </summary>
-        public void TickReplicate(ReplicateData data, ReplicateState state, float delta)
+        public void BeginTick(ReplicateData data)
         {
-            bool canAct = _combatState == null || _combatState.CanAct;
-
             // --- 更新朝向 ---
             Vector3 aim = data.AimDirection;
             aim.y = 0f;
             if (aim.sqrMagnitude > 0.0001f)
                 _aimDirection = aim.normalized;
 
-            // --- 重置上一 tick 的预测修改器 ---
+            // --- 重置上一 tick 的预测修改器（技能 Executor 在此之后累加本 tick 的） ---
             ResetPredictedModifiers();
+        }
+
+        /// <summary>
+        /// tick 后半段：计算最终速度（输入 + 技能预测速度）+ 传送/位移/旋转 + 物理模拟。
+        /// 由 Player 在技能调度后调用，此时技能 Executor 已累加完本 tick 的预测位移。
+        /// </summary>
+        public void EndTick(ReplicateData data, float delta)
+        {
+            bool canAct = _combatState == null || _combatState.CanAct;
 
             // --- 计算移动速度（输入 + 属性加成 + 技能预测速度） ---
             Vector3 desiredVelocity = Vector3.zero;
