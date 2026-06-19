@@ -91,18 +91,12 @@ namespace Battle
         private void PerformReplicate(ReplicateData data, ReplicateState state = ReplicateState.Invalid, Channel channel = Channel.Unreliable)
         {
             float delta = (float)TimeManager.TickDelta;
-            bool canAct = _combatState == null || _combatState.CanAct;
 
             // --- Motor 移动 ---
             _motor.TickReplicate(data, state, delta);
 
             // --- 技能调度 ---
-            if (canAct)
-                _skillController?.TickClientPrediction(data.SkillCommand, _motor.AimDirection, data.GetTick(), state, delta);
-            if (canAct && IsServerStarted)
-                _skillController?.TickServerOnly(data.SkillCommand, _motor.AimDirection, data.GetTick(), state);
-            if (canAct && IsClientStarted)
-                _skillController?.TickClientOnly(data.SkillCommand, _motor.AimDirection, data.GetTick(), state, delta);
+            _skillController?.TickReplicate(data.SkillCommand, _motor.AimDirection, data.GetTick(), state, delta);
         }
 
         /// <summary>FishNet Reconcile 回调。分发到 Motor 和 SkillController。</summary>

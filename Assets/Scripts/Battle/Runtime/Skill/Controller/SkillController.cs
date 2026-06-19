@@ -62,6 +62,23 @@ namespace Battle
         }
 
         /// <summary>
+        /// 技能 tick 统一入口。由 Player 在 Replicate 回调中调用一次，
+        /// 内部按 canAct/IsServer/IsClient 分发到三个域。
+        /// </summary>
+        public void TickReplicate(SkillCommand command, Vector3 aimDirection, uint currentTick, ReplicateState state, float delta)
+        {
+            bool canAct = _combatState == null || _combatState.CanAct;
+            if (!canAct)
+                return;
+
+            TickClientPrediction(command, aimDirection, currentTick, state, delta);
+            if (_player.IsServerStarted)
+                TickServerOnly(command, aimDirection, currentTick, state);
+            if (_player.IsClientStarted)
+                TickClientOnly(command, aimDirection, currentTick, state, delta);
+        }
+
+        /// <summary>
         /// ClientPrediction 域 tick 调度。处理输入、推进技能时间。
         /// 在客户端和服务端同步运行，含 replay tick，参与预测回滚。
         /// </summary>
