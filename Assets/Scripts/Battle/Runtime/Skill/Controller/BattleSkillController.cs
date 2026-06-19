@@ -51,6 +51,7 @@ namespace Battle
             _combatState = GetComponent<BattleCombatState>();
             _attributeSet = GetComponent<BattleAttributeSet>();
             ResolveServices();
+            BattleSkillNodeExecutorRegistry.Init();
         }
 
         private void OnValidate()

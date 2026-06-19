@@ -1,72 +1,82 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Hoshino;
 using UnityEngine;
 
 namespace Battle
 {
     /// <summary>
-    /// Executor 注册表。按 ClipId 查找 Executor 实例，
-    /// 首次访问时通过生成绑定表反射创建，后续缓存复用。
+    /// Executor 注册表。按 ClipId 查找 Executor 实例。
+    /// 通过 <see cref="Init"/> 一次性扫描所有 [BattleSkillExecutor] 标记的类型并预创建实例，
+    /// 之后 <see cref="TryGet"/> 为纯字典查找，无运行时反射开销。
+    /// 场景切换或热重载时调用 <see cref="Clear"/> 清空缓存。
     /// </summary>
     public static class BattleSkillNodeExecutorRegistry
     {
         private static Dictionary<uint, IBattleSkillNodeExecutor> _executors;
+        private static bool _initialized;
 
-        /// <summary>按 ClipId 查找或创建 Executor。</summary>
-        public static bool TryGet(uint clipId, out IBattleSkillNodeExecutor executor)
+        /// <summary>
+        /// 预扫描所有 [BattleSkillExecutor] 标记的类型，创建实例并缓存。
+        /// 应在场景初始化时显式调用一次，避免 tick 中懒初始化卡顿。
+        /// 重复调用安全（已初始化则跳过）。
+        /// </summary>
+        public static void Init()
         {
-            EnsureInitialized();
-
-            // --- 先查缓存 ---
-            if (_executors.TryGetValue(clipId, out executor))
-                return true;
-
-            // --- 查生成绑定表获取类型名，反射创建实例 ---
-            if (!SkillGeneratedExecutorMetas.TryGetName(clipId, out string executorTypeName))
-                return false;
-
-            Type type = ResolveType(executorTypeName);
-            if (type == null || type.IsAbstract || !typeof(IBattleSkillNodeExecutor).IsAssignableFrom(type))
-            {
-                Debug.LogError($"[BattleSkill] Generated executor binding points to invalid type '{executorTypeName}'.");
-                return false;
-            }
-
-            executor = (IBattleSkillNodeExecutor)Activator.CreateInstance(type);
-            _executors.Add(clipId, executor);
-            return true;
-        }
-
-        private static void EnsureInitialized()
-        {
-            if (_executors != null)
+            if (_initialized)
                 return;
 
             _executors = new Dictionary<uint, IBattleSkillNodeExecutor>();
-        }
-
-        /// <summary>按全名解析类型，先 Type.GetType 再遍历程序集。</summary>
-        private static Type ResolveType(string typeName)
-        {
-            if (string.IsNullOrEmpty(typeName))
-                return null;
-
-            Type type = Type.GetType(typeName);
-            if (type != null)
-                return type;
 
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                foreach (Type candidate in GetLoadableTypes(assembly))
+                foreach (Type type in GetLoadableTypes(assembly))
                 {
-                    if (candidate != null && candidate.FullName == typeName)
-                        return candidate;
+                    if (type == null || type.IsAbstract)
+                        continue;
+
+                    BattleSkillExecutorAttribute attribute = type.GetCustomAttribute<BattleSkillExecutorAttribute>();
+                    if (attribute == null)
+                        continue;
+
+                    if (!typeof(IBattleSkillNodeExecutor).IsAssignableFrom(type))
+                    {
+                        Debug.LogError($"[BattleSkill] Executor type '{type.FullName}' does not implement {nameof(IBattleSkillNodeExecutor)}.");
+                        continue;
+                    }
+
+                    if (_executors.ContainsKey(attribute.ClipId))
+                    {
+                        Debug.LogError($"[BattleSkill] Duplicate executor for clip id {attribute.ClipId}: '{_executors[attribute.ClipId].GetType().FullName}' vs '{type.FullName}'.");
+                        continue;
+                    }
+
+                    _executors.Add(attribute.ClipId, (IBattleSkillNodeExecutor)Activator.CreateInstance(type));
                 }
             }
 
-            return null;
+            _initialized = true;
+        }
+
+        /// <summary>清空缓存，允许重新 <see cref="Init"/>。场景切换或热重载时调用。</summary>
+        public static void Clear()
+        {
+            _executors?.Clear();
+            _executors = null;
+            _initialized = false;
+        }
+
+        /// <summary>按 ClipId 查找 Executor（纯字典查找，无反射）。未初始化时自动 Init。</summary>
+        public static bool TryGet(uint clipId, out IBattleSkillNodeExecutor executor)
+        {
+            if (!_initialized)
+                Init();
+
+            if (_executors.TryGetValue(clipId, out executor))
+                return true;
+
+            executor = default;
+            return false;
         }
 
         /// <summary>安全获取程序集类型（处理 ReflectionTypeLoadException）。</summary>
