@@ -1,7 +1,7 @@
 namespace Battle
 {
     /// <summary>队伍标识。大乱斗最多 4 队 + 中立。</summary>
-    public enum Team : byte
+    public enum ETeam : byte
     {
         Neutral = 0,
         TeamA = 1,

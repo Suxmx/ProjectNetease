@@ -7,14 +7,15 @@ namespace Battle
 {
     /// <summary>
     /// 技能节点执行上下文。Executor 通过此结构访问运行时依赖
-    /// （Motor/CombatState/AttributeSet/Services/技能数据/输入/时间等），
+    /// （Player/Motor/CombatState/AttributeSet/Services/技能数据/输入/时间等），
     /// 保持 Executor 插件化，不直接依赖场景单例。
     /// </summary>
     public readonly struct SkillExecutionContext
     {
         public SkillExecutionContext(
-            PlayerMotor motor,
-            BattleSkillController controller,
+            Player player,
+            Motor motor,
+            SkillController controller,
             CombatState combatState,
             AttributeSet attributeSet,
             SkillRuntimeServices services,
@@ -28,6 +29,7 @@ namespace Battle
             ReplicateState replicateState,
             SkillNodeLifecyclePhase lifecyclePhase)
         {
+            Player = player;
             Motor = motor;
             Controller = controller;
             CombatState = combatState;
@@ -44,8 +46,11 @@ namespace Battle
             LifecyclePhase = lifecyclePhase;
         }
 
-        public PlayerMotor Motor { get; }
-        public BattleSkillController Controller { get; }
+        /// <summary>玩家主类，提供 Owner/TimeManager 等网络属性。</summary>
+        public Player Player { get; }
+        /// <summary>移动逻辑实例，提供位移/传送/位置等操作。</summary>
+        public Motor Motor { get; }
+        public SkillController Controller { get; }
         public CombatState CombatState { get; }
         public AttributeSet AttributeSet { get; }
         public SkillRuntimeServices Services { get; }
@@ -78,7 +83,7 @@ namespace Battle
                 Amount = amount,
                 Source = CombatState,
                 Target = null,
-                SourceConnection = Motor != null ? Motor.Owner : default,
+                SourceConnection = Player != null ? Player.Owner : default,
                 SourceClipId = Node.ClipId,
                 HitPoint = hitPoint,
                 Tick = CurrentTick
@@ -89,7 +94,7 @@ namespace Battle
         public PreciseTick GetCurrentPreciseTick()
         {
             uint queryTick = CurrentTick != 0u ? CurrentTick : Command.InputTick;
-            return Motor.TimeManager.GetPreciseTick(queryTick);
+            return Player.TimeManager.GetPreciseTick(queryTick);
         }
     }
 }

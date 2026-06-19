@@ -10,9 +10,9 @@ namespace Battle
     /// 技能调度控制器。管理技能槽、技能启动/停止、节点 tick 调度。
     /// 三个 domain 分别调度：ClientPrediction（所有身份+replay）、ClientOnly（客户端跳过replay）、ServerOnly（服务器跳过replay）。
     /// 节点生命周期 OnStart/OnTick/OnEnd 通过状态跟踪 HashSet 实现。
-    /// 非 NetworkBehaviour，由 <see cref="PlayerMotor"/> 在 Replicate 回调中驱动。
+    /// MonoBehaviour，由 <see cref="Player"/> 在 Replicate 回调中驱动。
     /// </summary>
-    public sealed class BattleSkillController : MonoBehaviour
+    public sealed class SkillController : MonoBehaviour
     {
         /// <summary>技能槽配置：槽位编号 + 编译后的 .bytes 二进制。</summary>
         [Serializable]
@@ -28,6 +28,7 @@ namespace Battle
         private SkillDefinition _activeSkill;
         private CombatState _combatState;
         private AttributeSet _attributeSet;
+        private Player _player;
         private uint _activeSequenceId;
         private uint _startTick;
         private byte _phase;
@@ -50,6 +51,7 @@ namespace Battle
         {
             _combatState = GetComponent<CombatState>();
             _attributeSet = GetComponent<AttributeSet>();
+            _player = GetComponent<Player>();
             ResolveServices();
             SkillExecutorRegistry.Init();
         }
@@ -63,7 +65,7 @@ namespace Battle
         /// ClientPrediction 域 tick 调度。处理输入、推进技能时间。
         /// 在客户端和服务端同步运行，含 replay tick，参与预测回滚。
         /// </summary>
-        public void TickClientPrediction(PlayerMotor motor, SkillCommand command, Vector3 aimDirection, uint currentTick, ReplicateState state, float delta)
+        public void TickClientPrediction(SkillCommand command, Vector3 aimDirection, uint currentTick, ReplicateState state, float delta)
         {
             // --- 处理技能输入 ---
             if (command.Type == SkillCommandType.Press)
@@ -84,14 +86,14 @@ namespace Battle
                 return;
             }
 
-            TickDomain(motor, command, aimDirection, currentTick, elapsedTicks, delta, state, SkillNodeExecutionDomain.ClientPrediction, _activeClientPredictionNodeIds);
+            TickDomain(command, aimDirection, currentTick, elapsedTicks, delta, state, SkillNodeExecutionDomain.ClientPrediction, _activeClientPredictionNodeIds);
         }
 
         /// <summary>
         /// ClientOnly 域 tick 调度。只在客户端执行（含 Host 客户端身份），跳过 replay tick。
         /// 用于纯表现节点（特效/音效/动画）。
         /// </summary>
-        public void TickClientOnly(PlayerMotor motor, SkillCommand command, Vector3 aimDirection, uint currentTick, ReplicateState state, float delta)
+        public void TickClientOnly(SkillCommand command, Vector3 aimDirection, uint currentTick, ReplicateState state, float delta)
         {
             if (!_isActive || _activeSkill == null)
                 return;
@@ -101,14 +103,14 @@ namespace Battle
                 return;
 
             int elapsedTicks = currentTick >= _startTick ? (int)(currentTick - _startTick) : 0;
-            TickDomain(motor, command, aimDirection, currentTick, elapsedTicks, delta, state, SkillNodeExecutionDomain.ClientOnly, _activeClientOnlyNodeIds);
+            TickDomain(command, aimDirection, currentTick, elapsedTicks, delta, state, SkillNodeExecutionDomain.ClientOnly, _activeClientOnlyNodeIds);
         }
 
         /// <summary>
         /// ServerOnly 域 tick 调度。只在服务器真实 tick 执行，跳过 replay tick。
         /// 用于服务器权威节点（伤害/属性修改）。
         /// </summary>
-        public void TickServerOnly(PlayerMotor motor, SkillCommand command, Vector3 aimDirection, uint currentTick, ReplicateState state)
+        public void TickServerOnly(SkillCommand command, Vector3 aimDirection, uint currentTick, ReplicateState state)
         {
             if (!_isActive || _activeSkill == null)
                 return;
@@ -118,13 +120,13 @@ namespace Battle
                 return;
 
             int elapsedTicks = currentTick >= _startTick ? (int)(currentTick - _startTick) : 0;
-            TickDomain(motor, command, aimDirection, currentTick, elapsedTicks, (float)motor.TimeManager.TickDelta, state, SkillNodeExecutionDomain.ServerOnly, _activeServerOnlyNodeIds);
+            TickDomain(command, aimDirection, currentTick, elapsedTicks, (float)_player.TimeManager.TickDelta, state, SkillNodeExecutionDomain.ServerOnly, _activeServerOnlyNodeIds);
         }
 
         /// <summary>
         /// 单 domain 的状态跟踪调度。根据 active 状态变化触发 OnStart/OnTick/OnEnd。
         /// </summary>
-        private void TickDomain(PlayerMotor motor, SkillCommand command, Vector3 aimDirection, uint currentTick, int elapsedTicks, float delta, ReplicateState state, SkillNodeExecutionDomain domain, HashSet<int> activeNodeIds)
+        private void TickDomain(SkillCommand command, Vector3 aimDirection, uint currentTick, int elapsedTicks, float delta, ReplicateState state, SkillNodeExecutionDomain domain, HashSet<int> activeNodeIds)
         {
             SkillRuntimeNode[] nodes = _activeSkill.Nodes;
             for (int i = 0; i < nodes.Length; i++)
@@ -143,18 +145,18 @@ namespace Battle
                 {
                     // --- 进入区间：OnStart ---
                     activeNodeIds.Add(nodeId);
-                    ExecuteNode(motor, command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.Start);
+                    ExecuteNode(command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.Start);
                 }
                 else if (isActive && wasActive)
                 {
                     // --- 区间内：OnTick ---
-                    ExecuteNode(motor, command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.Tick);
+                    ExecuteNode(command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.Tick);
                 }
                 else if (!isActive && wasActive)
                 {
                     // --- 离开区间：OnEnd ---
                     activeNodeIds.Remove(nodeId);
-                    ExecuteNode(motor, command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.End);
+                    ExecuteNode(command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.End);
                 }
             }
         }
@@ -200,7 +202,7 @@ namespace Battle
         }
 
         /// <summary>查找 Executor 并派发节点执行。</summary>
-        private void ExecuteNode(PlayerMotor motor, SkillCommand command, Vector3 aimDirection, uint currentTick, int elapsedTicks, float delta, ReplicateState state, SkillRuntimeNode node, SkillNodeLifecyclePhase phase)
+        private void ExecuteNode(SkillCommand command, Vector3 aimDirection, uint currentTick, int elapsedTicks, float delta, ReplicateState state, SkillRuntimeNode node, SkillNodeLifecyclePhase phase)
         {
             if (!SkillExecutorRegistry.TryGet(node.ClipId, out IBattleSkillNodeExecutor executor))
             {
@@ -209,7 +211,7 @@ namespace Battle
                 return;
             }
 
-            SkillExecutionContext context = new(motor, this, _combatState, _attributeSet, ResolveServices(), _activeSkill, command, node, aimDirection, currentTick, elapsedTicks, delta, state, phase);
+            SkillExecutionContext context = new(_player, _player.Motor, this, _combatState, _attributeSet, ResolveServices(), _activeSkill, command, node, aimDirection, currentTick, elapsedTicks, delta, state, phase);
             executor.Execute(context);
         }
 
@@ -232,11 +234,8 @@ namespace Battle
         private void StopSkill()
         {
             // --- 对所有仍在 active 的节点触发 OnEnd ---
-            if (_activeSkill != null && _combatState != null)
-            {
-                PlayerMotor motor = GetComponent<PlayerMotor>();
-                StopAllActiveNodes(motor);
-            }
+            if (_activeSkill != null && _player != null)
+                StopAllActiveNodes();
 
             _activeSkill = null;
             _activeSequenceId = 0;
@@ -247,23 +246,22 @@ namespace Battle
         }
 
         /// <summary>对三个 domain 的所有 active 节点触发 OnEnd（技能提前停止时）。</summary>
-        private void StopAllActiveNodes(PlayerMotor motor)
+        private void StopAllActiveNodes()
         {
-            SkillRuntimeNode[] nodes = _activeSkill.Nodes;
             int elapsedTicks = 0;
             uint currentTick = 0;
-            float delta = motor != null ? (float)motor.TimeManager.TickDelta : 0f;
+            float delta = _player != null ? (float)_player.TimeManager.TickDelta : 0f;
             ReplicateState state = ReplicateState.Invalid;
             SkillCommand command = SkillCommand.None;
-            Vector3 aim = motor != null ? motor.AimDirection : Vector3.forward;
+            Vector3 aim = _player != null && _player.Motor != null ? _player.Motor.AimDirection : Vector3.forward;
 
-            StopDomainNodes(motor, command, aim, currentTick, elapsedTicks, delta, state, _activeClientPredictionNodeIds);
-            StopDomainNodes(motor, command, aim, currentTick, elapsedTicks, delta, state, _activeClientOnlyNodeIds);
-            StopDomainNodes(motor, command, aim, currentTick, elapsedTicks, delta, state, _activeServerOnlyNodeIds);
+            StopDomainNodes(command, aim, currentTick, elapsedTicks, delta, state, _activeClientPredictionNodeIds);
+            StopDomainNodes(command, aim, currentTick, elapsedTicks, delta, state, _activeClientOnlyNodeIds);
+            StopDomainNodes(command, aim, currentTick, elapsedTicks, delta, state, _activeServerOnlyNodeIds);
         }
 
         /// <summary>对单个 domain 的 active 节点集合触发 OnEnd 并清空。</summary>
-        private void StopDomainNodes(PlayerMotor motor, SkillCommand command, Vector3 aimDirection, uint currentTick, int elapsedTicks, float delta, ReplicateState state, HashSet<int> activeNodeIds)
+        private void StopDomainNodes(SkillCommand command, Vector3 aimDirection, uint currentTick, int elapsedTicks, float delta, ReplicateState state, HashSet<int> activeNodeIds)
         {
             if (activeNodeIds.Count == 0 || _activeSkill == null)
                 return;
@@ -275,7 +273,7 @@ namespace Battle
                 if (!activeNodeIds.Contains(node.NodeId))
                     continue;
 
-                ExecuteNode(motor, command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.End);
+                ExecuteNode(command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.End);
             }
             activeNodeIds.Clear();
         }

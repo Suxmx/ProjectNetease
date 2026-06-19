@@ -2,6 +2,16 @@ using UnityEngine;
 
 namespace Battle
 {
+    /// <summary>技能指令类型，描述玩家对技能槽的操作阶段。</summary>
+    public enum SkillCommandType : byte
+    {
+        None = 0,
+        Press = 1,
+        Hold = 2,
+        Release = 3,
+        Cancel = 4
+    }
+    
     /// <summary>
     /// 技能指令。由输入层产生，随 Replicate 数据同步，
     /// 驱动 <see cref="SkillController"/> 的技能启动/停止。

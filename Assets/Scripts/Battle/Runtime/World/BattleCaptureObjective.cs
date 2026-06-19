@@ -18,14 +18,14 @@ namespace Battle
         [SerializeField] private float _holdSecondsToScore = 30f;
         [SerializeField] private bool _decayWhenEmpty = true;
 
-        private readonly SyncVar<Team> _ownerTeam = new();
-        private readonly SyncVar<Team> _capturingTeam = new();
+        private readonly SyncVar<ETeam> _ownerTeam = new();
+        private readonly SyncVar<ETeam> _capturingTeam = new();
         private readonly SyncVar<float> _captureProgress = new();
         private readonly SyncVar<float> _remainingHoldSeconds = new();
         private readonly HashSet<CombatState> _occupants = new();
 
-        public Team OwnerTeam => _ownerTeam.Value;
-        public Team CapturingTeam => _capturingTeam.Value;
+        public ETeam OwnerTeam => _ownerTeam.Value;
+        public ETeam CapturingTeam => _capturingTeam.Value;
         public float CaptureProgress => _captureProgress.Value;
         public float RemainingHoldSeconds => _remainingHoldSeconds.Value;
 
@@ -37,8 +37,8 @@ namespace Battle
         /// <summary>服务端初始化占领点状态。</summary>
         public override void OnStartServer()
         {
-            _ownerTeam.Value = Team.Neutral;
-            _capturingTeam.Value = Team.Neutral;
+            _ownerTeam.Value = ETeam.Neutral;
+            _capturingTeam.Value = ETeam.Neutral;
             _captureProgress.Value = 0f;
             _remainingHoldSeconds.Value = _holdSecondsToScore;
         }
@@ -50,10 +50,10 @@ namespace Battle
                 return;
 
             float delta = (float)TimeManager.TickDelta;
-            Team uncontestedTeam = GetUncontestedTeam();
+            ETeam uncontestedTeam = GetUncontestedTeam();
 
             // --- 非归属队伍且无争议：推进占领进度 ---
-            if (uncontestedTeam != Team.Neutral && uncontestedTeam != _ownerTeam.Value)
+            if (uncontestedTeam != ETeam.Neutral && uncontestedTeam != _ownerTeam.Value)
             {
                 if (_capturingTeam.Value != uncontestedTeam)
                 {
@@ -67,22 +67,22 @@ namespace Battle
                 if (_captureProgress.Value >= 1f)
                 {
                     _ownerTeam.Value = uncontestedTeam;
-                    _capturingTeam.Value = Team.Neutral;
+                    _capturingTeam.Value = ETeam.Neutral;
                     _captureProgress.Value = 0f;
                     _remainingHoldSeconds.Value = _holdSecondsToScore;
                 }
             }
             // --- 无人占领：进度衰减 ---
-            else if (uncontestedTeam == Team.Neutral)
+            else if (uncontestedTeam == ETeam.Neutral)
             {
                 if (_decayWhenEmpty)
                     _captureProgress.Value = Mathf.Max(0f, _captureProgress.Value - delta / Mathf.Max(0.01f, _captureSeconds));
                 if (_captureProgress.Value <= 0f)
-                    _capturingTeam.Value = Team.Neutral;
+                    _capturingTeam.Value = ETeam.Neutral;
             }
 
             // --- 已归属队伍：持守倒计时递减 ---
-            if (_ownerTeam.Value != Team.Neutral)
+            if (_ownerTeam.Value != ETeam.Neutral)
                 _remainingHoldSeconds.Value = Mathf.Max(0f, _remainingHoldSeconds.Value - delta);
         }
 
@@ -103,16 +103,16 @@ namespace Battle
         }
 
         /// <summary>获取当前无争议的占领队伍（仅一队在场），多队在场返回 Neutral。</summary>
-        private Team GetUncontestedTeam()
+        private ETeam GetUncontestedTeam()
         {
-            Team result = Team.Neutral;
+            ETeam result = ETeam.Neutral;
 
             foreach (CombatState state in _occupants)
             {
-                if (state == null || state.IsDead || state.Team == Team.Neutral)
+                if (state == null || state.IsDead || state.Team == ETeam.Neutral)
                     continue;
 
-                if (result == Team.Neutral)
+                if (result == ETeam.Neutral)
                 {
                     result = state.Team;
                     continue;
@@ -120,7 +120,7 @@ namespace Battle
 
                 // --- 多队在场：有争议 ---
                 if (result != state.Team)
-                    return Team.Neutral;
+                    return ETeam.Neutral;
             }
 
             return result;

@@ -7,7 +7,7 @@ namespace Battle
 {
     /// <summary>
     /// 技能回放测试组件。加载编译后的 .bytes 技能二进制，
-    /// 按 SourceTickRate 模拟 tick 推进，镜像 <see cref="BattleSkillController"/> 的调度逻辑
+    /// 按 SourceTickRate 模拟 tick 推进，镜像 <see cref="SkillController"/> 的调度逻辑
     /// 派发节点到 Executor（当前 Executor 为 log-only 测试态）。
     /// 用于验证编译→加载→反序列化→调度的完整数据链路。
     /// 挂载到场景 GameObject，Inspector 拖入 .bytes，进 PlayMode 自动运行。
@@ -177,8 +177,9 @@ namespace Battle
                 return;
             }
 
-            // --- 构造桩 context：Motor/CombatState/Services 全 null，Executor 当前不依赖它们 ---
+            // --- 构造桩 context：Player/Motor/CombatState/Services 全 null，Executor 当前不依赖它们 ---
             SkillExecutionContext context = new(
+                player: null,
                 motor: null,
                 controller: null,
                 combatState: null,

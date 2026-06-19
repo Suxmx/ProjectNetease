@@ -13,17 +13,17 @@ namespace Battle
     public sealed class CombatState : NetworkBehaviour, IBattleDamageTarget
     {
         [SerializeField] private int _maxHitPoints = 100;
-        [SerializeField] private Team _initialTeam = Team.Neutral;
+        [SerializeField] private ETeam _initialTeam = ETeam.Neutral;
 
         private readonly SyncVar<int> _hitPoints = new();
         private readonly SyncVar<bool> _isDead = new();
-        private readonly SyncVar<Team> _team = new();
+        private readonly SyncVar<ETeam> _team = new();
         private AttributeSet _attributeSet;
 
         public int MaxHitPoints => _maxHitPoints;
         public int HitPoints => _hitPoints.Value;
         public bool IsDead => _isDead.Value;
-        public Team Team => _team.Value;
+        public ETeam Team => _team.Value;
         public bool CanAct => !IsDead;
 
         private void Awake()
@@ -41,7 +41,7 @@ namespace Battle
 
         /// <summary>服务端设置队伍归属。</summary>
         [Server]
-        public void SetTeam(Team team)
+        public void SetTeam(ETeam team)
         {
             _team.Value = team;
         }

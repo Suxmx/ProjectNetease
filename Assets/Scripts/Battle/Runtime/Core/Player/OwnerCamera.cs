@@ -15,8 +15,9 @@ namespace Battle
 
         public Transform CameraTarget => _cameraTarget != null ? _cameraTarget : transform;
 
-        private void Reset()
+        protected override void Reset()
         {
+            base.Reset();
             _cameraTarget = transform;
         }
 
