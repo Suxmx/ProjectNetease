@@ -22,7 +22,6 @@ namespace Hoshino
         public bool TryGetTrackId(Type type, out uint id)
         {
             if (type == typeof(SkillActionTrack)) { id = SkillGeneratedIds.SkillActionTrack; return true; }
-            if (type == typeof(CollisionTrack)) { id = SkillGeneratedIds.CollisionTrack; return true; }
             id = 0u;
             return false;
         }
@@ -32,8 +31,16 @@ namespace Hoshino
             if (type == typeof(MoveVelocityClip)) { id = SkillGeneratedIds.MoveVelocityClip; return true; }
             if (type == typeof(MoveDisplacementClip)) { id = SkillGeneratedIds.MoveDisplacementClip; return true; }
             if (type == typeof(TeleportClip)) { id = SkillGeneratedIds.TeleportClip; return true; }
-            if (type == typeof(CollisionClip)) { id = SkillGeneratedIds.CollisionClip; return true; }
             if (type == typeof(AttributeModifierClip)) { id = SkillGeneratedIds.AttributeModifierClip; return true; }
+            if (type == typeof(SingleDamageClip)) { id = SkillGeneratedIds.SingleDamageClip; return true; }
+            if (type == typeof(MultiDamageClip)) { id = SkillGeneratedIds.MultiDamageClip; return true; }
+            id = 0u;
+            return false;
+        }
+
+        public bool TryGetSpecialDataId(Type type, out uint id)
+        {
+            if (type == typeof(DamageGroupData)) { id = SkillGeneratedIds.DamageGroupData; return true; }
             id = 0u;
             return false;
         }
@@ -58,7 +65,6 @@ namespace Hoshino
             Type type = id switch
             {
                 SkillGeneratedIds.SkillActionTrack => typeof(SkillActionTrack),
-                SkillGeneratedIds.CollisionTrack => typeof(CollisionTrack),
                 _ => null
             };
             if (type == null) return null;
@@ -78,14 +84,26 @@ namespace Hoshino
                 SkillGeneratedIds.MoveVelocityClip => typeof(MoveVelocityClip),
                 SkillGeneratedIds.MoveDisplacementClip => typeof(MoveDisplacementClip),
                 SkillGeneratedIds.TeleportClip => typeof(TeleportClip),
-                SkillGeneratedIds.CollisionClip => typeof(CollisionClip),
                 SkillGeneratedIds.AttributeModifierClip => typeof(AttributeModifierClip),
+                SkillGeneratedIds.SingleDamageClip => typeof(SingleDamageClip),
+                SkillGeneratedIds.MultiDamageClip => typeof(MultiDamageClip),
                 _ => null
             };
             if (type == null) return null;
             ActionClip clip = (ActionClip)Undo.AddComponent(track.gameObject, type);
             clip.PostCreate(track);
             return clip;
+        }
+
+        public object CreateSpecialData(uint id)
+        {
+            Type type = id switch
+            {
+                SkillGeneratedIds.DamageGroupData => typeof(DamageGroupData),
+                _ => null
+            };
+            if (type == null) return null;
+            return Activator.CreateInstance(type);
         }
 
         public object CaptureClipCustomData(uint clipId, ActionClip clip)
@@ -107,15 +125,20 @@ namespace Hoshino
                     TeleportClip typed = (TeleportClip)clip;
                     return new TeleportNodeData { Space = typed.Space, Offset = typed.Offset, UseCommandTargetPoint = typed.UseCommandTargetPoint };
                 }
-                case SkillGeneratedIds.CollisionClip:
-                {
-                    CollisionClip typed = (CollisionClip)clip;
-                    return new CollisionNodeData { Shape = typed.Shape, Space = typed.Space, Offset = typed.Offset, HalfExtents = typed.HalfExtents, Radius = typed.Radius, Distance = typed.Distance, HitMask = typed.HitMask, Damage = typed.Damage };
-                }
                 case SkillGeneratedIds.AttributeModifierClip:
                 {
                     AttributeModifierClip typed = (AttributeModifierClip)clip;
                     return new AttributeModifierNodeData { AttributeKey = typed.AttributeKey, AddValue = typed.AddValue, MultiplyValue = typed.MultiplyValue, DurationSeconds = typed.DurationSeconds };
+                }
+                case SkillGeneratedIds.SingleDamageClip:
+                {
+                    SingleDamageClip typed = (SingleDamageClip)clip;
+                    return new SingleDamageNodeData { Shape = typed.Shape, Space = typed.Space, Offset = typed.Offset, HalfExtents = typed.HalfExtents, Radius = typed.Radius, Distance = typed.Distance, HitMask = typed.HitMask, Damage = typed.Damage, DamageGroupId = typed.DamageGroupId };
+                }
+                case SkillGeneratedIds.MultiDamageClip:
+                {
+                    MultiDamageClip typed = (MultiDamageClip)clip;
+                    return new MultiDamageNodeData { Shape = typed.Shape, Space = typed.Space, Offset = typed.Offset, HalfExtents = typed.HalfExtents, Radius = typed.Radius, Distance = typed.Distance, HitMask = typed.HitMask, Damage = typed.Damage, DamageGroupId = typed.DamageGroupId, HitIntervalTicks = typed.HitIntervalTicks };
                 }
                 default: throw new InvalidOperationException($"No generated custom data capture for clip id {clipId}.");
             }
@@ -150,20 +173,6 @@ namespace Hoshino
                     typed.UseCommandTargetPoint = value.UseCommandTargetPoint;
                     break;
                 }
-                case SkillGeneratedIds.CollisionClip:
-                {
-                    CollisionClip typed = (CollisionClip)clip;
-                    CollisionNodeData value = data is CollisionNodeData d ? d : default;
-                    typed.Shape = value.Shape;
-                    typed.Space = value.Space;
-                    typed.Offset = value.Offset;
-                    typed.HalfExtents = value.HalfExtents;
-                    typed.Radius = value.Radius;
-                    typed.Distance = value.Distance;
-                    typed.HitMask = value.HitMask;
-                    typed.Damage = value.Damage;
-                    break;
-                }
                 case SkillGeneratedIds.AttributeModifierClip:
                 {
                     AttributeModifierClip typed = (AttributeModifierClip)clip;
@@ -172,6 +181,37 @@ namespace Hoshino
                     typed.AddValue = value.AddValue;
                     typed.MultiplyValue = value.MultiplyValue;
                     typed.DurationSeconds = value.DurationSeconds;
+                    break;
+                }
+                case SkillGeneratedIds.SingleDamageClip:
+                {
+                    SingleDamageClip typed = (SingleDamageClip)clip;
+                    SingleDamageNodeData value = data is SingleDamageNodeData d ? d : default;
+                    typed.Shape = value.Shape;
+                    typed.Space = value.Space;
+                    typed.Offset = value.Offset;
+                    typed.HalfExtents = value.HalfExtents;
+                    typed.Radius = value.Radius;
+                    typed.Distance = value.Distance;
+                    typed.HitMask = value.HitMask;
+                    typed.Damage = value.Damage;
+                    typed.DamageGroupId = value.DamageGroupId;
+                    break;
+                }
+                case SkillGeneratedIds.MultiDamageClip:
+                {
+                    MultiDamageClip typed = (MultiDamageClip)clip;
+                    MultiDamageNodeData value = data is MultiDamageNodeData d ? d : default;
+                    typed.Shape = value.Shape;
+                    typed.Space = value.Space;
+                    typed.Offset = value.Offset;
+                    typed.HalfExtents = value.HalfExtents;
+                    typed.Radius = value.Radius;
+                    typed.Distance = value.Distance;
+                    typed.HitMask = value.HitMask;
+                    typed.Damage = value.Damage;
+                    typed.DamageGroupId = value.DamageGroupId;
+                    typed.HitIntervalTicks = value.HitIntervalTicks;
                     break;
                 }
             }
@@ -192,10 +232,12 @@ namespace Hoshino
                     return new MoveDisplacementNodeData { Space = (SkillSpace)reader.ReadInt32(), DisplacementPerSecond = ReadVector3(reader) };
                 case SkillGeneratedIds.TeleportClip:
                     return new TeleportNodeData { Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), UseCommandTargetPoint = reader.ReadBoolean() };
-                case SkillGeneratedIds.CollisionClip:
-                    return new CollisionNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32() };
                 case SkillGeneratedIds.AttributeModifierClip:
                     return new AttributeModifierNodeData { AttributeKey = reader.ReadString(), AddValue = reader.ReadSingle(), MultiplyValue = reader.ReadSingle(), DurationSeconds = reader.ReadSingle() };
+                case SkillGeneratedIds.SingleDamageClip:
+                    return new SingleDamageNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32(), DamageGroupId = reader.ReadByte() };
+                case SkillGeneratedIds.MultiDamageClip:
+                    return new MultiDamageNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32(), DamageGroupId = reader.ReadByte(), HitIntervalTicks = reader.ReadByte() };
                 default: throw new InvalidOperationException($"No generated custom data reader for clip id {clipId}.");
             }
         }
@@ -226,9 +268,18 @@ namespace Hoshino
                     writer.Write(value.UseCommandTargetPoint);
                     break;
                 }
-                case SkillGeneratedIds.CollisionClip:
+                case SkillGeneratedIds.AttributeModifierClip:
                 {
-                    CollisionNodeData value = data is CollisionNodeData d ? d : default;
+                    AttributeModifierNodeData value = data is AttributeModifierNodeData d ? d : default;
+                    writer.Write(value.AttributeKey ?? string.Empty);
+                    writer.Write(value.AddValue);
+                    writer.Write(value.MultiplyValue);
+                    writer.Write(value.DurationSeconds);
+                    break;
+                }
+                case SkillGeneratedIds.SingleDamageClip:
+                {
+                    SingleDamageNodeData value = data is SingleDamageNodeData d ? d : default;
                     writer.Write((int)value.Shape);
                     writer.Write((int)value.Space);
                     WriteVector3(writer, value.Offset);
@@ -237,15 +288,22 @@ namespace Hoshino
                     writer.Write(value.Distance);
                     writer.Write(value.HitMask.value);
                     writer.Write(value.Damage);
+                    writer.Write(value.DamageGroupId);
                     break;
                 }
-                case SkillGeneratedIds.AttributeModifierClip:
+                case SkillGeneratedIds.MultiDamageClip:
                 {
-                    AttributeModifierNodeData value = data is AttributeModifierNodeData d ? d : default;
-                    writer.Write(value.AttributeKey ?? string.Empty);
-                    writer.Write(value.AddValue);
-                    writer.Write(value.MultiplyValue);
-                    writer.Write(value.DurationSeconds);
+                    MultiDamageNodeData value = data is MultiDamageNodeData d ? d : default;
+                    writer.Write((int)value.Shape);
+                    writer.Write((int)value.Space);
+                    WriteVector3(writer, value.Offset);
+                    WriteVector3(writer, value.HalfExtents);
+                    writer.Write(value.Radius);
+                    writer.Write(value.Distance);
+                    writer.Write(value.HitMask.value);
+                    writer.Write(value.Damage);
+                    writer.Write(value.DamageGroupId);
+                    writer.Write(value.HitIntervalTicks);
                     break;
                 }
                 default: throw new InvalidOperationException($"No generated custom data writer for clip id {clipId}.");
@@ -279,9 +337,18 @@ namespace Hoshino
                     Add(fields, "UseCommandTargetPoint", value.UseCommandTargetPoint);
                     break;
                 }
-                case SkillGeneratedIds.CollisionClip:
+                case SkillGeneratedIds.AttributeModifierClip:
                 {
-                    CollisionNodeData value = data is CollisionNodeData d ? d : default;
+                    AttributeModifierNodeData value = data is AttributeModifierNodeData d ? d : default;
+                    Add(fields, "AttributeKey", value.AttributeKey);
+                    Add(fields, "AddValue", value.AddValue);
+                    Add(fields, "MultiplyValue", value.MultiplyValue);
+                    Add(fields, "DurationSeconds", value.DurationSeconds);
+                    break;
+                }
+                case SkillGeneratedIds.SingleDamageClip:
+                {
+                    SingleDamageNodeData value = data is SingleDamageNodeData d ? d : default;
                     Add(fields, "Shape", value.Shape);
                     Add(fields, "Space", value.Space);
                     Add(fields, "Offset", value.Offset);
@@ -290,15 +357,100 @@ namespace Hoshino
                     Add(fields, "Distance", value.Distance);
                     Add(fields, "HitMask", value.HitMask);
                     Add(fields, "Damage", value.Damage);
+                    Add(fields, "DamageGroupId", value.DamageGroupId);
                     break;
                 }
-                case SkillGeneratedIds.AttributeModifierClip:
+                case SkillGeneratedIds.MultiDamageClip:
                 {
-                    AttributeModifierNodeData value = data is AttributeModifierNodeData d ? d : default;
-                    Add(fields, "AttributeKey", value.AttributeKey);
-                    Add(fields, "AddValue", value.AddValue);
-                    Add(fields, "MultiplyValue", value.MultiplyValue);
-                    Add(fields, "DurationSeconds", value.DurationSeconds);
+                    MultiDamageNodeData value = data is MultiDamageNodeData d ? d : default;
+                    Add(fields, "Shape", value.Shape);
+                    Add(fields, "Space", value.Space);
+                    Add(fields, "Offset", value.Offset);
+                    Add(fields, "HalfExtents", value.HalfExtents);
+                    Add(fields, "Radius", value.Radius);
+                    Add(fields, "Distance", value.Distance);
+                    Add(fields, "HitMask", value.HitMask);
+                    Add(fields, "Damage", value.Damage);
+                    Add(fields, "DamageGroupId", value.DamageGroupId);
+                    Add(fields, "HitIntervalTicks", value.HitIntervalTicks);
+                    break;
+                }
+            }
+        }
+
+        public object CaptureSpecialData(uint specialDataId, object instance)
+        {
+            switch (specialDataId)
+            {
+                case SkillGeneratedIds.DamageGroupData:
+                {
+                    DamageGroupData typed = (DamageGroupData)instance;
+                    return new RuntimeDamageGroupData { GroupId = typed.GroupId, MaxHitsPerTarget = typed.MaxHitsPerTarget };
+                }
+                default: throw new InvalidOperationException($"No generated special data capture for id {specialDataId}.");
+            }
+        }
+
+        public void ApplySpecialData(uint specialDataId, object instance, object data)
+        {
+            switch (specialDataId)
+            {
+                case SkillGeneratedIds.DamageGroupData:
+                {
+                    DamageGroupData typed = (DamageGroupData)instance;
+                    RuntimeDamageGroupData value = data is RuntimeDamageGroupData d ? d : default;
+                    typed.GroupId = value.GroupId;
+                    typed.MaxHitsPerTarget = value.MaxHitsPerTarget;
+                    break;
+                }
+            }
+        }
+
+        public void WriteSpecialData(BinaryWriter writer, uint specialDataId, object instance)
+        {
+            WriteSpecialDataObject(writer, specialDataId, CaptureSpecialData(specialDataId, instance));
+        }
+
+        public object ReadSpecialData(BinaryReader reader, uint specialDataId)
+        {
+            switch (specialDataId)
+            {
+                case SkillGeneratedIds.DamageGroupData:
+                {
+                    DamageGroupData obj = (DamageGroupData)Activator.CreateInstance(typeof(DamageGroupData));
+                    obj.GroupId = reader.ReadByte();
+                    obj.MaxHitsPerTarget = reader.ReadByte();
+                    return obj;
+                }
+                default: throw new InvalidOperationException($"No generated special data reader for id {specialDataId}.");
+            }
+        }
+
+        private static void WriteSpecialDataObject(BinaryWriter writer, uint specialDataId, object data)
+        {
+            switch (specialDataId)
+            {
+                case SkillGeneratedIds.DamageGroupData:
+                {
+                    RuntimeDamageGroupData value = data is RuntimeDamageGroupData d ? d : default;
+                    writer.Write(value.GroupId);
+                    writer.Write(value.MaxHitsPerTarget);
+                    break;
+                }
+                default: throw new InvalidOperationException($"No generated special data writer for id {specialDataId}.");
+            }
+        }
+
+        public void BuildSpecialDataDebugFields(uint specialDataId, object data, List<SkillCustomFieldDebugEntry> fields)
+        {
+            fields.Clear();
+            switch (specialDataId)
+            {
+                case SkillGeneratedIds.DamageGroupData:
+                {
+                    RuntimeDamageGroupData value = data is RuntimeDamageGroupData d ? d : default;
+                    Add(fields, "GroupId", value.GroupId);
+                    Add(fields, "MaxHitsPerTarget", value.MaxHitsPerTarget);
                     break;
                 }
             }

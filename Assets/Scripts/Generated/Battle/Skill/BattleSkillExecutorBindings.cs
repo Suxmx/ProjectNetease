@@ -19,8 +19,9 @@ namespace Battle
             { SkillGeneratedIds.MoveVelocityClip, new ExecutorEntry { ExecutorTypeName = "Battle.MoveVelocityClipExecutor", Domain = SkillNodeExecutionDomain.ClientPrediction } },
             { SkillGeneratedIds.MoveDisplacementClip, new ExecutorEntry { ExecutorTypeName = "Battle.MoveDisplacementClipExecutor", Domain = SkillNodeExecutionDomain.ClientPrediction } },
             { SkillGeneratedIds.TeleportClip, new ExecutorEntry { ExecutorTypeName = "Battle.TeleportClipExecutor", Domain = SkillNodeExecutionDomain.ClientPrediction } },
-            { SkillGeneratedIds.CollisionClip, new ExecutorEntry { ExecutorTypeName = "Battle.CollisionClipExecutor", Domain = SkillNodeExecutionDomain.ServerOnly } },
             { SkillGeneratedIds.AttributeModifierClip, new ExecutorEntry { ExecutorTypeName = "Battle.AttributeModifierClipExecutor", Domain = SkillNodeExecutionDomain.ServerOnly } },
+            { SkillGeneratedIds.SingleDamageClip, new ExecutorEntry { ExecutorTypeName = "Battle.SingleDamageClipExecutor", Domain = SkillNodeExecutionDomain.ServerOnly } },
+            { SkillGeneratedIds.MultiDamageClip, new ExecutorEntry { ExecutorTypeName = "Battle.MultiDamageClipExecutor", Domain = SkillNodeExecutionDomain.ServerOnly } },
         };
 
         public static bool TryGetName(uint clipId, out string executorTypeName)

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using FishNet.Component.ColliderRollback;
 using FishNet.Connection;
 using FishNet.Managing.Timing;
 using FishNet.Object;
+using Hoshino;
 using UnityEngine;
 
 namespace Battle
@@ -29,13 +31,18 @@ namespace Battle
         /// <param name="sourceClipId">伤害来源的技能节点 ClipId。</param>
         /// <returns>实际命中并施加伤害的目标数。</returns>
         [Server]
-        public int ResolveDamageBox(PreciseTick preciseTick, CombatState attackerState, NetworkConnection attackerConnection, Vector3 center, Quaternion rotation, Vector3 halfExtents, LayerMask layerMask, int damage, uint sourceClipId = 0u)
+        public int ResolveDamageBox(PreciseTick preciseTick, CombatState attackerState, NetworkConnection attackerConnection, Vector3 center, Quaternion rotation, Vector3 halfExtents, LayerMask layerMask, int damage, uint sourceClipId = 0u, Func<IBattleDamageTarget, bool> canHit = null)
         {
             RollbackForQuery(preciseTick);
             try
             {
                 int hitCount = Physics.OverlapBoxNonAlloc(center, halfExtents, _hits, rotation, layerMask, QueryTriggerInteraction.Ignore);
-                return ApplyDamageToHits(preciseTick, hitCount, attackerState, attackerConnection, damage, sourceClipId);
+                Debug.Log($"[HitResolver]Resolve damage: tick:{preciseTick.Tick}, center:{center}, rotation:{rotation.eulerAngles}, halfExtents:{halfExtents}, hitCount:{hitCount}");
+                // --- 调试绘制：判定范围 + 命中点 ---
+                List<Vector3> hitPoints = CollectHitPoints(hitCount);
+                SkillDraw.DrawHitBox(center, rotation, halfExtents, hitPoints);
+
+                return ApplyDamageToHits(preciseTick, hitCount, attackerState, attackerConnection, damage, sourceClipId, canHit);
             }
             finally
             {
@@ -45,13 +52,18 @@ namespace Battle
 
         /// <summary>球形范围伤害查询（滞后补偿）。</summary>
         [Server]
-        public int ResolveDamageSphere(PreciseTick preciseTick, CombatState attackerState, NetworkConnection attackerConnection, Vector3 center, float radius, LayerMask layerMask, int damage, uint sourceClipId = 0u)
+        public int ResolveDamageSphere(PreciseTick preciseTick, CombatState attackerState, NetworkConnection attackerConnection, Vector3 center, float radius, LayerMask layerMask, int damage, uint sourceClipId = 0u, Func<IBattleDamageTarget, bool> canHit = null)
         {
             RollbackForQuery(preciseTick);
             try
             {
                 int hitCount = Physics.OverlapSphereNonAlloc(center, radius, _hits, layerMask, QueryTriggerInteraction.Ignore);
-                return ApplyDamageToHits(preciseTick, hitCount, attackerState, attackerConnection, damage, sourceClipId);
+
+                // --- 调试绘制：判定范围 + 命中点 ---
+                List<Vector3> hitPoints = CollectHitPoints(hitCount);
+                SkillDraw.DrawHitSphere(center, radius, hitPoints);
+
+                return ApplyDamageToHits(preciseTick, hitCount, attackerState, attackerConnection, damage, sourceClipId, canHit);
             }
             finally
             {
@@ -61,7 +73,7 @@ namespace Battle
 
         /// <summary>射线伤害查询（滞后补偿），命中第一个有效目标。</summary>
         [Server]
-        public bool ResolveDamageRay(PreciseTick preciseTick, CombatState attackerState, NetworkConnection attackerConnection, Vector3 origin, Vector3 direction, float distance, LayerMask layerMask, int damage, uint sourceClipId = 0u)
+        public bool ResolveDamageRay(PreciseTick preciseTick, CombatState attackerState, NetworkConnection attackerConnection, Vector3 origin, Vector3 direction, float distance, LayerMask layerMask, int damage, uint sourceClipId = 0u, Func<IBattleDamageTarget, bool> canHit = null)
         {
             direction.y = 0f;
             if (direction.sqrMagnitude <= 0.0001f)
@@ -72,13 +84,21 @@ namespace Battle
             try
             {
                 if (!Physics.Raycast(origin, direction, out RaycastHit hit, distance, layerMask, QueryTriggerInteraction.Ignore))
+                {
+                    SkillDraw.DrawHitRay(origin, direction, distance, origin, false);
                     return false;
+                }
+
+                // --- 调试绘制：判定射线 + 命中点 ---
+                SkillDraw.DrawHitRay(origin, direction, distance, hit.point, true);
 
                 // --- 命中战斗体：排除自伤，分发伤害 ---
                 CombatState target = hit.collider.GetComponentInParent<CombatState>();
                 if (target != null)
                 {
                     if (target == attackerState)
+                        return false;
+                    if (canHit != null && !canHit(target))
                         return false;
                     BattleDamageDispatcher.Apply(new BattleDamageInfo
                     {
@@ -98,6 +118,8 @@ namespace Battle
                 // --- 命中可破坏物：分发伤害 ---
                 BattleDestructibleObject destructible = hit.collider.GetComponentInParent<BattleDestructibleObject>();
                 if (destructible == null)
+                    return false;
+                if (canHit != null && !canHit(destructible))
                     return false;
 
                 BattleDamageDispatcher.Apply(new BattleDamageInfo
@@ -121,7 +143,7 @@ namespace Battle
         }
 
         /// <summary>遍历 Overlap 命中结果，去重后对每个目标分发伤害。</summary>
-        private int ApplyDamageToHits(PreciseTick preciseTick, int hitCount, CombatState attackerState, NetworkConnection attackerConnection, int damage, uint sourceClipId)
+        private int ApplyDamageToHits(PreciseTick preciseTick, int hitCount, CombatState attackerState, NetworkConnection attackerConnection, int damage, uint sourceClipId, Func<IBattleDamageTarget, bool> canHit)
         {
             int applied = 0;
             _damagedTargets.Clear();
@@ -138,6 +160,8 @@ namespace Battle
                 if (target != null)
                 {
                     if (target == attackerState || target.IsDead || !_damagedTargets.Add(target))
+                        continue;
+                    if (canHit != null && !canHit(target))
                         continue;
 
                     BattleDamageDispatcher.Apply(new BattleDamageInfo
@@ -159,6 +183,8 @@ namespace Battle
                 BattleDestructibleObject destructible = hit.GetComponentInParent<BattleDestructibleObject>();
                 if (destructible != null && !destructible.IsDestroyed && _damagedObjects.Add(destructible))
                 {
+                    if (canHit != null && !canHit(destructible))
+                        continue;
                     BattleDamageDispatcher.Apply(new BattleDamageInfo
                     {
                         Type = BattleDamageType.Skill,
@@ -175,6 +201,22 @@ namespace Battle
             }
 
             return applied;
+        }
+
+        /// <summary>从 <see cref="_hits"/> 数组收集命中目标的世界位置，供调试绘制使用。</summary>
+        private List<Vector3> CollectHitPoints(int hitCount)
+        {
+            if (hitCount <= 0)
+                return null;
+
+            List<Vector3> points = new List<Vector3>(hitCount);
+            for (int i = 0; i < hitCount; i++)
+            {
+                Collider hit = _hits[i];
+                if (hit != null)
+                    points.Add(hit.transform.position);
+            }
+            return points.Count > 0 ? points : null;
         }
 
         /// <summary>回滚碰撞体到指定 tick 的历史状态。</summary>

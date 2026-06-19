@@ -41,11 +41,35 @@ namespace Battle
         private readonly Dictionary<int, SkillDefinition> _skillsById = new();
         private bool _skillCacheBuilt;
 
+        // --- 伤害组运行时状态 ---
+        private readonly Dictionary<byte, byte> _groupMaxHits = new();
+        private readonly Dictionary<byte, Dictionary<IBattleDamageTarget, int>> _groupHitCounts = new();
+
         public bool IsActive => _isActive;
         public int ActiveSkillId => _activeSkill != null ? _activeSkill.SkillId : 0;
         public CombatState CombatState => _combatState;
         public AttributeSet AttributeSet => _attributeSet;
         public SkillRuntimeServices Services => ResolveServices();
+
+        /// <summary>当前技能 CD 进度（0=刚开始，1=结束）。无技能时返回 0。</summary>
+        public float GetCooldownProgress(uint currentTick)
+        {
+            if (!_isActive || _activeSkill == null || _activeSkill.LengthTicks <= 0)
+                return 0f;
+
+            int elapsed = currentTick >= _startTick ? (int)(currentTick - _startTick) : 0;
+            return Mathf.Clamp01((float)elapsed / _activeSkill.LengthTicks);
+        }
+
+        /// <summary>当前技能的已过 tick 和总 tick。无技能时返回 (0, 0)。</summary>
+        public (int current, int total) GetCooldownTicks(uint currentTick)
+        {
+            if (!_isActive || _activeSkill == null)
+                return (0, 0);
+
+            int elapsed = currentTick >= _startTick ? (int)(currentTick - _startTick) : 0;
+            return (elapsed, _activeSkill.LengthTicks);
+        }
 
         private void Awake()
         {
@@ -245,6 +269,7 @@ namespace Battle
             _phase = 1;
             _isActive = true;
             ClearActiveNodeIds();
+            BuildDamageGroups();
         }
 
         /// <summary>停止当前技能，对所有 active 节点触发 OnEnd，然后清空状态。</summary>
@@ -260,6 +285,7 @@ namespace Battle
             _phase = 0;
             _isActive = false;
             ClearActiveNodeIds();
+            ClearDamageGroups();
         }
 
         /// <summary>对三个 domain 的所有 active 节点触发 OnEnd（技能提前停止时）。</summary>
@@ -301,6 +327,61 @@ namespace Battle
             _activeClientPredictionNodeIds.Clear();
             _activeClientOnlyNodeIds.Clear();
             _activeServerOnlyNodeIds.Clear();
+        }
+
+        /// <summary>
+        /// 扫描当前技能的 SpecialDatas，构建伤害组配置（groupId → maxHits）。
+        /// 在技能启动时调用一次。
+        /// </summary>
+        private void BuildDamageGroups()
+        {
+            _groupMaxHits.Clear();
+            _groupHitCounts.Clear();
+
+            if (_activeSkill?.SpecialDatas == null)
+                return;
+
+            foreach (SkillRuntimeSpecialData entry in _activeSkill.SpecialDatas)
+            {
+                if (entry.SpecialDataTypeId != SkillGeneratedIds.DamageGroupData)
+                    continue;
+
+                if (SkillGeneratedSerializationServices.Runtime.TryReadSpecialData<RuntimeDamageGroupData>(_activeSkill, entry, out RuntimeDamageGroupData data))
+                    _groupMaxHits[data.GroupId] = data.MaxHitsPerTarget;
+            }
+        }
+
+        /// <summary>清空伤害组运行时状态。</summary>
+        private void ClearDamageGroups()
+        {
+            _groupMaxHits.Clear();
+            _groupHitCounts.Clear();
+        }
+
+        /// <summary>
+        /// 检查并累加伤害组命中次数。超限返回 false（跳过该目标的本次伤害）。
+        /// groupId=0 表示无组，直接放行。
+        /// </summary>
+        public bool TryConsumeGroupHit(byte groupId, IBattleDamageTarget target)
+        {
+            if (groupId == 0)
+                return true;
+
+            if (!_groupMaxHits.TryGetValue(groupId, out byte maxHits))
+                return true;
+
+            if (!_groupHitCounts.TryGetValue(groupId, out Dictionary<IBattleDamageTarget, int> counts))
+            {
+                counts = new Dictionary<IBattleDamageTarget, int>();
+                _groupHitCounts[groupId] = counts;
+            }
+
+            counts.TryGetValue(target, out int current);
+            if (current >= maxHits)
+                return false;
+
+            counts[target] = current + 1;
+            return true;
         }
 
         /// <summary>解析服务依赖（Inspector 指定 → 父级查找 → 场景查找）。</summary>

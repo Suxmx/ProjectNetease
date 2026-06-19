@@ -53,6 +53,7 @@
     <Compile Include="Assets\MemoFramework\Framework\Extension\Editor\UI\UIEditorUtils.cs" />
     <Compile Include="Assets\Scripts\Generated\Skill\Editor\SkillGeneratedEditorSerialization.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Editor\ToolbarExt.cs" />
+    <Compile Include="Assets\Scripts\Battle\Editor\Skill\SkillDrawEditorDriver.cs" />
     <Compile Include="Assets\Scripts\Battle\Editor\Skill\BattleSkillExecutorCodeGenerator.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Editor\UI\UIEditorUtils.3rd.cs" />
     <Reference Include="UnityEngine">

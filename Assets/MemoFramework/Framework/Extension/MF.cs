@@ -17,13 +17,29 @@ namespace MemoFramework.Extension
         private void Start()
         {
             if(transform.parent == null) DontDestroyOnLoad(gameObject);
-            Base = MemoFrameworkEntry.GetComponent<BaseComponent>();
-            Event = MemoFrameworkEntry.GetComponent<EventComponent>();
-            Input = MemoFrameworkEntry.GetComponent<InputComponent>();
-            ObjectPool = MemoFrameworkEntry.GetComponent<ObjectPoolComponent>();
-            GameState = MemoFrameworkEntry.GetComponent<GameStateComponent>();
-            Cutscene = MemoFrameworkEntry.GetComponent<CutsceneComponent>();
-            Blackboard = MemoFrameworkEntry.GetComponent<BlackboardComponent>();
+            Base = GetOrAdd<BaseComponent>();
+            Event = GetOrAdd<EventComponent>();
+            Input = GetOrAdd<InputComponent>();
+            ObjectPool = GetOrAdd<ObjectPoolComponent>();
+            GameState = GetOrAdd<GameStateComponent>();
+            Cutscene = GetOrAdd<CutsceneComponent>();
+            Blackboard = GetOrAdd<BlackboardComponent>();
+        }
+
+        /// <summary>
+        /// 获取或创建 MemoFramework 组件。
+        /// 找不到时在 MF 根物体下新建子物体并挂载组件，
+        /// 组件 Awake 时自动注册到 <see cref="MemoFrameworkEntry"/>。
+        /// </summary>
+        private T GetOrAdd<T>() where T : MemoFrameworkComponent
+        {
+            T component = MemoFrameworkEntry.GetComponent<T>();
+            if (component != null)
+                return component;
+
+            GameObject child = new GameObject(typeof(T).Name);
+            child.transform.SetParent(transform);
+            return child.AddComponent<T>();
         }
     }
 }

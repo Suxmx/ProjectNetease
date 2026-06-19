@@ -13,7 +13,7 @@ namespace NetDemo
         {
             if (_networkManager == null)
 #if UNITY_2023_1_OR_NEWER
-                _networkManager = FindFirstObjectByType<NetworkManager>();
+                _networkManager = FindAnyObjectByType<NetworkManager>();
 #else
                 _networkManager = FindObjectOfType<NetworkManager>();
 #endif

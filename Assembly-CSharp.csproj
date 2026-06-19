@@ -48,6 +48,7 @@
     <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\Plugins\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Service\DrawDriver.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\Data\MotorReconcileState.cs" />
     <Compile Include="Assets\NetDemo\Runtime\NetDemoPlayerVisual.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\Player\OwnerCamera.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Assets\MemoFramework\Framework\Extension\Input\MainInputs.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\ServerOnly\AttributeModifierClipExecutor.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\Base\ClientOnlySkillExecutor.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\ServerOnly\DamageExecutorBase.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\Player\Motor.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Damage\BattleDamageType.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\Data\ReplicateData.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="Assets\NetDemo\Runtime\NetDemoPredictedMotor.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\ClientPrediction\MoveDisplacementClipExecutor.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\SkillExecutorRegistry.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\ServerOnly\MultiDamageClipExecutor.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Service\LagCompensatedHitResolver.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Input\InputComponent.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\SkillNodeLifecyclePhase.cs" />
@@ -93,17 +96,18 @@
     <Compile Include="Assets\MemoFramework\Framework\Extension\MF.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\Utility\TimeUtility.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\World\BattleDestructibleObject.cs" />
-    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\ServerOnly\CollisionClipExecutor.cs" />
+    <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\ServerOnly\SingleDamageClipExecutor.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\SkillUtility.cs" />
     <Compile Include="Assets\Scripts\Battle\Tests\SkillPlaybackTester.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Skill\Executor\SkillExecutorAttribute.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Damage\BattleDamageAppliedEvent.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\Player\ReconcileData.cs" />
+    <Compile Include="Assets\Scripts\HoshinoLauncher.cs" />
     <Compile Include="Assets\Scripts\Battle\Runtime\Core\Data\ETeam.cs" />
+    <None Include="Assets\SkillData\DashAttack.skill.json" />
     <None Include="Packages\com.kybernetik.animancer\Package.json" />
-    <None Include="Assets\SkillData\新技能.skill.json" />
+    <None Include="Assets\SkillData\Compiled\DashAttack.compiled.json" />
     <None Include="Packages\com.kybernetik.animancer\License.txt" />
-    <None Include="Assets\SkillData\Compiled\新技能.compiled.json" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

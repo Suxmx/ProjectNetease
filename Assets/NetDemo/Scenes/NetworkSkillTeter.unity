@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &236965388
+--- !u!1 &364927627
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,54 +127,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 236965389}
-  - component: {fileID: 236965390}
+  - component: {fileID: 364927629}
+  - component: {fileID: 364927628}
   m_Layer: 0
-  m_Name: ActorGroup
+  m_Name: MF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &236965389
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 236965388}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1514435401}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &236965390
+--- !u!114 &364927628
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 236965388}
+  m_GameObject: {fileID: 364927627}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd05e43ee4cd7c04495df2241ebcb833, type: 3}
+  m_Script: {fileID: 11500000, guid: e34b71faea2542688292791bde2f8ff3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SLATE::Slate.ActorGroup
-  _tracks: []
-  _sections: []
-  _isCollapsed: 0
-  _active: 1
-  _isLocked: 0
-  _name: 
-  _actor: {fileID: 0}
-  _referenceMode: 0
-  _initialCoordinates: 0
-  _initialLocalPosition: {x: 0, y: 0, z: 0}
-  _initialLocalRotation: {x: 0, y: 0, z: 0}
-  _keepDisplayVirtualMeshGizmo: 1
+  m_EditorClassIdentifier: Assembly-CSharp::MemoFramework.Extension.MF
+--- !u!4 &364927629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364927627}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1843842456}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &474674001
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 211a9f6ec51ddc14f908f5acc0cd0423, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Spawning.PlayerSpawner
-  _playerPrefab: {fileID: 4174267039387004806, guid: 1bd857081c2ace3488d7e4e9847804ea, type: 3}
+  _playerPrefab: {fileID: 5799457897788075813, guid: 036fd0dda23029c4aa32bb981ff12cac, type: 3}
   _addToDefaultScene: 1
   Spawns:
   - {fileID: 1888738549}
@@ -415,7 +404,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &775530589
+--- !u!1 &657901237
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -423,132 +412,118 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 775530591}
-  - component: {fileID: 775530590}
+  - component: {fileID: 657901241}
+  - component: {fileID: 657901240}
+  - component: {fileID: 657901239}
+  - component: {fileID: 657901238}
   m_Layer: 0
-  m_Name: Cutscene
+  m_Name: BattleService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &775530590
+--- !u!114 &657901238
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775530589}
+  m_GameObject: {fileID: 657901237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fa33787113f32d46a7764fa0670964b, type: 3}
+  m_Script: {fileID: 11500000, guid: 9da5a5cf49cf80b4a9dc327ed768f4ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: SLATE::Slate.Cutscene
-  _updateMode: 0
-  _defaultWrapMode: 0
-  _defaultStopMode: 0
-  _playbackSpeed: 1
-  _playOnStart: 0
-  _explicitActiveLayers: 0
-  _activeLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  groups:
-  - {fileID: 1746647620}
-  _length: 30
-  _viewTimeMin: 0
-  _viewTimeMax: 5
-  _playTimeMin: 2
-  _playTimeMax: 4
-  _skillFilePath: "Assets/SkillData/\u65B0\u6280\u80FD.skill"
---- !u!4 &775530591
+  m_EditorClassIdentifier: Assembly-CSharp::Battle.SkillRuntimeServices
+  _hitResolver: {fileID: 657901239}
+--- !u!114 &657901239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657901237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 480335197ae4e7b46a5c98bd276557e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Battle.LagCompensatedHitResolver
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 657901240}
+  _networkObjectCache: {fileID: 0}
+  _maxHits: 32
+--- !u!114 &657901240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657901237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FishNet.Runtime::FishNet.Object.NetworkObject
+  _localLevelOfDetailCalculationType: 0
+  _useLevelOfDetail: 0
+  _useRootLevelOfDetail: 1
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _localReconcileCorrectionType: 2
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 65535
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 0
+  SceneId: 4013144703
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 1
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours: []
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedTimestamp: 0
+--- !u!4 &657901241
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 775530589}
+  m_GameObject: {fileID: 657901237}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1514435401}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &970736413
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 970736414}
-  - component: {fileID: 970736416}
-  - component: {fileID: 970736415}
-  m_Layer: 0
-  m_Name: Skill Action Track
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &970736414
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 970736413}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1746647621}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &970736415
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 970736413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 534415e08abf1514a9fcceb1867ac476, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HoshinoSkill::Hoshino.MoveVelocityClip
-  _startTime: 0.48
-  _animationData:
-    _animatedParameters: []
-  _line: 1
-  _length: 1.01
-  Space: 1
-  Velocity: {x: 1.93, y: 0.26, z: -0.72}
---- !u!114 &970736416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 970736413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb49834d05dda8e4aac28bb5e2dd80bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HoshinoSkill::Hoshino.SkillActionTrack
-  _name: Skill Action Track
-  _color: {r: 0.19, g: 0.54, b: 0.92, a: 1}
-  _active: 1
-  _isLocked: 0
-  _actionClips:
-  - {fileID: 970736415}
-  _isCollapsed: 0
-  _customHeight: 300
 --- !u!1 &990408895
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,138 +555,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1100091549
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1100091554}
-  - component: {fileID: 1100091550}
-  - component: {fileID: 1100091553}
-  - component: {fileID: 1100091552}
-  - component: {fileID: 1100091551}
-  m_Layer: 0
-  m_Name: Skill Action Track
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1100091550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1100091549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb49834d05dda8e4aac28bb5e2dd80bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HoshinoSkill::Hoshino.SkillActionTrack
-  _name: Skill Action Track
-  _color: {r: 0.19, g: 0.54, b: 0.92, a: 1}
-  _active: 1
-  _isLocked: 0
-  _actionClips:
-  - {fileID: 1100091553}
-  - {fileID: 1100091552}
-  - {fileID: 1100091551}
-  _isCollapsed: 0
-  _customHeight: 300
---- !u!114 &1100091551
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1100091549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9baa9fdcba5b4ae4814e85c347e2ed9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HoshinoSkill::Hoshino.CollisionClip
-  _startTime: 1.43
-  _animationData:
-    _animatedParameters: []
-  _line: 1
-  _length: 3
-  Shape: 1
-  Space: 2
-  Offset: {x: 0, y: 0.6, z: 1.2}
-  HalfExtents: {x: 0.8, y: 0.6, z: 0.9}
-  Radius: 0.6
-  Distance: 4
-  HitMask:
-    serializedVersion: 2
-    m_Bits: 55
-  Damage: 10
---- !u!114 &1100091552
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1100091549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 838b15c491b80b04189f1bd001a0ac0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HoshinoSkill::Hoshino.AttributeModifierClip
-  _startTime: 0.81
-  _animationData:
-    _animatedParameters: []
-  _line: 1
-  _length: 0.06999999
-  AttributeKey: 
-  AddValue: 0
-  MultiplyValue: 1
-  DurationSeconds: 0
---- !u!114 &1100091553
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1100091549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9baa9fdcba5b4ae4814e85c347e2ed9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HoshinoSkill::Hoshino.CollisionClip
-  _startTime: 0.48
-  _animationData:
-    _animatedParameters: []
-  _line: 2
-  _length: 3
-  Shape: 1
-  Space: 2
-  Offset: {x: -3.96, y: 0.6, z: 1.2}
-  HalfExtents: {x: 0.8, y: 0.6, z: 0.9}
-  Radius: 0.6
-  Distance: 4
-  HitMask:
-    serializedVersion: 2
-    m_Bits: 55
-  Damage: 10
---- !u!4 &1100091554
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1100091549}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1746647621}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1394133515
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,39 +585,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1514435400
-GameObject:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1514435401}
-  m_Layer: 0
-  m_Name: __GroupsRoot__
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1514435401
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1514435400}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 236965389}
-  - {fileID: 1746647621}
-  m_Father: {fileID: 775530591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1686056332
 GameObject:
@@ -903,7 +713,7 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &1746647619
+--- !u!1 &1843842455
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -911,58 +721,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1746647621}
-  - component: {fileID: 1746647620}
+  - component: {fileID: 1843842456}
+  - component: {fileID: 1843842457}
   m_Layer: 0
-  m_Name: ActorGroup
+  m_Name: GameState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1746647620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746647619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd05e43ee4cd7c04495df2241ebcb833, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: SLATE::Slate.ActorGroup
-  _tracks:
-  - {fileID: 970736416}
-  - {fileID: 1100091550}
-  _sections: []
-  _isCollapsed: 0
-  _active: 1
-  _isLocked: 0
-  _name: 
-  _actor: {fileID: 0}
-  _referenceMode: 0
-  _initialCoordinates: 0
-  _initialLocalPosition: {x: 0, y: 0, z: 0}
-  _initialLocalRotation: {x: 0, y: 0, z: 0}
-  _keepDisplayVirtualMeshGizmo: 1
---- !u!4 &1746647621
+--- !u!4 &1843842456
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746647619}
+  m_GameObject: {fileID: 1843842455}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 970736414}
-  - {fileID: 1100091554}
-  m_Father: {fileID: 1514435401}
+  m_Children: []
+  m_Father: {fileID: 364927629}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1843842457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843842455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c52269ff19496fbcf8f16341bb211d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: MF::MemoFramework.GameState.GameStateComponent
+  m_LauncherTypeName: DefaultNamespace.HoshinoLauncher
 --- !u!1 &1888738548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1308,52 +1103,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2021861671
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2021861673}
-  - component: {fileID: 2021861672}
-  m_Layer: 0
-  m_Name: SkillTester
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2021861672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021861671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 956c8724f7d837c4ebd220e1746e17c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Battle.SkillPlaybackTester
-  _skillBinary: {fileID: 4900000, guid: ca1ac5460892a2844a5b30bde46554f5, type: 3}
-  _logPredictedEveryTick: 1
---- !u!4 &2021861673
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021861671}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.45313, y: -0, z: -4.51029}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1367,5 +1116,5 @@ SceneRoots:
   - {fileID: 1394133516}
   - {fileID: 1986980829}
   - {fileID: 474674008}
-  - {fileID: 2021861673}
-  - {fileID: 775530591}
+  - {fileID: 657901241}
+  - {fileID: 364927629}

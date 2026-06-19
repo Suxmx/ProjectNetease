@@ -9,12 +9,13 @@ namespace Hoshino
     {
         public const uint ActorGroup = 1u;
         public const uint SkillActionTrack = 101u;
-        public const uint CollisionTrack = 102u;
         public const uint MoveVelocityClip = 1001u;
         public const uint MoveDisplacementClip = 1002u;
         public const uint TeleportClip = 1003u;
-        public const uint CollisionClip = 1004u;
         public const uint AttributeModifierClip = 1006u;
+        public const uint SingleDamageClip = 1007u;
+        public const uint MultiDamageClip = 1008u;
+        public const uint DamageGroupData = 2001u;
     }
 
     [Serializable]
@@ -40,7 +41,16 @@ namespace Hoshino
     }
 
     [Serializable]
-    public struct CollisionNodeData
+    public struct AttributeModifierNodeData
+    {
+        public string AttributeKey;
+        public float AddValue;
+        public float MultiplyValue;
+        public float DurationSeconds;
+    }
+
+    [Serializable]
+    public struct SingleDamageNodeData
     {
         public SkillHitShape Shape;
         public SkillSpace Space;
@@ -50,15 +60,29 @@ namespace Hoshino
         public float Distance;
         public LayerMask HitMask;
         public int Damage;
+        public byte DamageGroupId;
     }
 
     [Serializable]
-    public struct AttributeModifierNodeData
+    public struct MultiDamageNodeData
     {
-        public string AttributeKey;
-        public float AddValue;
-        public float MultiplyValue;
-        public float DurationSeconds;
+        public SkillHitShape Shape;
+        public SkillSpace Space;
+        public Vector3 Offset;
+        public Vector3 HalfExtents;
+        public float Radius;
+        public float Distance;
+        public LayerMask HitMask;
+        public int Damage;
+        public byte DamageGroupId;
+        public byte HitIntervalTicks;
+    }
+
+    [Serializable]
+    public struct RuntimeDamageGroupData
+    {
+        public byte GroupId;
+        public byte MaxHitsPerTarget;
     }
 
     public sealed class SkillGeneratedRuntimeSerialization : ISkillGeneratedRuntimeSerialization
@@ -76,6 +100,21 @@ namespace Hoshino
         public bool IsClipKnown(uint clipId)
         {
             return SkillGeneratedNodeDataBlob.IsClipKnown(clipId);
+        }
+
+        public void WriteSpecialDataBoxed(BinaryWriter writer, uint specialDataId, object data)
+        {
+            SkillGeneratedSpecialDataBlob.WriteBoxed(writer, specialDataId, data);
+        }
+
+        public bool TryReadSpecialData<TData>(SkillDefinition skill, SkillRuntimeSpecialData entry, out TData data) where TData : struct
+        {
+            return SkillGeneratedSpecialDataBlob.TryRead(skill, entry, out data);
+        }
+
+        public bool IsSpecialDataKnown(uint specialDataId)
+        {
+            return SkillGeneratedSpecialDataBlob.IsKnown(specialDataId);
         }
     }
 
@@ -107,9 +146,18 @@ namespace Hoshino
                     writer.Write(value.UseCommandTargetPoint);
                     break;
                 }
-                case SkillGeneratedIds.CollisionClip:
+                case SkillGeneratedIds.AttributeModifierClip:
                 {
-                    CollisionNodeData value = data is CollisionNodeData typed ? typed : default;
+                    AttributeModifierNodeData value = data is AttributeModifierNodeData typed ? typed : default;
+                    writer.Write(value.AttributeKey ?? string.Empty);
+                    writer.Write(value.AddValue);
+                    writer.Write(value.MultiplyValue);
+                    writer.Write(value.DurationSeconds);
+                    break;
+                }
+                case SkillGeneratedIds.SingleDamageClip:
+                {
+                    SingleDamageNodeData value = data is SingleDamageNodeData typed ? typed : default;
                     writer.Write((int)value.Shape);
                     writer.Write((int)value.Space);
                     WriteVector3(writer, value.Offset);
@@ -118,15 +166,22 @@ namespace Hoshino
                     writer.Write(value.Distance);
                     writer.Write(value.HitMask.value);
                     writer.Write(value.Damage);
+                    writer.Write(value.DamageGroupId);
                     break;
                 }
-                case SkillGeneratedIds.AttributeModifierClip:
+                case SkillGeneratedIds.MultiDamageClip:
                 {
-                    AttributeModifierNodeData value = data is AttributeModifierNodeData typed ? typed : default;
-                    writer.Write(value.AttributeKey ?? string.Empty);
-                    writer.Write(value.AddValue);
-                    writer.Write(value.MultiplyValue);
-                    writer.Write(value.DurationSeconds);
+                    MultiDamageNodeData value = data is MultiDamageNodeData typed ? typed : default;
+                    writer.Write((int)value.Shape);
+                    writer.Write((int)value.Space);
+                    WriteVector3(writer, value.Offset);
+                    WriteVector3(writer, value.HalfExtents);
+                    writer.Write(value.Radius);
+                    writer.Write(value.Distance);
+                    writer.Write(value.HitMask.value);
+                    writer.Write(value.Damage);
+                    writer.Write(value.DamageGroupId);
+                    writer.Write(value.HitIntervalTicks);
                     break;
                 }
                 default: throw new InvalidOperationException($"No generated node data writer for clip id {clipId}.");
@@ -198,10 +253,12 @@ namespace Hoshino
                     return new MoveDisplacementNodeData { Space = (SkillSpace)reader.ReadInt32(), DisplacementPerSecond = ReadVector3(reader) };
                 case SkillGeneratedIds.TeleportClip:
                     return new TeleportNodeData { Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), UseCommandTargetPoint = reader.ReadBoolean() };
-                case SkillGeneratedIds.CollisionClip:
-                    return new CollisionNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32() };
                 case SkillGeneratedIds.AttributeModifierClip:
                     return new AttributeModifierNodeData { AttributeKey = reader.ReadString(), AddValue = reader.ReadSingle(), MultiplyValue = reader.ReadSingle(), DurationSeconds = reader.ReadSingle() };
+                case SkillGeneratedIds.SingleDamageClip:
+                    return new SingleDamageNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32(), DamageGroupId = reader.ReadByte() };
+                case SkillGeneratedIds.MultiDamageClip:
+                    return new MultiDamageNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32(), DamageGroupId = reader.ReadByte(), HitIntervalTicks = reader.ReadByte() };
                 default: throw new InvalidOperationException($"No generated node data reader for clip id {clipId}.");
             }
         }
@@ -216,9 +273,11 @@ namespace Hoshino
                     return true;
                 case SkillGeneratedIds.TeleportClip:
                     return true;
-                case SkillGeneratedIds.CollisionClip:
-                    return true;
                 case SkillGeneratedIds.AttributeModifierClip:
+                    return true;
+                case SkillGeneratedIds.SingleDamageClip:
+                    return true;
+                case SkillGeneratedIds.MultiDamageClip:
                     return true;
                 default:
                     return false;
@@ -257,5 +316,99 @@ namespace Hoshino
         private static Quaternion ReadQuaternion(BinaryReader reader) { return new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()); }
         private static void WriteColor(BinaryWriter writer, Color value) { writer.Write(value.r); writer.Write(value.g); writer.Write(value.b); writer.Write(value.a); }
         private static Color ReadColor(BinaryReader reader) { return new Color(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()); }
+    }
+
+    public static class SkillGeneratedSpecialDataBlob
+    {
+        public static void WriteBoxed(BinaryWriter writer, uint specialDataId, object data)
+        {
+            switch (specialDataId)
+            {
+                case SkillGeneratedIds.DamageGroupData:
+                {
+                    RuntimeDamageGroupData value = data is RuntimeDamageGroupData typed ? typed : default;
+                    writer.Write(value.GroupId);
+                    writer.Write(value.MaxHitsPerTarget);
+                    break;
+                }
+                default: throw new InvalidOperationException($"No generated special data writer for id {specialDataId}.");
+            }
+        }
+
+        public static bool TryRead<TData>(SkillDefinition skill, SkillRuntimeSpecialData entry, out TData data) where TData : struct
+        {
+            if (skill == null || entry.DataLength <= 0)
+            {
+                data = default;
+                return false;
+            }
+
+            object cached = skill.GetCachedSpecialData(entry.SpecialDataId);
+            if (cached is TData cachedData)
+            {
+                data = cachedData;
+                return true;
+            }
+            if (cached != null)
+            {
+                data = default;
+                return false;
+            }
+
+            byte[] blob = skill.SpecialDataBlob;
+            if (blob == null || entry.DataOffset < 0 || (long)entry.DataOffset + entry.DataLength > blob.Length)
+            {
+                data = default;
+                return false;
+            }
+
+            using MemoryStream stream = new(blob, entry.DataOffset, entry.DataLength, false);
+            using BinaryReader reader = new(stream);
+            object value;
+            try
+            {
+                value = ReadBoxed(reader, entry.SpecialDataTypeId);
+            }
+            catch (Exception)
+            {
+                data = default;
+                return false;
+            }
+            if (stream.Position != entry.DataLength)
+            {
+                data = default;
+                return false;
+            }
+            if (!(value is TData typed))
+            {
+                data = default;
+                return false;
+            }
+
+            skill.SetCachedSpecialData(entry.SpecialDataId, typed);
+            data = typed;
+            return true;
+        }
+
+        private static object ReadBoxed(BinaryReader reader, uint specialDataId)
+        {
+            switch (specialDataId)
+            {
+                case SkillGeneratedIds.DamageGroupData:
+                    return new RuntimeDamageGroupData { GroupId = reader.ReadByte(), MaxHitsPerTarget = reader.ReadByte() };
+                default: throw new InvalidOperationException($"No generated special data reader for id {specialDataId}.");
+            }
+        }
+
+        public static bool IsKnown(uint specialDataId)
+        {
+            switch (specialDataId)
+            {
+                case SkillGeneratedIds.DamageGroupData:
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }

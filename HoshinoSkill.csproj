@@ -48,7 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Compiled\SkillTickUtility.cs" />
-    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\CollisionClip.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\SpecialData\DamageGroupData.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillBlackboardWindow.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Compiled\SkillDefinition.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\MoveVelocityClip.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\AttributeModifierClip.cs" />
@@ -59,17 +60,20 @@
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Generated\SkillSerializationAttributes.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\MoveDisplacementClip.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Draw\SkillDraw.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillBlackboardCache.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\TeleportClip.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillData.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillGeneratedEditorSerializationServices.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\CodeGen\SkillSerializationCodeGenerator.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillEditor.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\CodeGen\SkillCodeGenUtilities.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Draw\SkillPreviewUtility.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\SkillFileManager.cs" />
-    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Track\CollisionTrack.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\MultiDamageClip.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Generated\SkillBuiltInExternalTypes.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Runtime\SkillFileRef.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill\Editor\Compiler\SkillDefinitionCompiler.cs" />
+    <Compile Include="Assets\Scripts\Skill\Skill\Runtime\Clip\SingleDamageClip.cs" />
     <None Include="Assets\Scripts\Skill\Skill\HoshinoSkill.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
@@ -943,6 +947,9 @@
     </Reference>
     <Reference Include="Unity.Mathematics">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Collections">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Collections.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>

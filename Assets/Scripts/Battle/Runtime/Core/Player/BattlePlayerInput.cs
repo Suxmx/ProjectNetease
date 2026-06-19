@@ -92,7 +92,7 @@ namespace Battle
             if (key == null)
                 return;
 
-            if (key.wasPressedThisFrame)
+            if (key.wasPressedThisFrame && !_heldSlots[slot])
             {
                 _heldSlots[slot] = true;
                 _chargeTicks[slot] = 0;
