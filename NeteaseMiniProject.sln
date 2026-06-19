@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLATE", "SLATE.csproj", "{55901934-992c-01b8-a55c-d6d251eb4486}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kybernetik.Animancer", "Kybernetik.Animancer.csproj", "{84e098ba-37d2-25eb-5c76-fa33dabc0685}"
@@ -16,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishNet.Demos", "FishNet.Demos.csproj", "{a4fa2f3d-7588-cdcc-47af-3bb352b7dc7e}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynapseSocket", "SynapseSocket.csproj", "{9331b437-b52a-229e-f959-d75efdb47180}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.FishNet.Codegen", "Unity.FishNet.Codegen.csproj", "{6566fc5a-ad75-b8df-3257-0f08358ddac9}"
 EndProject
@@ -62,8 +62,6 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55901934-992c-01b8-a55c-d6d251eb4486}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55901934-992c-01b8-a55c-d6d251eb4486}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84e098ba-37d2-25eb-5c76-fa33dabc0685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -78,6 +76,8 @@ Global
 		{a4fa2f3d-7588-cdcc-47af-3bb352b7dc7e}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9331b437-b52a-229e-f959-d75efdb47180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9331b437-b52a-229e-f959-d75efdb47180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6566fc5a-ad75-b8df-3257-0f08358ddac9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6566fc5a-ad75-b8df-3257-0f08358ddac9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7a15c32f-e1c1-6aea-2e4d-9e5d66a05dcc}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
