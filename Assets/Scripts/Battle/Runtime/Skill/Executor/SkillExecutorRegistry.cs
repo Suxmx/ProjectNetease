@@ -11,7 +11,7 @@ namespace Battle
     /// 之后 <see cref="TryGet"/> 为纯字典查找，无运行时反射开销。
     /// 场景切换或热重载时调用 <see cref="Clear"/> 清空缓存。
     /// </summary>
-    public static class BattleSkillNodeExecutorRegistry
+    public static class SkillExecutorRegistry
     {
         private static Dictionary<uint, IBattleSkillNodeExecutor> _executors;
         private static bool _initialized;
@@ -35,7 +35,7 @@ namespace Battle
                     if (type == null || type.IsAbstract)
                         continue;
 
-                    BattleSkillExecutorAttribute attribute = type.GetCustomAttribute<BattleSkillExecutorAttribute>();
+                    SkillExecutorAttribute attribute = type.GetCustomAttribute<SkillExecutorAttribute>();
                     if (attribute == null)
                         continue;
 

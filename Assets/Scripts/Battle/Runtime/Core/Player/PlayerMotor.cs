@@ -12,44 +12,17 @@ namespace Battle
     /// 挂载于角色 prefab，聚合 Input/CombatState/AttributeSet/SkillController 等组件。
     /// </summary>
     [RequireComponent(typeof(Rigidbody))]
-    public sealed class BattlePlayerMotor : TickNetworkBehaviour
+    public sealed class PlayerMotor : TickNetworkBehaviour
     {
-        /// <summary>
-        /// Reconcile 快照数据。包含刚体状态、技能状态、朝向和死亡标记，
-        /// 由服务端产生并回滚客户端预测。
-        /// </summary>
-        public struct BattleReconcileData : IReconcileData
-        {
-            public PredictionRigidbody Rigidbody;
-            public BattleSkillReconcileState SkillState;
-            public Vector3 AimDirection;
-            public bool IsDead;
-
-            private uint _tick;
-
-            public BattleReconcileData(PredictionRigidbody rigidbody, BattleSkillReconcileState skillState, Vector3 aimDirection, bool isDead)
-            {
-                Rigidbody = rigidbody;
-                SkillState = skillState;
-                AimDirection = aimDirection;
-                IsDead = isDead;
-                _tick = 0;
-            }
-
-            public uint GetTick() => _tick;
-            public void SetTick(uint value) => _tick = value;
-            public void Dispose() { }
-        }
-
         [SerializeField] private float _moveSpeed = 6f;
         [SerializeField] private float _turnSpeed = 720f;
 
         private readonly PredictionRigidbody _predictionRigidbody = new();
         private Rigidbody _rigidbody;
         private BattlePlayerInput _input;
-        private BattleSkillController _skillController;
-        private BattleCombatState _combatState;
-        private BattleAttributeSet _attributeSet;
+        private SkillController _skillController;
+        private CombatState _combatState;
+        private AttributeSet _attributeSet;
         private Vector3 _aimDirection = Vector3.forward;
         private Vector3 _predictedVelocity;
         private Vector3 _predictedDisplacement;
@@ -62,9 +35,9 @@ namespace Battle
         {
             _rigidbody = GetComponent<Rigidbody>();
             _input = GetComponent<BattlePlayerInput>();
-            _skillController = GetComponent<BattleSkillController>();
-            _combatState = GetComponent<BattleCombatState>();
-            _attributeSet = GetComponent<BattleAttributeSet>();
+            _skillController = GetComponent<SkillController>();
+            _combatState = GetComponent<CombatState>();
+            _attributeSet = GetComponent<AttributeSet>();
 
             _rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             _rigidbody.interpolation = RigidbodyInterpolation.None;
@@ -89,11 +62,11 @@ namespace Battle
         /// <summary>采集技能 reconcile 快照并发送回滚。</summary>
         public override void CreateReconcile()
         {
-            BattleSkillReconcileState skillState = _skillController != null
+            SkillReconcileState skillState = _skillController != null
                 ? _skillController.CaptureState(TimeManager.LocalTick)
                 : default;
 
-            BattleReconcileData data = new(_predictionRigidbody, skillState, _aimDirection, _combatState != null && _combatState.IsDead);
+            ReconcileData data = new(_predictionRigidbody, skillState, _aimDirection, _combatState != null && _combatState.IsDead);
             PerformReconcile(data);
         }
 
@@ -117,24 +90,24 @@ namespace Battle
         }
 
         /// <summary>从输入组件构建当前 tick 的 Replicate 数据。</summary>
-        private BattleReplicateData BuildReplicateData()
+        private ReplicateData BuildReplicateData()
         {
             if (!IsOwner || _input == null)
                 return default;
 
             Vector2 move = _input.ReadMove();
             Vector3 aim = _input.ReadAimDirection(transform.position, _aimDirection);
-            BattleSkillCommand command = _input.ConsumeSkillCommand(aim, TimeManager.LocalTick);
+            SkillCommand command = _input.ConsumeSkillCommand(aim, TimeManager.LocalTick);
 
             // --- 按 slot 查找技能 ID ---
-            if (command.Type != BattleSkillCommandType.None && _skillController != null && command.SkillId == 0)
+            if (command.Type != SkillCommandType.None && _skillController != null && command.SkillId == 0)
             {
                 Hoshino.SkillDefinition skill = _skillController.FindSkillBySlot(command.Slot);
                 if (skill != null)
                     command.SkillId = skill.SkillId;
             }
 
-            return new BattleReplicateData(move, aim, command);
+            return new ReplicateData(move, aim, command);
         }
 
         /// <summary>
@@ -142,7 +115,7 @@ namespace Battle
         /// 驱动技能调度、移动、旋转，并通过 PredictionRigidbody 模拟物理。
         /// </summary>
         [Replicate]
-        private void PerformReplicate(BattleReplicateData data, ReplicateState state = ReplicateState.Invalid, Channel channel = Channel.Unreliable)
+        private void PerformReplicate(ReplicateData data, ReplicateState state = ReplicateState.Invalid, Channel channel = Channel.Unreliable)
         {
             float delta = (float)TimeManager.TickDelta;
             bool canAct = _combatState == null || _combatState.CanAct;
@@ -202,7 +175,7 @@ namespace Battle
 
         /// <summary>FishNet Reconcile 回调。回滚刚体状态、朝向和技能状态。</summary>
         [Reconcile]
-        private void PerformReconcile(BattleReconcileData data, Channel channel = Channel.Unreliable)
+        private void PerformReconcile(ReconcileData data, Channel channel = Channel.Unreliable)
         {
             _predictionRigidbody.Reconcile(data.Rigidbody);
             _aimDirection = data.AimDirection.sqrMagnitude > 0.0001f ? data.AimDirection.normalized : _aimDirection;

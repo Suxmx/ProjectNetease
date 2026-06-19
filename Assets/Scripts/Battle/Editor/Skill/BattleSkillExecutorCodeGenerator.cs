@@ -47,7 +47,7 @@ namespace Battle
                     if (type == null || type.IsAbstract)
                         continue;
 
-                    BattleSkillExecutorAttribute attribute = type.GetCustomAttribute<BattleSkillExecutorAttribute>();
+                    SkillExecutorAttribute attribute = type.GetCustomAttribute<SkillExecutorAttribute>();
                     if (attribute == null)
                         continue;
 

@@ -126,16 +126,16 @@ namespace Battle
                 if (isActive && !wasActive)
                 {
                     activeNodeIds.Add(nodeId);
-                    DispatchNode(node, domain, currentTick, elapsedTicks, delta, BattleSkillNodeLifecyclePhase.Start);
+                    DispatchNode(node, domain, currentTick, elapsedTicks, delta, SkillNodeLifecyclePhase.Start);
                 }
                 else if (isActive && wasActive)
                 {
-                    DispatchNode(node, domain, currentTick, elapsedTicks, delta, BattleSkillNodeLifecyclePhase.Tick);
+                    DispatchNode(node, domain, currentTick, elapsedTicks, delta, SkillNodeLifecyclePhase.Tick);
                 }
                 else if (!isActive && wasActive)
                 {
                     activeNodeIds.Remove(nodeId);
-                    DispatchNode(node, domain, currentTick, elapsedTicks, delta, BattleSkillNodeLifecyclePhase.End);
+                    DispatchNode(node, domain, currentTick, elapsedTicks, delta, SkillNodeLifecyclePhase.End);
                 }
             }
         }
@@ -163,22 +163,22 @@ namespace Battle
                 if (!activeNodeIds.Contains(node.NodeId))
                     continue;
 
-                DispatchNode(node, domain, currentTick, elapsedTicks, delta, BattleSkillNodeLifecyclePhase.End);
+                DispatchNode(node, domain, currentTick, elapsedTicks, delta, SkillNodeLifecyclePhase.End);
             }
             activeNodeIds.Clear();
         }
 
         /// <summary>查找 Executor 并派发执行（context 依赖全 null，Executor 为 log-only）。</summary>
-        private void DispatchNode(SkillRuntimeNode node, SkillNodeExecutionDomain domain, uint currentTick, int elapsedTicks, float delta, BattleSkillNodeLifecyclePhase phase)
+        private void DispatchNode(SkillRuntimeNode node, SkillNodeExecutionDomain domain, uint currentTick, int elapsedTicks, float delta, SkillNodeLifecyclePhase phase)
         {
-            if (!BattleSkillNodeExecutorRegistry.TryGet(node.ClipId, out IBattleSkillNodeExecutor executor))
+            if (!SkillExecutorRegistry.TryGet(node.ClipId, out IBattleSkillNodeExecutor executor))
             {
                 Debug.LogWarning($"[SkillPlaybackTester] No executor for clipId={node.ClipId}", this);
                 return;
             }
 
             // --- 构造桩 context：Motor/CombatState/Services 全 null，Executor 当前不依赖它们 ---
-            BattleSkillExecutionContext context = new(
+            SkillExecutionContext context = new(
                 motor: null,
                 controller: null,
                 combatState: null,

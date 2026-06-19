@@ -8,27 +8,27 @@ namespace Battle
     /// <summary>
     /// 角色战斗状态。管理血量、死亡、队伍归属，
     /// 实现 <see cref="IBattleDamageTarget"/> 接收统一伤害分发。
-    /// 挂载于角色 prefab，与 <see cref="BattleAttributeSet"/> 同级。
+    /// 挂载于角色 prefab，与 <see cref="AttributeSet"/> 同级。
     /// </summary>
-    public sealed class BattleCombatState : NetworkBehaviour, IBattleDamageTarget
+    public sealed class CombatState : NetworkBehaviour, IBattleDamageTarget
     {
         [SerializeField] private int _maxHitPoints = 100;
-        [SerializeField] private BattleTeam _initialTeam = BattleTeam.Neutral;
+        [SerializeField] private Team _initialTeam = Team.Neutral;
 
         private readonly SyncVar<int> _hitPoints = new();
         private readonly SyncVar<bool> _isDead = new();
-        private readonly SyncVar<BattleTeam> _team = new();
-        private BattleAttributeSet _attributeSet;
+        private readonly SyncVar<Team> _team = new();
+        private AttributeSet _attributeSet;
 
         public int MaxHitPoints => _maxHitPoints;
         public int HitPoints => _hitPoints.Value;
         public bool IsDead => _isDead.Value;
-        public BattleTeam Team => _team.Value;
+        public Team Team => _team.Value;
         public bool CanAct => !IsDead;
 
         private void Awake()
         {
-            _attributeSet = GetComponent<BattleAttributeSet>();
+            _attributeSet = GetComponent<AttributeSet>();
         }
 
         /// <summary>服务端初始化血量和队伍。</summary>
@@ -41,17 +41,17 @@ namespace Battle
 
         /// <summary>服务端设置队伍归属。</summary>
         [Server]
-        public void SetTeam(BattleTeam team)
+        public void SetTeam(Team team)
         {
             _team.Value = team;
         }
 
-        /// <summary>获取挂载的属性集，供 <see cref="BattleDamageDispatcher"/> 查询抗性。</summary>
-        public BattleAttributeSet GetAttributeSet() => _attributeSet;
+        /// <summary>获取挂载的属性集，供 <see cref="DamageDispatcher"/> 查询抗性。</summary>
+        public AttributeSet GetAttributeSet() => _attributeSet;
 
         /// <summary>
         /// 施加最终伤害（已缩放），返回是否致命。
-        /// 仅由 <see cref="BattleDamageDispatcher.Apply"/> 调用，外部不直接调。
+        /// 仅由 <see cref="DamageDispatcher.Apply"/> 调用，外部不直接调。
         /// </summary>
         bool IBattleDamageTarget.ApplyDamageInternal(int amount, NetworkConnection attacker)
         {

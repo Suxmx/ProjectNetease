@@ -18,14 +18,14 @@ namespace Battle
         [SerializeField] private float _holdSecondsToScore = 30f;
         [SerializeField] private bool _decayWhenEmpty = true;
 
-        private readonly SyncVar<BattleTeam> _ownerTeam = new();
-        private readonly SyncVar<BattleTeam> _capturingTeam = new();
+        private readonly SyncVar<Team> _ownerTeam = new();
+        private readonly SyncVar<Team> _capturingTeam = new();
         private readonly SyncVar<float> _captureProgress = new();
         private readonly SyncVar<float> _remainingHoldSeconds = new();
-        private readonly HashSet<BattleCombatState> _occupants = new();
+        private readonly HashSet<CombatState> _occupants = new();
 
-        public BattleTeam OwnerTeam => _ownerTeam.Value;
-        public BattleTeam CapturingTeam => _capturingTeam.Value;
+        public Team OwnerTeam => _ownerTeam.Value;
+        public Team CapturingTeam => _capturingTeam.Value;
         public float CaptureProgress => _captureProgress.Value;
         public float RemainingHoldSeconds => _remainingHoldSeconds.Value;
 
@@ -37,8 +37,8 @@ namespace Battle
         /// <summary>服务端初始化占领点状态。</summary>
         public override void OnStartServer()
         {
-            _ownerTeam.Value = BattleTeam.Neutral;
-            _capturingTeam.Value = BattleTeam.Neutral;
+            _ownerTeam.Value = Team.Neutral;
+            _capturingTeam.Value = Team.Neutral;
             _captureProgress.Value = 0f;
             _remainingHoldSeconds.Value = _holdSecondsToScore;
         }
@@ -50,10 +50,10 @@ namespace Battle
                 return;
 
             float delta = (float)TimeManager.TickDelta;
-            BattleTeam uncontestedTeam = GetUncontestedTeam();
+            Team uncontestedTeam = GetUncontestedTeam();
 
             // --- 非归属队伍且无争议：推进占领进度 ---
-            if (uncontestedTeam != BattleTeam.Neutral && uncontestedTeam != _ownerTeam.Value)
+            if (uncontestedTeam != Team.Neutral && uncontestedTeam != _ownerTeam.Value)
             {
                 if (_capturingTeam.Value != uncontestedTeam)
                 {
@@ -67,29 +67,29 @@ namespace Battle
                 if (_captureProgress.Value >= 1f)
                 {
                     _ownerTeam.Value = uncontestedTeam;
-                    _capturingTeam.Value = BattleTeam.Neutral;
+                    _capturingTeam.Value = Team.Neutral;
                     _captureProgress.Value = 0f;
                     _remainingHoldSeconds.Value = _holdSecondsToScore;
                 }
             }
             // --- 无人占领：进度衰减 ---
-            else if (uncontestedTeam == BattleTeam.Neutral)
+            else if (uncontestedTeam == Team.Neutral)
             {
                 if (_decayWhenEmpty)
                     _captureProgress.Value = Mathf.Max(0f, _captureProgress.Value - delta / Mathf.Max(0.01f, _captureSeconds));
                 if (_captureProgress.Value <= 0f)
-                    _capturingTeam.Value = BattleTeam.Neutral;
+                    _capturingTeam.Value = Team.Neutral;
             }
 
             // --- 已归属队伍：持守倒计时递减 ---
-            if (_ownerTeam.Value != BattleTeam.Neutral)
+            if (_ownerTeam.Value != Team.Neutral)
                 _remainingHoldSeconds.Value = Mathf.Max(0f, _remainingHoldSeconds.Value - delta);
         }
 
         /// <summary>战斗体进入触发区域：加入占领者集合。</summary>
         private void OnTriggerEnter(Collider other)
         {
-            BattleCombatState state = other.GetComponentInParent<BattleCombatState>();
+            CombatState state = other.GetComponentInParent<CombatState>();
             if (state != null)
                 _occupants.Add(state);
         }
@@ -97,22 +97,22 @@ namespace Battle
         /// <summary>战斗体离开触发区域：移出占领者集合。</summary>
         private void OnTriggerExit(Collider other)
         {
-            BattleCombatState state = other.GetComponentInParent<BattleCombatState>();
+            CombatState state = other.GetComponentInParent<CombatState>();
             if (state != null)
                 _occupants.Remove(state);
         }
 
         /// <summary>获取当前无争议的占领队伍（仅一队在场），多队在场返回 Neutral。</summary>
-        private BattleTeam GetUncontestedTeam()
+        private Team GetUncontestedTeam()
         {
-            BattleTeam result = BattleTeam.Neutral;
+            Team result = Team.Neutral;
 
-            foreach (BattleCombatState state in _occupants)
+            foreach (CombatState state in _occupants)
             {
-                if (state == null || state.IsDead || state.Team == BattleTeam.Neutral)
+                if (state == null || state.IsDead || state.Team == Team.Neutral)
                     continue;
 
-                if (result == BattleTeam.Neutral)
+                if (result == Team.Neutral)
                 {
                     result = state.Team;
                     continue;
@@ -120,7 +120,7 @@ namespace Battle
 
                 // --- 多队在场：有争议 ---
                 if (result != state.Team)
-                    return BattleTeam.Neutral;
+                    return Team.Neutral;
             }
 
             return result;

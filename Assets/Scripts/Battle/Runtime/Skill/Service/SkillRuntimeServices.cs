@@ -7,17 +7,17 @@ namespace Battle
     /// 供 <see cref="BattleSkillController"/> 和 Executor 通过 context.Services 访问。
     /// 挂载于场景中，由 Controller 自动查找。
     /// </summary>
-    public sealed class BattleSkillRuntimeServices : MonoBehaviour
+    public sealed class SkillRuntimeServices : MonoBehaviour
     {
-        [SerializeField] private BattleLagCompensatedHitResolver _hitResolver;
+        [SerializeField] private LagCompensatedHitResolver _hitResolver;
 
         /// <summary>获取滞后补偿命中解析器（未指定时自动查找）。</summary>
-        public BattleLagCompensatedHitResolver HitResolver
+        public LagCompensatedHitResolver HitResolver
         {
             get
             {
                 if (_hitResolver == null)
-                    _hitResolver = FindFirstObjectByType<BattleLagCompensatedHitResolver>();
+                    _hitResolver = FindFirstObjectByType<LagCompensatedHitResolver>();
 
                 return _hitResolver;
             }

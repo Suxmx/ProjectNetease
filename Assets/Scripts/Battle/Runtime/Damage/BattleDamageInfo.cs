@@ -14,7 +14,7 @@ namespace Battle
         /// <summary>缩放前的原始伤害量。</summary>
         public int Amount;
         /// <summary>攻击者的战斗体（可能为 null，如环境伤害）。</summary>
-        public BattleCombatState Source;
+        public CombatState Source;
         /// <summary>受击目标，实现 <see cref="IBattleDamageTarget"/>。</summary>
         public IBattleDamageTarget Target;
         /// <summary>攻击者的网络连接，用于击杀归属。</summary>

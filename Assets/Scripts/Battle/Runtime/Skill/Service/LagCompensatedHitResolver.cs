@@ -12,12 +12,12 @@ namespace Battle
     /// 查询完成后恢复，确保高延迟玩家的命中判定与服务端实际状态一致。
     /// 查询命中的目标统一通过 <see cref="BattleDamageDispatcher"/> 施加伤害。
     /// </summary>
-    public sealed class BattleLagCompensatedHitResolver : NetworkBehaviour
+    public sealed class LagCompensatedHitResolver : NetworkBehaviour
     {
         [SerializeField] private int _maxHits = 32;
 
         private Collider[] _hits;
-        private readonly HashSet<BattleCombatState> _damagedTargets = new();
+        private readonly HashSet<CombatState> _damagedTargets = new();
         private readonly HashSet<BattleDestructibleObject> _damagedObjects = new();
 
         private void Awake()
@@ -29,7 +29,7 @@ namespace Battle
         /// <param name="sourceClipId">伤害来源的技能节点 ClipId。</param>
         /// <returns>实际命中并施加伤害的目标数。</returns>
         [Server]
-        public int ResolveDamageBox(PreciseTick preciseTick, BattleCombatState attackerState, NetworkConnection attackerConnection, Vector3 center, Quaternion rotation, Vector3 halfExtents, LayerMask layerMask, int damage, uint sourceClipId = 0u)
+        public int ResolveDamageBox(PreciseTick preciseTick, CombatState attackerState, NetworkConnection attackerConnection, Vector3 center, Quaternion rotation, Vector3 halfExtents, LayerMask layerMask, int damage, uint sourceClipId = 0u)
         {
             RollbackForQuery(preciseTick);
             try
@@ -45,7 +45,7 @@ namespace Battle
 
         /// <summary>球形范围伤害查询（滞后补偿）。</summary>
         [Server]
-        public int ResolveDamageSphere(PreciseTick preciseTick, BattleCombatState attackerState, NetworkConnection attackerConnection, Vector3 center, float radius, LayerMask layerMask, int damage, uint sourceClipId = 0u)
+        public int ResolveDamageSphere(PreciseTick preciseTick, CombatState attackerState, NetworkConnection attackerConnection, Vector3 center, float radius, LayerMask layerMask, int damage, uint sourceClipId = 0u)
         {
             RollbackForQuery(preciseTick);
             try
@@ -61,7 +61,7 @@ namespace Battle
 
         /// <summary>射线伤害查询（滞后补偿），命中第一个有效目标。</summary>
         [Server]
-        public bool ResolveDamageRay(PreciseTick preciseTick, BattleCombatState attackerState, NetworkConnection attackerConnection, Vector3 origin, Vector3 direction, float distance, LayerMask layerMask, int damage, uint sourceClipId = 0u)
+        public bool ResolveDamageRay(PreciseTick preciseTick, CombatState attackerState, NetworkConnection attackerConnection, Vector3 origin, Vector3 direction, float distance, LayerMask layerMask, int damage, uint sourceClipId = 0u)
         {
             direction.y = 0f;
             if (direction.sqrMagnitude <= 0.0001f)
@@ -75,7 +75,7 @@ namespace Battle
                     return false;
 
                 // --- 命中战斗体：排除自伤，分发伤害 ---
-                BattleCombatState target = hit.collider.GetComponentInParent<BattleCombatState>();
+                CombatState target = hit.collider.GetComponentInParent<CombatState>();
                 if (target != null)
                 {
                     if (target == attackerState)
@@ -121,7 +121,7 @@ namespace Battle
         }
 
         /// <summary>遍历 Overlap 命中结果，去重后对每个目标分发伤害。</summary>
-        private int ApplyDamageToHits(PreciseTick preciseTick, int hitCount, BattleCombatState attackerState, NetworkConnection attackerConnection, int damage, uint sourceClipId)
+        private int ApplyDamageToHits(PreciseTick preciseTick, int hitCount, CombatState attackerState, NetworkConnection attackerConnection, int damage, uint sourceClipId)
         {
             int applied = 0;
             _damagedTargets.Clear();
@@ -134,7 +134,7 @@ namespace Battle
                     continue;
 
                 // --- 战斗体：排除自伤、已死亡、重复命中 ---
-                BattleCombatState target = hit.GetComponentInParent<BattleCombatState>();
+                CombatState target = hit.GetComponentInParent<CombatState>();
                 if (target != null)
                 {
                     if (target == attackerState || target.IsDead || !_damagedTargets.Add(target))

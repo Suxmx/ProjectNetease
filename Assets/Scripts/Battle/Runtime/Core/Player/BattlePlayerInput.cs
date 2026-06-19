@@ -6,7 +6,7 @@ namespace Battle
 {
     /// <summary>
     /// 玩家输入采集。读取键盘移动、鼠标瞄准和技能按键，
-    /// 产生 <see cref="BattleSkillCommand"/> 供 Motor 的 Replicate 数据使用。
+    /// 产生 <see cref="SkillCommand"/> 供 Motor 的 Replicate 数据使用。
     /// 非网络组件，仅在本地客户端运行。
     /// </summary>
     public sealed class BattlePlayerInput : MonoBehaviour
@@ -16,7 +16,7 @@ namespace Battle
         [SerializeField] private float _fallbackAimDistance = 30f;
 
         private uint _nextSequenceId = 1;
-        private BattleSkillCommand _pendingCommand;
+        private SkillCommand _pendingCommand;
         private readonly bool[] _heldSlots = new bool[8];
         private readonly ushort[] _chargeTicks = new ushort[8];
 
@@ -62,12 +62,12 @@ namespace Battle
         }
 
         /// <summary>采集并清空当前待发的技能指令。</summary>
-        public BattleSkillCommand ConsumeSkillCommand(Vector3 aimDirection, uint inputTick)
+        public SkillCommand ConsumeSkillCommand(Vector3 aimDirection, uint inputTick)
         {
             UpdateKeyboardSkillCommands(aimDirection, inputTick);
 
-            BattleSkillCommand result = _pendingCommand;
-            _pendingCommand = BattleSkillCommand.None;
+            SkillCommand result = _pendingCommand;
+            _pendingCommand = SkillCommand.None;
             return result;
         }
 
@@ -96,25 +96,25 @@ namespace Battle
             {
                 _heldSlots[slot] = true;
                 _chargeTicks[slot] = 0;
-                QueueCommand(BattleSkillCommandType.Press, slot, aimDirection, inputTick);
+                QueueCommand(SkillCommandType.Press, slot, aimDirection, inputTick);
             }
             else if (key.wasReleasedThisFrame)
             {
-                QueueCommand(BattleSkillCommandType.Release, slot, aimDirection, inputTick);
+                QueueCommand(SkillCommandType.Release, slot, aimDirection, inputTick);
                 _heldSlots[slot] = false;
                 _chargeTicks[slot] = 0;
             }
-            else if (_heldSlots[slot] && _pendingCommand.Type == BattleSkillCommandType.None)
+            else if (_heldSlots[slot] && _pendingCommand.Type == SkillCommandType.None)
             {
                 _chargeTicks[slot] = (ushort)Mathf.Min(ushort.MaxValue, _chargeTicks[slot] + 1);
-                QueueCommand(BattleSkillCommandType.Hold, slot, aimDirection, inputTick);
+                QueueCommand(SkillCommandType.Hold, slot, aimDirection, inputTick);
             }
         }
 
         /// <summary>构造技能指令并暂存，等待 ConsumeSkillCommand 取走。</summary>
-        private void QueueCommand(BattleSkillCommandType type, byte slot, Vector3 aimDirection, uint inputTick)
+        private void QueueCommand(SkillCommandType type, byte slot, Vector3 aimDirection, uint inputTick)
         {
-            _pendingCommand = new BattleSkillCommand
+            _pendingCommand = new SkillCommand
             {
                 Type = type,
                 Slot = slot,

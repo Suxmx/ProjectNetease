@@ -6,7 +6,7 @@ namespace Battle
     /// Battle 时间换算工具。提供 tick 与秒之间的通用换算方法，
     /// 供运行时各系统（buff 持续时间、技能冷却等）复用。
     /// </summary>
-    public static class BattleTimeUtility
+    public static class TimeUtility
     {
         /// <summary>将秒数换算为 tick 数（向上取整）。</summary>
         /// <param name="tickDelta">单个 tick 的时长（秒）。</param>

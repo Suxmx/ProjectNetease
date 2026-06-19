@@ -17,7 +17,7 @@ namespace Battle
         /// <summary>是否造成致命伤害（目标死亡/破坏）。</summary>
         public bool Lethal;
         /// <summary>攻击者的战斗体。</summary>
-        public BattleCombatState Source;
+        public CombatState Source;
         /// <summary>受击目标。</summary>
         public IBattleDamageTarget Target;
         /// <summary>攻击者的网络连接。</summary>

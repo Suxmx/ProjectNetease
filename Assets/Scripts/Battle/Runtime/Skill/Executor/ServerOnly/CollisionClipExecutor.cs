@@ -10,10 +10,10 @@ namespace Battle
     /// 按 Shape（Sphere/Ray/Box）检测命中并分发伤害。
     /// 当前为测试态：仅 log 节点数据，实际功能代码已注释。
     /// </summary>
-    [BattleSkillExecutor(SkillGeneratedIds.CollisionClip)]
+    [SkillExecutor(SkillGeneratedIds.CollisionClip)]
     public sealed class CollisionClipExecutor : ServerOnlySkillExecutor<CollisionNodeData>
     {
-        protected override void OnStart(in BattleSkillExecutionContext context, in CollisionNodeData data)
+        protected override void OnStart(in SkillExecutionContext context, in CollisionNodeData data)
         {
             Debug.Log($"[SkillTest] {nameof(CollisionNodeData)} @ elapsed={context.ElapsedTicks} phase={context.LifecyclePhase}: {JsonUtility.ToJson(data)}");
             // BattleLagCompensatedHitResolver resolver = context.Services != null ? context.Services.HitResolver : null;

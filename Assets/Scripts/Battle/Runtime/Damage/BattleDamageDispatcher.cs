@@ -21,7 +21,7 @@ namespace Battle
             float outgoing = 1f;
             if (info.Source != null)
             {
-                BattleAttributeSet attrs = info.Source.GetAttributeSet();
+                AttributeSet attrs = info.Source.GetAttributeSet();
                 if (attrs != null)
                     outgoing = Mathf.Max(0f, attrs.OutgoingDamageMultiplier);
             }
@@ -30,7 +30,7 @@ namespace Battle
             float incoming = 1f;
             if (info.Target != null)
             {
-                BattleAttributeSet attrs = info.Target.GetAttributeSet();
+                AttributeSet attrs = info.Target.GetAttributeSet();
                 if (attrs != null)
                     incoming = Mathf.Max(0f, attrs.IncomingDamageMultiplier);
             }

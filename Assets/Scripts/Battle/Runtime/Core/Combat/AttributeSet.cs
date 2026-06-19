@@ -12,7 +12,7 @@ namespace Battle
     /// 通过 TimedModifier 机制支持临时属性修改（未来 buff 系统的数据载体）。
     /// 服务端权威 tick 驱动到期清理和重算，SyncVar 同步最终值给客户端。
     /// </summary>
-    public sealed class BattleAttributeSet : TickNetworkBehaviour
+    public sealed class AttributeSet : TickNetworkBehaviour
     {
         private const string MoveSpeedMultiplierKey = "MoveSpeedMultiplier";
         private const string OutgoingDamageMultiplierKey = "OutgoingDamageMultiplier";
@@ -57,7 +57,7 @@ namespace Battle
             // --- 计算持续 tick 数，最少 1 tick ---
             float safeMultiplier = Mathf.Approximately(multiplyValue, 0f) ? 1f : multiplyValue;
             uint durationTicks = TimeManager != null
-                ? BattleTimeUtility.SecondsToTicks((float)TimeManager.TickDelta, Mathf.Max(0f, durationSeconds))
+                ? TimeUtility.SecondsToTicks((float)TimeManager.TickDelta, Mathf.Max(0f, durationSeconds))
                 : 1u;
             if (durationTicks == 0u)
                 durationTicks = 1u;

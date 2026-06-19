@@ -46,7 +46,7 @@ namespace Battle
         }
 
         /// <summary>可破坏物无属性集，返回 null。</summary>
-        public BattleAttributeSet GetAttributeSet() => null;
+        public AttributeSet GetAttributeSet() => null;
 
         /// <summary>
         /// 施加最终伤害（已缩放），返回是否造成破坏。

@@ -14,7 +14,7 @@ namespace Battle
         where TData : struct
     {
         /// <summary>反序列化节点数据并分发给 domain 基类。</summary>
-        public void Execute(in BattleSkillExecutionContext context)
+        public void Execute(in SkillExecutionContext context)
         {
             if (!SkillGeneratedNodeDataBlob.TryRead(context.Skill, context.Node, out TData data))
             {
@@ -26,6 +26,6 @@ namespace Battle
         }
 
         /// <summary>domain 基类 sealed override 此方法，按 phase 分发到 OnStart/OnTick/OnEnd。</summary>
-        protected abstract void OnExecute(in BattleSkillExecutionContext context, in TData data);
+        protected abstract void OnExecute(in SkillExecutionContext context, in TData data);
     }
 }

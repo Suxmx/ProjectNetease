@@ -8,9 +8,9 @@ namespace Battle
     /// 代码生成器扫描此特性 + 继承链生成 <see cref="SkillGeneratedExecutorMetas"/>。
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public sealed class BattleSkillExecutorAttribute : Attribute
+    public sealed class SkillExecutorAttribute : Attribute
     {
-        public BattleSkillExecutorAttribute(uint clipId)
+        public SkillExecutorAttribute(uint clipId)
         {
             ClipId = clipId;
         }

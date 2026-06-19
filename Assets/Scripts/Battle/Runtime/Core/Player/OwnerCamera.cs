@@ -8,7 +8,7 @@ namespace Battle
     /// 本地玩家相机控制。仅在本机拥有者上激活 Cinemachine 虚拟相机，
     /// 其他客户端的相机组件保持关闭，避免多玩家场景相机冲突。
     /// </summary>
-    public sealed class BattleOwnerCamera : NetworkBehaviour
+    public sealed class OwnerCamera : NetworkBehaviour
     {
         [SerializeField] private Transform _cameraTarget;
         [SerializeField] private CinemachineCamera _virtualCamera;

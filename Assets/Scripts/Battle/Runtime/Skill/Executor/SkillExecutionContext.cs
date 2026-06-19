@@ -10,23 +10,23 @@ namespace Battle
     /// （Motor/CombatState/AttributeSet/Services/技能数据/输入/时间等），
     /// 保持 Executor 插件化，不直接依赖场景单例。
     /// </summary>
-    public readonly struct BattleSkillExecutionContext
+    public readonly struct SkillExecutionContext
     {
-        public BattleSkillExecutionContext(
-            BattlePlayerMotor motor,
+        public SkillExecutionContext(
+            PlayerMotor motor,
             BattleSkillController controller,
-            BattleCombatState combatState,
-            BattleAttributeSet attributeSet,
-            BattleSkillRuntimeServices services,
+            CombatState combatState,
+            AttributeSet attributeSet,
+            SkillRuntimeServices services,
             SkillDefinition skill,
-            BattleSkillCommand command,
+            SkillCommand command,
             SkillRuntimeNode node,
             Vector3 aimDirection,
             uint currentTick,
             int elapsedTicks,
             float delta,
             ReplicateState replicateState,
-            BattleSkillNodeLifecyclePhase lifecyclePhase)
+            SkillNodeLifecyclePhase lifecyclePhase)
         {
             Motor = motor;
             Controller = controller;
@@ -44,13 +44,13 @@ namespace Battle
             LifecyclePhase = lifecyclePhase;
         }
 
-        public BattlePlayerMotor Motor { get; }
+        public PlayerMotor Motor { get; }
         public BattleSkillController Controller { get; }
-        public BattleCombatState CombatState { get; }
-        public BattleAttributeSet AttributeSet { get; }
-        public BattleSkillRuntimeServices Services { get; }
+        public CombatState CombatState { get; }
+        public AttributeSet AttributeSet { get; }
+        public SkillRuntimeServices Services { get; }
         public SkillDefinition Skill { get; }
-        public BattleSkillCommand Command { get; }
+        public SkillCommand Command { get; }
         public SkillRuntimeNode Node { get; }
         public Vector3 AimDirection { get; }
         public uint CurrentTick { get; }
@@ -58,7 +58,7 @@ namespace Battle
         public float Delta { get; }
         public ReplicateState ReplicateState { get; }
         /// <summary>当前生命周期阶段，domain 基类据此分发到 OnStart/OnTick/OnEnd。</summary>
-        public BattleSkillNodeLifecyclePhase LifecyclePhase { get; }
+        public SkillNodeLifecyclePhase LifecyclePhase { get; }
 
         /// <summary>当前 tick 是否为节点起始 tick。</summary>
         public bool IsNodeStartTick => ElapsedTicks == Node.StartTick;

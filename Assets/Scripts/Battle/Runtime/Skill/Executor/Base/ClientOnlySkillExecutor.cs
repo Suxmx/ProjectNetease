@@ -10,29 +10,29 @@ namespace Battle
     public abstract class ClientOnlySkillExecutor<TData> : BattleSkillNodeExecutor<TData>
         where TData : struct
     {
-        protected sealed override void OnExecute(in BattleSkillExecutionContext context, in TData data)
+        protected sealed override void OnExecute(in SkillExecutionContext context, in TData data)
         {
             switch (context.LifecyclePhase)
             {
-                case BattleSkillNodeLifecyclePhase.Start:
+                case SkillNodeLifecyclePhase.Start:
                     OnStart(context, data);
                     break;
-                case BattleSkillNodeLifecyclePhase.Tick:
+                case SkillNodeLifecyclePhase.Tick:
                     OnTick(context, data);
                     break;
-                case BattleSkillNodeLifecyclePhase.End:
+                case SkillNodeLifecyclePhase.End:
                     OnEnd(context, data);
                     break;
             }
         }
 
         /// <summary>节点进入 active 区间时调用一次。</summary>
-        protected virtual void OnStart(in BattleSkillExecutionContext context, in TData data) { }
+        protected virtual void OnStart(in SkillExecutionContext context, in TData data) { }
 
         /// <summary>active 区间内每 tick 调用（含 StartTick）。</summary>
-        protected virtual void OnTick(in BattleSkillExecutionContext context, in TData data) { }
+        protected virtual void OnTick(in SkillExecutionContext context, in TData data) { }
 
         /// <summary>节点离开 active 区间时调用一次。</summary>
-        protected virtual void OnEnd(in BattleSkillExecutionContext context, in TData data) { }
+        protected virtual void OnEnd(in SkillExecutionContext context, in TData data) { }
     }
 }
