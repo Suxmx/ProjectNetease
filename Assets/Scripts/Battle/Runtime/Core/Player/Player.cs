@@ -17,6 +17,8 @@ namespace Battle
     {
         [SerializeField] private float _moveSpeed = 6f;
         [SerializeField] private float _turnSpeed = 720f;
+        [Tooltip("勾选后该实例输出技能诊断日志到文件（见 SkillDiagLogger），用于排查突进斩网络预测问题")]
+        [SerializeField] private bool _debugLog;
 
         private Motor _motor;
         private SkillController _skillController;
@@ -25,6 +27,9 @@ namespace Battle
 
         /// <summary>Motor 实例，供 SkillController/Executor 通过 context 访问。</summary>
         public Motor Motor => _motor;
+
+        /// <summary>是否输出技能诊断日志，供 SkillController 共享开关。</summary>
+        public bool DebugLog => _debugLog;
 
         private void Awake()
         {
@@ -95,6 +100,9 @@ namespace Battle
         {
             float delta = (float)TimeManager.TickDelta;
 
+            // --- 诊断 D3：记录本 tick 前 rigidbody 位置，供旁观者跳变检测 ---
+            Vector3 preRb = _debugLog ? _motor.Position : default;
+
             // --- Motor 前半段：朝向 + 清零上 tick 预测修改器 ---
             _motor.BeginTick(data);
 
@@ -103,14 +111,66 @@ namespace Battle
 
             // --- Motor 后半段：算最终速度 + Simulate ---
             _motor.EndTick(data, delta);
+
+            // --- 诊断 D3：旁观者技能活跃时记录位置与单 tick 跳变 ---
+            if (_debugLog && !IsOwner && IsClientStarted)
+            {
+                bool skillActive = _skillController != null && _skillController.IsActive;
+                if (skillActive)
+                {
+                    Vector3 rb = _motor.Position;
+                    Vector3 vis = FindVisualPos();
+                    Vector3 moved = rb - preRb;
+                    SkillDiagLogger.Log($"[SPEC] role={SkillDiagLogger.RoleOf(this)} tick={data.GetTick()} rb={rb:F2} vis={vis:F2} moved={moved.magnitude:F3}");
+                    if (moved.magnitude > 0.5f)
+                        SkillDiagLogger.Log($"[SPEC JUMP] tick={data.GetTick()} jump={moved.magnitude:F3} from {preRb:F2} to {rb:F2}");
+                }
+            }
+
+            // --- 诊断 D4：Owner 技能活跃时记录 rb 位置变化和速度 ---
+            if (_debugLog && IsOwner)
+            {
+                bool skillActive = _skillController != null && _skillController.IsActive;
+                if (skillActive)
+                {
+                    Vector3 rb = _motor.Position;
+                    Vector3 moved = rb - preRb;
+                    SkillDiagLogger.Log($"[OWNER] role={SkillDiagLogger.RoleOf(this)} tick={data.GetTick()} rb={rb:F2} moved={moved.magnitude:F3} state={state}");
+                }
+            }
         }
 
         /// <summary>FishNet Reconcile 回调。分发到 Motor 和 SkillController。</summary>
         [Reconcile]
         private void PerformReconcile(ReconcileData data, Channel channel = Channel.Unreliable)
         {
-            _motor.ApplyState(data.MotorState);
-            _skillController?.ApplyState(data.SkillState);
+            // --- 诊断 D2：量化 reconcile 修正量，确认 Owner 结束拖拽来源 ---
+            if (_debugLog)
+            {
+                Vector3 before = _motor.Position;
+                SkillDiagLogger.Log($"[RECONCILE] role={SkillDiagLogger.RoleOf(this)} tick={TimeManager.LocalTick} before={before:F2}");
+                _motor.ApplyState(data.MotorState);
+                Vector3 after = _motor.Position;
+                float delta = Vector3.Distance(before, after);
+                SkillDiagLogger.Log($"[RECONCILE] role={SkillDiagLogger.RoleOf(this)} tick={TimeManager.LocalTick} after={after:F2} delta={delta:F3}");
+            }
+            else
+            {
+                _motor.ApplyState(data.MotorState);
+            }
+            _skillController?.ApplyState(data.SkillState, data.GetTick());
+        }
+
+        /// <summary>查找 Visual 子级位置用于诊断（detach 后为 root 直接子级，detach 前在 Presentation 下）。</summary>
+        private Vector3 FindVisualPos()
+        {
+            Transform v = transform.Find("Visual");
+            if (v == null)
+            {
+                Transform p = transform.Find("Presentation");
+                if (p != null) v = p.Find("Visual");
+            }
+            return v != null ? v.position : transform.position;
         }
     }
 }

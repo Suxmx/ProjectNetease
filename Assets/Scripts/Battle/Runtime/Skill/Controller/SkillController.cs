@@ -108,6 +108,16 @@ namespace Battle
         /// </summary>
         public void TickClientPrediction(SkillCommand command, Vector3 aimDirection, uint currentTick, ReplicateState state, float delta)
         {
+            // --- 诊断 D1：旁观者是否收到 command、技能是否活跃、startTick 语义 ---
+            if (_player != null && _player.DebugLog)
+            {
+                string role = SkillDiagLogger.RoleOf(_player);
+                if (command.Type != SkillCommandType.None)
+                    SkillDiagLogger.Log($"[CMD] role={role} tick={currentTick} cmdType={command.Type} cmdTick={command.InputTick} seq={command.SequenceId} active={_isActive} start={_startTick}");
+                if (_isActive)
+                    SkillDiagLogger.Log($"[TICK] role={role} tick={currentTick} start={_startTick} elapsed={(currentTick >= _startTick ? (int)(currentTick - _startTick) : 0)} phase={_phase} state={state}");
+            }
+
             // --- 处理技能输入 ---
             if (command.Type == SkillCommandType.Press)
                 TryStartSkill(command, currentTick);
@@ -184,9 +194,10 @@ namespace Battle
 
                 if (isActive && !wasActive)
                 {
-                    // --- 进入区间：OnStart ---
+                    // --- 进入区间：OnStart + OnTick（同一 tick 既初始化又施加位移）---
                     activeNodeIds.Add(nodeId);
                     ExecuteNode(command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.Start);
+                    ExecuteNode(command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.Tick);
                 }
                 else if (isActive && wasActive)
                 {
@@ -195,14 +206,15 @@ namespace Battle
                 }
                 else if (!isActive && wasActive)
                 {
-                    // --- 离开区间：OnEnd ---
+                    // --- 离开区间：OnTick + OnEnd（最后 tick 仍施加位移，然后清理）---
+                    ExecuteNode(command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.Tick);
                     activeNodeIds.Remove(nodeId);
                     ExecuteNode(command, aimDirection, currentTick, elapsedTicks, delta, state, node, SkillNodeLifecyclePhase.End);
                 }
             }
         }
 
-        /// <summary>采集技能运行时状态用于 reconcile。</summary>
+        /// <summary>采集技能运行时状态用于 reconcile。不计算 ElapsedTicks——由 ApplyState 用 dataTick 现算。</summary>
         public SkillReconcileState CaptureState(uint currentTick)
         {
             return new SkillReconcileState
@@ -210,22 +222,71 @@ namespace Battle
                 ActiveSkillId = ActiveSkillId,
                 ActiveSequenceId = _activeSequenceId,
                 StartTick = _startTick,
-                ElapsedTicks = _isActive && currentTick >= _startTick ? (ushort)Mathf.Min(ushort.MaxValue, currentTick - _startTick) : (ushort)0,
                 Phase = _phase,
                 IsActive = _isActive
             };
         }
 
-        /// <summary>从 reconcile 状态恢复技能运行时状态。</summary>
-        public void ApplyState(SkillReconcileState state)
+        /// <summary>
+        /// 从 reconcile 状态恢复技能运行时状态。
+        /// dataTick 是 FishNet 为本次 reconcile 设置的状态 tick（owner 用 ClientStateTick，spectator 用 ServerStateTick），
+        /// 与 _startTick（command.InputTick）在同一时间线，可用来推算正确的 elapsedTicks 并重建各域的 active 节点集合。
+        /// </summary>
+        public void ApplyState(SkillReconcileState state, uint dataTick)
         {
             _activeSkill = state.IsActive ? FindSkillById(state.ActiveSkillId) : null;
             _activeSequenceId = state.ActiveSequenceId;
             _startTick = state.StartTick;
             _phase = state.Phase;
             _isActive = state.IsActive && _activeSkill != null;
+
             if (!_isActive)
+            {
                 ClearActiveNodeIds();
+                return;
+            }
+
+            // --- 用 dataTick 推算 elapsedTicks 并重建节点集合，确保 replay 能正确走 Tick/End 分支 ---
+            int elapsedTicks = dataTick >= _startTick ? (int)(dataTick - _startTick) : 0;
+            RebuildActiveNodeIds(elapsedTicks);
+        }
+
+        /// <summary>
+        /// 根据 elapsedTicks 重建三个域的 active 节点集合。
+        /// 用于 reconcile 后恢复节点生命周期状态，让后续 replay 能正确识别哪些节点应走 Tick/End 分支，
+        /// 而不是因为集合为空全部走 Skip。仅在技能活跃时调用。
+        /// </summary>
+        private void RebuildActiveNodeIds(int elapsedTicks)
+        {
+            _activeClientPredictionNodeIds.Clear();
+            _activeClientOnlyNodeIds.Clear();
+            _activeServerOnlyNodeIds.Clear();
+
+            if (_activeSkill == null)
+                return;
+
+            SkillRuntimeNode[] nodes = _activeSkill.Nodes;
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                SkillRuntimeNode node = nodes[i];
+                if (!SkillGeneratedExecutorMetas.TryGetDomain(node.ClipId, out SkillNodeExecutionDomain domain))
+                    continue;
+                if (!node.IsActiveAt(elapsedTicks))
+                    continue;
+
+                switch (domain)
+                {
+                    case SkillNodeExecutionDomain.ClientPrediction:
+                        _activeClientPredictionNodeIds.Add(node.NodeId);
+                        break;
+                    case SkillNodeExecutionDomain.ClientOnly:
+                        _activeClientOnlyNodeIds.Add(node.NodeId);
+                        break;
+                    case SkillNodeExecutionDomain.ServerOnly:
+                        _activeServerOnlyNodeIds.Add(node.NodeId);
+                        break;
+                }
+            }
         }
 
         /// <summary>按槽位查找技能定义。</summary>
@@ -259,9 +320,17 @@ namespace Battle
         /// <summary>按指令启动技能，记录序列号和起始 tick。</summary>
         private void TryStartSkill(SkillCommand command, uint currentTick)
         {
+            // --- 诊断 D1：技能启动事件，记录角色/技能/tick 语义 ---
+            if (_player != null && _player.DebugLog)
+                SkillDiagLogger.Log($"[START] role={SkillDiagLogger.RoleOf(_player)} skillId={command.SkillId} slot={command.Slot} cmdTick={command.InputTick} currentTick={currentTick} startSetTo={currentTick}");
+
             SkillDefinition skill = command.SkillId != 0 ? FindSkillById(command.SkillId) : FindSkillBySlot(command.Slot);
             if (skill == null)
+            {
+                if (_player != null && _player.DebugLog)
+                    SkillDiagLogger.Log($"[START] role={SkillDiagLogger.RoleOf(_player)} FAILED skill not found");
                 return;
+            }
 
             _activeSkill = skill;
             _activeSequenceId = command.SequenceId;
