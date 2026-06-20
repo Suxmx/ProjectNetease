@@ -11,7 +11,7 @@ namespace Battle
     /// 会让 spectator 先 replay 预跑多个 tick 导致视觉瞬跳，旁观者改由服务器 reconcile 传播 + TickSmoother 插值。
     /// Host 旁观（IsServerStarted）不跳过——Host 是服务器权威直接跑，无 replay 问题。
     /// </summary>
-    [SkillExecutor(SkillGeneratedIds.MoveVelocityClip)]
+    [SkillExecutor(SkillGeneratedIds.SetVelocityClip)]
     public sealed class MoveVelocityClipExecutor : ClientPredictionSkillExecutor<MoveVelocityNodeData>
     {
         protected override void OnTick(in SkillExecutionContext context, in MoveVelocityNodeData data)

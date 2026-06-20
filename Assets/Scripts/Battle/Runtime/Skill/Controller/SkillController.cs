@@ -124,7 +124,7 @@ namespace Battle
             else if (command.Type == SkillCommandType.Release && _isActive)
                 _phase = 2;
             else if (command.Type == SkillCommandType.Cancel && _isActive)
-                StopSkill();
+                StopSkill(state);
 
             if (!_isActive || _activeSkill == null)
                 return;
@@ -133,7 +133,7 @@ namespace Battle
             int elapsedTicks = currentTick >= _startTick ? (int)(currentTick - _startTick) : 0;
             if (elapsedTicks > _activeSkill.LengthTicks)
             {
-                StopSkill();
+                StopSkill(state);
                 return;
             }
 
@@ -342,11 +342,11 @@ namespace Battle
         }
 
         /// <summary>停止当前技能，对所有 active 节点触发 OnEnd，然后清空状态。</summary>
-        private void StopSkill()
+        private void StopSkill(ReplicateState state)
         {
-            // --- 对所有仍在 active 的节点触发 OnEnd ---
+            // --- 对所有仍在 active 的节点触发 OnEnd（按各域的执行条件过滤）---
             if (_activeSkill != null && _player != null)
-                StopAllActiveNodes();
+                StopAllActiveNodes(state);
 
             _activeSkill = null;
             _activeSequenceId = 0;
@@ -357,19 +357,28 @@ namespace Battle
             ClearDamageGroups();
         }
 
-        /// <summary>对三个 domain 的所有 active 节点触发 OnEnd（技能提前停止时）。</summary>
-        private void StopAllActiveNodes()
+        /// <summary>
+        /// 对三个 domain 的所有 active 节点触发 OnEnd（技能提前停止时）。
+        /// 按各域的 TickDomain 过滤条件决定是否调 End，避免 replay/客户端对 ServerOnly 域触发 DoHit 等服务器逻辑。
+        /// </summary>
+        private void StopAllActiveNodes(ReplicateState state)
         {
             int elapsedTicks = 0;
             uint currentTick = 0;
             float delta = _player != null ? (float)_player.TimeManager.TickDelta : 0f;
-            ReplicateState state = ReplicateState.Invalid;
             SkillCommand command = SkillCommand.None;
             Vector3 aim = _player != null && _player.Motor != null ? _player.Motor.AimDirection : Vector3.forward;
 
+            // --- ClientPrediction：无过滤，所有身份所有 tick 都触发 ---
             StopDomainNodes(command, aim, currentTick, elapsedTicks, delta, state, _activeClientPredictionNodeIds);
-            StopDomainNodes(command, aim, currentTick, elapsedTicks, delta, state, _activeClientOnlyNodeIds);
-            StopDomainNodes(command, aim, currentTick, elapsedTicks, delta, state, _activeServerOnlyNodeIds);
+
+            // --- ClientOnly：只在客户端非 replay tick 触发 ---
+            if (_player.IsClientStarted && !state.ContainsReplayed())
+                StopDomainNodes(command, aim, currentTick, elapsedTicks, delta, state, _activeClientOnlyNodeIds);
+
+            // --- ServerOnly：只在服务器非 replay tick 触发 ---
+            if (_player.IsServerStarted && !state.ContainsReplayed())
+                StopDomainNodes(command, aim, currentTick, elapsedTicks, delta, state, _activeServerOnlyNodeIds);
         }
 
         /// <summary>对单个 domain 的 active 节点集合触发 OnEnd 并清空。</summary>
