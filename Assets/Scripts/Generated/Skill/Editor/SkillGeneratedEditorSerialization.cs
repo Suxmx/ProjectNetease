@@ -28,8 +28,7 @@ namespace Hoshino
 
         public bool TryGetClipId(Type type, out uint id)
         {
-            if (type == typeof(MoveVelocityClip)) { id = SkillGeneratedIds.MoveVelocityClip; return true; }
-            if (type == typeof(MoveDisplacementClip)) { id = SkillGeneratedIds.MoveDisplacementClip; return true; }
+            if (type == typeof(SetVelocityClip)) { id = SkillGeneratedIds.SetVelocityClip; return true; }
             if (type == typeof(TeleportClip)) { id = SkillGeneratedIds.TeleportClip; return true; }
             if (type == typeof(AttributeModifierClip)) { id = SkillGeneratedIds.AttributeModifierClip; return true; }
             if (type == typeof(SingleDamageClip)) { id = SkillGeneratedIds.SingleDamageClip; return true; }
@@ -81,8 +80,7 @@ namespace Hoshino
         {
             Type type = id switch
             {
-                SkillGeneratedIds.MoveVelocityClip => typeof(MoveVelocityClip),
-                SkillGeneratedIds.MoveDisplacementClip => typeof(MoveDisplacementClip),
+                SkillGeneratedIds.SetVelocityClip => typeof(SetVelocityClip),
                 SkillGeneratedIds.TeleportClip => typeof(TeleportClip),
                 SkillGeneratedIds.AttributeModifierClip => typeof(AttributeModifierClip),
                 SkillGeneratedIds.SingleDamageClip => typeof(SingleDamageClip),
@@ -110,15 +108,10 @@ namespace Hoshino
         {
             switch (clipId)
             {
-                case SkillGeneratedIds.MoveVelocityClip:
+                case SkillGeneratedIds.SetVelocityClip:
                 {
-                    MoveVelocityClip typed = (MoveVelocityClip)clip;
-                    return new MoveVelocityNodeData { Space = typed.Space, Velocity = typed.Velocity };
-                }
-                case SkillGeneratedIds.MoveDisplacementClip:
-                {
-                    MoveDisplacementClip typed = (MoveDisplacementClip)clip;
-                    return new MoveDisplacementNodeData { Space = typed.Space, DisplacementPerSecond = typed.DisplacementPerSecond };
+                    SetVelocityClip typed = (SetVelocityClip)clip;
+                    return new SetVelocityNodeData { Space = typed.Space, Velocity = typed.Velocity, VelocityCurve = typed.VelocityCurve };
                 }
                 case SkillGeneratedIds.TeleportClip:
                 {
@@ -148,20 +141,13 @@ namespace Hoshino
         {
             switch (clipId)
             {
-                case SkillGeneratedIds.MoveVelocityClip:
+                case SkillGeneratedIds.SetVelocityClip:
                 {
-                    MoveVelocityClip typed = (MoveVelocityClip)clip;
-                    MoveVelocityNodeData value = data is MoveVelocityNodeData d ? d : default;
+                    SetVelocityClip typed = (SetVelocityClip)clip;
+                    SetVelocityNodeData value = data is SetVelocityNodeData d ? d : default;
                     typed.Space = value.Space;
                     typed.Velocity = value.Velocity;
-                    break;
-                }
-                case SkillGeneratedIds.MoveDisplacementClip:
-                {
-                    MoveDisplacementClip typed = (MoveDisplacementClip)clip;
-                    MoveDisplacementNodeData value = data is MoveDisplacementNodeData d ? d : default;
-                    typed.Space = value.Space;
-                    typed.DisplacementPerSecond = value.DisplacementPerSecond;
+                    typed.VelocityCurve = value.VelocityCurve;
                     break;
                 }
                 case SkillGeneratedIds.TeleportClip:
@@ -226,10 +212,8 @@ namespace Hoshino
         {
             switch (clipId)
             {
-                case SkillGeneratedIds.MoveVelocityClip:
-                    return new MoveVelocityNodeData { Space = (SkillSpace)reader.ReadInt32(), Velocity = ReadVector3(reader) };
-                case SkillGeneratedIds.MoveDisplacementClip:
-                    return new MoveDisplacementNodeData { Space = (SkillSpace)reader.ReadInt32(), DisplacementPerSecond = ReadVector3(reader) };
+                case SkillGeneratedIds.SetVelocityClip:
+                    return new SetVelocityNodeData { Space = (SkillSpace)reader.ReadInt32(), Velocity = ReadVector3(reader), VelocityCurve = ReadCurve(reader) };
                 case SkillGeneratedIds.TeleportClip:
                     return new TeleportNodeData { Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), UseCommandTargetPoint = reader.ReadBoolean() };
                 case SkillGeneratedIds.AttributeModifierClip:
@@ -246,18 +230,12 @@ namespace Hoshino
         {
             switch (clipId)
             {
-                case SkillGeneratedIds.MoveVelocityClip:
+                case SkillGeneratedIds.SetVelocityClip:
                 {
-                    MoveVelocityNodeData value = data is MoveVelocityNodeData d ? d : default;
+                    SetVelocityNodeData value = data is SetVelocityNodeData d ? d : default;
                     writer.Write((int)value.Space);
                     WriteVector3(writer, value.Velocity);
-                    break;
-                }
-                case SkillGeneratedIds.MoveDisplacementClip:
-                {
-                    MoveDisplacementNodeData value = data is MoveDisplacementNodeData d ? d : default;
-                    writer.Write((int)value.Space);
-                    WriteVector3(writer, value.DisplacementPerSecond);
+                    WriteCurve(writer, value.VelocityCurve);
                     break;
                 }
                 case SkillGeneratedIds.TeleportClip:
@@ -315,18 +293,12 @@ namespace Hoshino
             fields.Clear();
             switch (clipId)
             {
-                case SkillGeneratedIds.MoveVelocityClip:
+                case SkillGeneratedIds.SetVelocityClip:
                 {
-                    MoveVelocityNodeData value = data is MoveVelocityNodeData d ? d : default;
+                    SetVelocityNodeData value = data is SetVelocityNodeData d ? d : default;
                     Add(fields, "Space", value.Space);
                     Add(fields, "Velocity", value.Velocity);
-                    break;
-                }
-                case SkillGeneratedIds.MoveDisplacementClip:
-                {
-                    MoveDisplacementNodeData value = data is MoveDisplacementNodeData d ? d : default;
-                    Add(fields, "Space", value.Space);
-                    Add(fields, "DisplacementPerSecond", value.DisplacementPerSecond);
+                    Add(fields, "VelocityCurve", value.VelocityCurve);
                     break;
                 }
                 case SkillGeneratedIds.TeleportClip:
@@ -506,6 +478,18 @@ namespace Hoshino
         private static Quaternion ReadQuaternion(BinaryReader reader) { return new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()); }
         private static void WriteColor(BinaryWriter writer, Color value) { writer.Write(value.r); writer.Write(value.g); writer.Write(value.b); writer.Write(value.a); }
         private static Color ReadColor(BinaryReader reader) { return new Color(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()); }
+        private static void WriteCurve(BinaryWriter writer, AnimationCurve curve) {
+            Keyframe[] keys = curve != null ? curve.keys : System.Array.Empty<Keyframe>();
+            writer.Write(keys.Length);
+            for (int i = 0; i < keys.Length; i++) { writer.Write(keys[i].time); writer.Write(keys[i].value); writer.Write(keys[i].inTangent); writer.Write(keys[i].outTangent); }
+        }
+        private static AnimationCurve ReadCurve(BinaryReader reader) {
+            int count = reader.ReadInt32();
+            if (count <= 0) return new AnimationCurve();
+            Keyframe[] keys = new Keyframe[count];
+            for (int i = 0; i < count; i++) { keys[i] = new Keyframe(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()); }
+            return new AnimationCurve(keys);
+        }
     }
 }
 

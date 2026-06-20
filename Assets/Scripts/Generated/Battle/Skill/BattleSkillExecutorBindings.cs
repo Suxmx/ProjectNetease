@@ -16,8 +16,7 @@ namespace Battle
 
         private static readonly Dictionary<uint, ExecutorEntry> _entries = new()
         {
-            { SkillGeneratedIds.MoveVelocityClip, new ExecutorEntry { ExecutorTypeName = "Battle.MoveVelocityClipExecutor", Domain = SkillNodeExecutionDomain.ClientPrediction } },
-            { SkillGeneratedIds.MoveDisplacementClip, new ExecutorEntry { ExecutorTypeName = "Battle.MoveDisplacementClipExecutor", Domain = SkillNodeExecutionDomain.ClientPrediction } },
+            { SkillGeneratedIds.SetVelocityClip, new ExecutorEntry { ExecutorTypeName = "Battle.SetVelocityClipExecutor", Domain = SkillNodeExecutionDomain.ClientPrediction } },
             { SkillGeneratedIds.TeleportClip, new ExecutorEntry { ExecutorTypeName = "Battle.TeleportClipExecutor", Domain = SkillNodeExecutionDomain.ClientPrediction } },
             { SkillGeneratedIds.AttributeModifierClip, new ExecutorEntry { ExecutorTypeName = "Battle.AttributeModifierClipExecutor", Domain = SkillNodeExecutionDomain.ServerOnly } },
             { SkillGeneratedIds.SingleDamageClip, new ExecutorEntry { ExecutorTypeName = "Battle.SingleDamageClipExecutor", Domain = SkillNodeExecutionDomain.ServerOnly } },

@@ -12,9 +12,9 @@ namespace Battle
     /// Host 旁观（IsServerStarted）不跳过——Host 是服务器权威直接跑，无 replay 问题。
     /// </summary>
     [SkillExecutor(SkillGeneratedIds.SetVelocityClip)]
-    public sealed class MoveVelocityClipExecutor : ClientPredictionSkillExecutor<MoveVelocityNodeData>
+    public sealed class SetVelocityClipExecutor : ClientPredictionSkillExecutor<SetVelocityNodeData>
     {
-        protected override void OnTick(in SkillExecutionContext context, in MoveVelocityNodeData data)
+        protected override void OnTick(in SkillExecutionContext context, in SetVelocityNodeData data)
         {
             // --- 旁观者跳过：避免 replay 预跑导致视觉瞬跳 ---
             if (!context.Player.IsOwner && !context.Player.IsServerStarted)

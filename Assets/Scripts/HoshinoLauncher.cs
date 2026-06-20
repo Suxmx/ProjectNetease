@@ -7,7 +7,11 @@ namespace DefaultNamespace
     {
         public override void InitGameStatesFsm(GameStateComponent gameStateComponent)
         {
-            
+            gameStateComponent.GameStateFsm.AddState("Empty",new EmptyGameState());
         }
+    }
+
+    public class EmptyGameState : GameStateBase
+    {
     }
 }

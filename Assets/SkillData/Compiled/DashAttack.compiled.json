@@ -4,7 +4,7 @@
     "skillKey": "DashAttack",
     "sourceTickRate": 60,
     "lengthTicks": 30,
-    "nodeDataBlobLength": 66,
+    "nodeDataBlobLength": 102,
     "nodes": [
         {
             "nodeId": 1,
@@ -14,7 +14,7 @@
             "startTick": 0,
             "endTick": 30,
             "dataOffset": 0,
-            "dataLength": 16
+            "dataLength": 52
         },
         {
             "nodeId": 2,
@@ -23,7 +23,7 @@
             "sourceLine": 1,
             "startTick": 0,
             "endTick": 30,
-            "dataOffset": 16,
+            "dataOffset": 52,
             "dataLength": 50
         }
     ]

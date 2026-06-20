@@ -106,8 +106,6 @@ namespace Battle
             _predictionRigidbody.Velocity(velocity);
             _predictionRigidbody.Simulate();
         }
-
-        /// <summary>累加预测速度（由技能 Executor 调用）。</summary>
         public void AddPredictedVelocity(Vector3 value)
         {
             _predictedVelocity += value;

@@ -9,8 +9,7 @@ namespace Hoshino
     {
         public const uint ActorGroup = 1u;
         public const uint SkillActionTrack = 101u;
-        public const uint MoveVelocityClip = 1001u;
-        public const uint MoveDisplacementClip = 1002u;
+        public const uint SetVelocityClip = 1002u;
         public const uint TeleportClip = 1003u;
         public const uint AttributeModifierClip = 1006u;
         public const uint SingleDamageClip = 1007u;
@@ -19,17 +18,11 @@ namespace Hoshino
     }
 
     [Serializable]
-    public struct MoveVelocityNodeData
+    public struct SetVelocityNodeData
     {
         public SkillSpace Space;
         public Vector3 Velocity;
-    }
-
-    [Serializable]
-    public struct MoveDisplacementNodeData
-    {
-        public SkillSpace Space;
-        public Vector3 DisplacementPerSecond;
+        public AnimationCurve VelocityCurve;
     }
 
     [Serializable]
@@ -124,18 +117,12 @@ namespace Hoshino
         {
             switch (clipId)
             {
-                case SkillGeneratedIds.MoveVelocityClip:
+                case SkillGeneratedIds.SetVelocityClip:
                 {
-                    MoveVelocityNodeData value = data is MoveVelocityNodeData typed ? typed : default;
+                    SetVelocityNodeData value = data is SetVelocityNodeData typed ? typed : default;
                     writer.Write((int)value.Space);
                     WriteVector3(writer, value.Velocity);
-                    break;
-                }
-                case SkillGeneratedIds.MoveDisplacementClip:
-                {
-                    MoveDisplacementNodeData value = data is MoveDisplacementNodeData typed ? typed : default;
-                    writer.Write((int)value.Space);
-                    WriteVector3(writer, value.DisplacementPerSecond);
+                    WriteCurve(writer, value.VelocityCurve);
                     break;
                 }
                 case SkillGeneratedIds.TeleportClip:
@@ -247,10 +234,8 @@ namespace Hoshino
         {
             switch (clipId)
             {
-                case SkillGeneratedIds.MoveVelocityClip:
-                    return new MoveVelocityNodeData { Space = (SkillSpace)reader.ReadInt32(), Velocity = ReadVector3(reader) };
-                case SkillGeneratedIds.MoveDisplacementClip:
-                    return new MoveDisplacementNodeData { Space = (SkillSpace)reader.ReadInt32(), DisplacementPerSecond = ReadVector3(reader) };
+                case SkillGeneratedIds.SetVelocityClip:
+                    return new SetVelocityNodeData { Space = (SkillSpace)reader.ReadInt32(), Velocity = ReadVector3(reader), VelocityCurve = ReadCurve(reader) };
                 case SkillGeneratedIds.TeleportClip:
                     return new TeleportNodeData { Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), UseCommandTargetPoint = reader.ReadBoolean() };
                 case SkillGeneratedIds.AttributeModifierClip:
@@ -267,9 +252,7 @@ namespace Hoshino
         {
             switch (clipId)
             {
-                case SkillGeneratedIds.MoveVelocityClip:
-                    return true;
-                case SkillGeneratedIds.MoveDisplacementClip:
+                case SkillGeneratedIds.SetVelocityClip:
                     return true;
                 case SkillGeneratedIds.TeleportClip:
                     return true;
@@ -316,6 +299,18 @@ namespace Hoshino
         private static Quaternion ReadQuaternion(BinaryReader reader) { return new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()); }
         private static void WriteColor(BinaryWriter writer, Color value) { writer.Write(value.r); writer.Write(value.g); writer.Write(value.b); writer.Write(value.a); }
         private static Color ReadColor(BinaryReader reader) { return new Color(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()); }
+        private static void WriteCurve(BinaryWriter writer, AnimationCurve curve) {
+            Keyframe[] keys = curve != null ? curve.keys : System.Array.Empty<Keyframe>();
+            writer.Write(keys.Length);
+            for (int i = 0; i < keys.Length; i++) { writer.Write(keys[i].time); writer.Write(keys[i].value); writer.Write(keys[i].inTangent); writer.Write(keys[i].outTangent); }
+        }
+        private static AnimationCurve ReadCurve(BinaryReader reader) {
+            int count = reader.ReadInt32();
+            if (count <= 0) return new AnimationCurve();
+            Keyframe[] keys = new Keyframe[count];
+            for (int i = 0; i < count; i++) { keys[i] = new Keyframe(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle()); }
+            return new AnimationCurve(keys);
+        }
     }
 
     public static class SkillGeneratedSpecialDataBlob
