@@ -70,8 +70,11 @@ namespace Battle
                 return default;
 
             Vector2 move = _input.ReadMove();
-            Vector3 aim = _input.ReadAimDirection(transform.position, _motor.AimDirection);
-            SkillCommand command = _input.ConsumeSkillCommand(aim, TimeManager.LocalTick);
+            Vector3 aim = _input.GetCachedAim();
+            if (aim.sqrMagnitude < 0.0001f)
+                aim = _motor.AimDirection;
+
+            SkillCommand command = _input.ConsumeSkillCommand(TimeManager.LocalTick);
 
             // --- 按 slot 查找技能 ID ---
             if (command.Type != SkillCommandType.None && _skillController != null && command.SkillId == 0)

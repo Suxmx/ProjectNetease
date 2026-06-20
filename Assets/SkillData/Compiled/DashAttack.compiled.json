@@ -3,8 +3,8 @@
     "skillId": 1424705300,
     "skillKey": "DashAttack",
     "sourceTickRate": 60,
-    "lengthTicks": 90,
-    "nodeDataBlobLength": 115,
+    "lengthTicks": 30,
+    "nodeDataBlobLength": 66,
     "nodes": [
         {
             "nodeId": 1,
@@ -12,29 +12,19 @@
             "clipId": 1002,
             "sourceLine": 1,
             "startTick": 0,
-            "endTick": 90,
+            "endTick": 30,
             "dataOffset": 0,
             "dataLength": 16
         },
         {
-            "nodeId": 3,
+            "nodeId": 2,
             "sourceTrackName": "Skill Action Track",
             "clipId": 1008,
             "sourceLine": 1,
             "startTick": 0,
-            "endTick": 90,
-            "dataOffset": 65,
-            "dataLength": 50
-        },
-        {
-            "nodeId": 2,
-            "sourceTrackName": "Skill Action Track",
-            "clipId": 1007,
-            "sourceLine": 1,
-            "startTick": 39,
-            "endTick": 40,
+            "endTick": 30,
             "dataOffset": 16,
-            "dataLength": 49
+            "dataLength": 50
         }
     ]
 }

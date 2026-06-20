@@ -7,8 +7,8 @@
     "playbackSpeed": 1.0,
     "playOnStart": false,
     "length": 30.0,
-    "viewTimeMin": 0.0,
-    "viewTimeMax": 2.2985589504241945,
+    "viewTimeMin": 0.054381243884563449,
+    "viewTimeMax": 2.236424446105957,
     "playTimeMin": 2.0,
     "playTimeMax": 4.0,
     "groups": [
@@ -48,7 +48,7 @@
                         {
                             "clipId": 1002,
                             "startTime": 0.0,
-                            "length": 1.5000001192092896,
+                            "length": 0.5,
                             "blendIn": 0.0,
                             "blendOut": 0.0,
                             "line": 1,
@@ -59,7 +59,7 @@
                                 },
                                 {
                                     "name": "DisplacementPerSecond",
-                                    "value": "(0.00, 0.00, 3.00)"
+                                    "value": "(0.00, 0.00, 16.00)"
                                 }
                             ]
                         }
@@ -77,54 +77,7 @@
                     "active": true,
                     "isLocked": false,
                     "isCollapsed": false,
-                    "clips": [
-                        {
-                            "clipId": 1007,
-                            "startTime": 0.6500000357627869,
-                            "length": 0.016699999570846559,
-                            "blendIn": 0.0,
-                            "blendOut": 0.0,
-                            "line": 1,
-                            "customFields": [
-                                {
-                                    "name": "Shape",
-                                    "value": "Sphere"
-                                },
-                                {
-                                    "name": "Space",
-                                    "value": "ActorForward"
-                                },
-                                {
-                                    "name": "Offset",
-                                    "value": "(0.00, 0.00, 0.00)"
-                                },
-                                {
-                                    "name": "HalfExtents",
-                                    "value": "(0.80, 0.60, 0.90)"
-                                },
-                                {
-                                    "name": "Radius",
-                                    "value": "3.16"
-                                },
-                                {
-                                    "name": "Distance",
-                                    "value": "4"
-                                },
-                                {
-                                    "name": "HitMask",
-                                    "value": "UnityEngine.LayerMask"
-                                },
-                                {
-                                    "name": "Damage",
-                                    "value": "10"
-                                },
-                                {
-                                    "name": "DamageGroupId",
-                                    "value": "0"
-                                }
-                            ]
-                        }
-                    ]
+                    "clips": []
                 },
                 {
                     "trackId": 101,
@@ -142,7 +95,7 @@
                         {
                             "clipId": 1008,
                             "startTime": 0.0,
-                            "length": 1.5000001192092896,
+                            "length": 0.5,
                             "blendIn": 0.0,
                             "blendOut": 0.0,
                             "line": 1,
@@ -177,7 +130,7 @@
                                 },
                                 {
                                     "name": "Damage",
-                                    "value": "10"
+                                    "value": "1"
                                 },
                                 {
                                     "name": "DamageGroupId",
@@ -185,7 +138,7 @@
                                 },
                                 {
                                     "name": "HitIntervalTicks",
-                                    "value": "1"
+                                    "value": "3"
                                 }
                             ]
                         }
