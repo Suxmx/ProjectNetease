@@ -217,7 +217,8 @@ namespace NetDemo.Editor
             follow.TrackerSettings.QuaternionDamping = 0f;
             follow.FollowOffset = new Vector3(0f, 12f, -8f);
 
-            cameraObject.AddComponent<CinemachineHardLookAt>();
+            // 俯视角固定朝向：不挂载 HardLookAt，相机保持 Transform 初始旋转(55,0,0)，
+            // 避免 PositionDamping 滞后时 LookAt 产生水平 yaw 旋转。
 
             return camera;
         }

@@ -252,6 +252,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   _cameraTarget: {fileID: 44277955118698397}
   _virtualCamera: {fileID: 7396100103671018259}
+  _fixedEulerAngles: {x: 55, y: 0, z: 0}
 --- !u!114 &5256054957749720671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1276,7 +1277,6 @@ GameObject:
   - component: {fileID: 5595187018603391372}
   - component: {fileID: 7396100103671018259}
   - component: {fileID: 6275360603277982559}
-  - component: {fileID: 3238366440945549688}
   m_Layer: 6
   m_Name: Owner Cinemachine Camera
   m_TagString: Untagged
@@ -1360,17 +1360,4 @@ MonoBehaviour:
     AngularDampingMode: 0
     RotationDamping: {x: 0, y: 0, z: 0}
     QuaternionDamping: 0
-  FollowOffset: {x: 0, y: 12, z: -8}
---- !u!114 &3238366440945549688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7749923595325236408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineHardLookAt
-  LookAtOffset: {x: 0, y: 0, z: 0}
+  FollowOffset: {x: 0, y: 16, z: -12}
