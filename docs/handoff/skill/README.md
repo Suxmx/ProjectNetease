@@ -9,6 +9,7 @@
 | [player-architecture.md](player-architecture.md) | Player/Motor/SkillController 职责分离、Tick 执行顺序、输入架构、Prefab 配置 | ★ 第一个 |
 | [network-prediction.md](network-prediction.md) | FishNet 预测回滚机制、Reconcile 数据流、Replay、reconcile 后节点集合重建 | ★ 第二个 |
 | [skill-controller.md](skill-controller.md) | SkillController 调度流程、三域 tick、节点生命周期、技能停止 | ★ 第三个 |
+| [lifecycle-analysis.md](lifecycle-analysis.md) | 各域节点在预测回滚体系下的生命周期逐场景分析、潜在风险 | ★ 第四个 |
 | [executor-system.md](executor-system.md) | Executor 基类层级、Domain 推断、生命周期回调、内置 Executor 清单 | 按需 |
 | [damage-system.md](damage-system.md) | 伤害链路、DamageDispatcher、伤害组、命中反馈、滞后补偿 | 按需 |
 | [data-and-codegen.md](data-and-codegen.md) | 数据流（.skill→.bytes→运行时）、代码生成菜单、序列化、新增节点流程 | 按需 |

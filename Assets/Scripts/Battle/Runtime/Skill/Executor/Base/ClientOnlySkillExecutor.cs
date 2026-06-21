@@ -16,13 +16,11 @@ namespace Battle
             {
                 case SkillNodeLifecyclePhase.Start:
                     OnStart(context, data);
-                    OnTick(context, data);
                     break;
                 case SkillNodeLifecyclePhase.Tick:
                     OnTick(context, data);
                     break;
                 case SkillNodeLifecyclePhase.End:
-                    OnTick(context, data);
                     OnEnd(context, data);
                     break;
             }
