@@ -8,7 +8,7 @@ using UnityEngine;
 namespace MemoFramework
 {
     [CustomEditor(typeof(BlackboardComponent))]
-    public class BlackboardInspector : Editor
+    public class BlackboardInspector : UnityEditor.Editor
     {
         private FieldInfo _intDictField;
         private FieldInfo _floatDictField;

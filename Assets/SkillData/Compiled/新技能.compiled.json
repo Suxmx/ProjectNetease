@@ -1,0 +1,20 @@
+{
+    "version": 1,
+    "skillId": -1306362577,
+    "skillKey": "新技能",
+    "sourceTickRate": 60,
+    "lengthTicks": 1,
+    "nodeDataBlobLength": 49,
+    "nodes": [
+        {
+            "nodeId": 1,
+            "sourceTrackName": "Skill Action Track",
+            "clipId": 1007,
+            "sourceLine": 1,
+            "startTick": 0,
+            "endTick": 1,
+            "dataOffset": 0,
+            "dataLength": 49
+        }
+    ]
+}

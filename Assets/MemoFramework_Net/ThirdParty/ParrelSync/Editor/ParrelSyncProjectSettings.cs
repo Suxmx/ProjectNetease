@@ -9,7 +9,7 @@ namespace ParrelSync
     // With ScriptableObject derived classes, .cs and .asset filenames MUST be identical
     public class ParrelSyncProjectSettings : ScriptableObject
     {
-        private const string ParrelSyncScriptableObjectsDirectory = "Assets/Plugins/ParrelSync/ScriptableObjects";
+        private const string ParrelSyncScriptableObjectsDirectory = "Assets/MemoFramework_Net/ThirdParty/ParrelSync/ScriptableObjects";
         private const string ParrelSyncSettingsPath = ParrelSyncScriptableObjectsDirectory + "/" +
                                                        nameof(ParrelSyncProjectSettings) + ".asset";
 

@@ -9,7 +9,7 @@ using UnityEngine;
 namespace MemoFramework
 {
     [CustomEditor(typeof(GameStateComponent))]
-    public class GameStateInspector : Editor
+    public class GameStateInspector : UnityEditor.Editor
     {
         private bool m_IsCompiling = false;
         private SerializedProperty m_EntranceProcedureTypeName = null;

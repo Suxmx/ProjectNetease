@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: OdinVisualDesignerConfig
   m_EditorClassIdentifier: Sirenix.OdinInspector.Editor.dll::Sirenix.OdinInspector.Editor.OdinVisualDesignerConfig
   SerializedFavoriteAttributes: []
-  savePath: Assets/Plugins/Sirenix/Odin Inspector/Visual Designer/Saved
+  savePath: Assets/MemoFramework/ThirdParty/Sirenix/Odin Inspector/Visual Designer/Saved
