@@ -139,13 +139,17 @@ namespace MemoFramework.Editor.Dependencies
     internal sealed class MemoFrameworkSetupWindow : EditorWindow
     {
         private const string WindowTitle = "MemoFramework Setup";
+        private const string SkillOptionalPackageName = "MemoFramework_Skill";
+        private const string SkillExecutorGenerateMenuPath = "Skill/生成 Executor 绑定代码";
         /// <summary>跨域重载存活的标志：为 true 表示核心依赖安装流程未完成，需要在窗口重建后自动续装。</summary>
         private const string InstallingFlagKey = "MemoFramework.Setup.Installing";
 
         private static readonly PackageDependency[] CoreDependencies =
         {
             new PackageDependency("Settings Manager", "com.unity.settings-manager", "com.unity.settings-manager@2.0.1"),
-            new PackageDependency("Cinemachine", "com.unity.cinemachine", "com.unity.cinemachine@3.1.7")
+            new PackageDependency("Cinemachine", "com.unity.cinemachine", "com.unity.cinemachine@3.1.7"),
+            new PackageDependency("Input System", "com.unity.inputsystem", "com.unity.inputsystem@1.19.0"),
+            new PackageDependency("Addressables", "com.unity.addressables", "com.unity.addressables@2.2.2")
         };
 
         private const string InstallRoot = "Assets/MemoFramework/InstalledOptionalPackage";
@@ -157,13 +161,48 @@ namespace MemoFramework.Editor.Dependencies
                 "Assets/MemoFramework/InstalledOptionalPackage/MemoFramework_Net",
                 "Assets/MemoFramework_Net",
                 "Assets/MemoFramework/OptionalPackages/MemoFramework_Net.unitypackage",
-                string.Empty),
+                string.Empty,
+                "Assets/MemoFramework/OptionalPackages/MemoFramework_Net.Samples.unitypackage",
+                "Assets/MemoFramework_Net/Samples"),
+            new OptionalPackage(
+                "MemoFramework_3C",
+                "Assets/MemoFramework/InstalledOptionalPackage/MemoFramework_3C",
+                "Assets/MemoFramework_3C",
+                "Assets/MemoFramework/OptionalPackages/MemoFramework_3C.unitypackage",
+                "包含非联网 3C、Cinemachine 摄像机跟随和输入扩展。需要先安装 Core Dependencies。",
+                "Assets/MemoFramework/OptionalPackages/MemoFramework_3C.Samples.unitypackage",
+                "Assets/MemoFramework/InstalledOptionalPackage/MemoFramework_3C/Samples"),
+            new OptionalPackage(
+                "MemoFramework_Net3C",
+                "Assets/MemoFramework/InstalledOptionalPackage/MemoFramework_Net3C",
+                "Assets/MemoFramework_Net3C",
+                "Assets/MemoFramework/OptionalPackages/MemoFramework_Net3C.unitypackage",
+                "依赖 MemoFramework_Net 和 MemoFramework_3C，只提供 FishNet 3C 联网适配。",
+                "Assets/MemoFramework/OptionalPackages/MemoFramework_Net3C.Samples.unitypackage",
+                "Assets/MemoFramework/InstalledOptionalPackage/MemoFramework_Net3C/Samples",
+                new[]
+                {
+                    "Assets/MemoFramework/InstalledOptionalPackage/MemoFramework_Net",
+                    "Assets/MemoFramework/InstalledOptionalPackage/MemoFramework_3C"
+                },
+                "请先安装 MemoFramework_Net 和 MemoFramework_3C，再导入 MemoFramework_Net3C。"),
             new OptionalPackage(
                 "MemoFramework_Skill",
                 "Assets/MemoFramework/InstalledOptionalPackage/MemoFramework_Skill",
                 "Assets/MemoFramework_Skill",
                 "Assets/MemoFramework/OptionalPackages/MemoFramework_Skill.unitypackage",
-                "导入后会自动生成技能序列化代码。")
+                "导入后会自动生成技能序列化代码与 Executor 绑定代码。",
+                "Assets/MemoFramework/OptionalPackages/MemoFramework_Skill.Samples.unitypackage",
+                "Assets/MemoFramework/InstalledOptionalPackage/MemoFramework_Skill/Samples")
+        };
+
+        /// <summary>主框架自身的 Samples（非可选包形式），同样用 unitypackage 导入。</summary>
+        private static readonly FrameworkSample[] FrameworkSamples =
+        {
+            new FrameworkSample(
+                "MemoFramework Samples",
+                "Assets/MemoFramework/OptionalPackages/MemoFramework.Samples.unitypackage",
+                "Assets/MemoFramework/Samples")
         };
 
         private static ListRequest autoPromptRequest;
@@ -256,9 +295,18 @@ namespace MemoFramework.Editor.Dependencies
             EditorGUILayout.LabelField("MemoFramework Setup", EditorStyles.boldLabel);
             EditorGUILayout.Space(4f);
 
-            DrawCoreDependencies();
-            EditorGUILayout.Space(14f);
-            DrawOptionalPackages();
+            bool hasMissingCoreDependencies = HasMissingCoreDependencies();
+            if (hasMissingCoreDependencies)
+            {
+                DrawCoreDependencies();
+            }
+            else
+            {
+                DrawOptionalPackages();
+                EditorGUILayout.Space(14f);
+                DrawFrameworkSamples();
+            }
+
             EditorGUILayout.Space(14f);
             DrawFooter();
 
@@ -297,6 +345,7 @@ namespace MemoFramework.Editor.Dependencies
         private void DrawOptionalPackages()
         {
             EditorGUILayout.LabelField("Optional Packages", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox("Recommended order: MemoFramework_Net -> MemoFramework_3C -> MemoFramework_Net3C. MemoFramework_Net3C requires both Net and 3C.", MessageType.Info);
 
             foreach (var optionalPackage in OptionalPackages)
             {
@@ -308,6 +357,7 @@ namespace MemoFramework.Editor.Dependencies
         private void DrawOptionalPackage(OptionalPackage optionalPackage)
         {
             var installed = AssetDatabase.IsValidFolder(optionalPackage.RootPath);
+            bool dependenciesInstalled = AreOptionalPackageDependenciesInstalled(optionalPackage);
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.BeginHorizontal();
@@ -318,7 +368,10 @@ namespace MemoFramework.Editor.Dependencies
             if (!string.IsNullOrEmpty(optionalPackage.Description))
                 EditorGUILayout.HelpBox(optionalPackage.Description, MessageType.None);
 
-            using (new EditorGUI.DisabledScope(installed || isInstalling || isChecking))
+            if (!dependenciesInstalled && !string.IsNullOrEmpty(optionalPackage.MissingDependencyMessage))
+                EditorGUILayout.HelpBox(optionalPackage.MissingDependencyMessage, MessageType.Warning);
+
+            using (new EditorGUI.DisabledScope(installed || isInstalling || isChecking || !dependenciesInstalled))
             {
                 if (File.Exists(optionalPackage.BundledAssetPath) && GUILayout.Button($"Import Bundled {optionalPackage.DisplayName}", GUILayout.Height(26f)))
                 {
@@ -326,7 +379,115 @@ namespace MemoFramework.Editor.Dependencies
                 }
             }
 
+            // --- 包已安装且提供 Samples 时，显示 Import Samples 按钮 ---
+            if (installed && optionalPackage.HasSamples)
+            {
+                DrawSamplesRow(optionalPackage.DisplayName, optionalPackage.SamplesUnityPackagePath, optionalPackage.SamplesImportedPath);
+            }
+
             EditorGUILayout.EndVertical();
+        }
+
+        /// <summary>
+        /// 检查可选包声明的其它可选包依赖是否已经安装。
+        /// </summary>
+        private bool AreOptionalPackageDependenciesInstalled(OptionalPackage optionalPackage)
+        {
+            if (optionalPackage.RequiredRootPaths == null || optionalPackage.RequiredRootPaths.Length == 0)
+                return true;
+
+            foreach (string requiredRootPath in optionalPackage.RequiredRootPaths)
+            {
+                if (!AssetDatabase.IsValidFolder(requiredRootPath))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>绘制 Samples 导入行：已导入显示 Installed，否则显示 Import Samples 按钮。</summary>
+        private void DrawSamplesRow(string displayName, string samplesPackagePath, string samplesImportedPath)
+        {
+            bool samplesInstalled = !string.IsNullOrEmpty(samplesImportedPath) && AssetDatabase.IsValidFolder(samplesImportedPath);
+            bool packageExists = !string.IsNullOrEmpty(samplesPackagePath) && File.Exists(samplesPackagePath);
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("  Samples", GUILayout.Width(150f));
+            EditorGUILayout.LabelField(samplesInstalled ? "Installed" : (packageExists ? "Not installed" : "Not bundled"));
+            using (new EditorGUI.DisabledScope(samplesInstalled || isInstalling || !packageExists))
+            {
+                if (GUILayout.Button($"Import {displayName} Samples", GUILayout.Height(22f)))
+                {
+                    ImportSamplesPackage(displayName, samplesPackagePath);
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawFrameworkSamples()
+        {
+            EditorGUILayout.LabelField("Framework Samples", EditorStyles.boldLabel);
+
+            foreach (FrameworkSample sample in FrameworkSamples)
+            {
+                DrawFrameworkSample(sample);
+                EditorGUILayout.Space(4f);
+            }
+        }
+
+        private void DrawFrameworkSample(FrameworkSample sample)
+        {
+            bool installed = !string.IsNullOrEmpty(sample.ImportedPath) && AssetDatabase.IsValidFolder(sample.ImportedPath);
+            bool packageExists = !string.IsNullOrEmpty(sample.UnityPackagePath) && File.Exists(sample.UnityPackagePath);
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(sample.DisplayName, GUILayout.Width(150f));
+            EditorGUILayout.LabelField(installed ? "Installed" : (packageExists ? "Not installed" : "Not bundled"));
+            EditorGUILayout.EndHorizontal();
+
+            using (new EditorGUI.DisabledScope(installed || isInstalling || !packageExists))
+            {
+                if (GUILayout.Button($"Import {sample.DisplayName}", GUILayout.Height(26f)))
+                {
+                    ImportSamplesPackage(sample.DisplayName, sample.UnityPackagePath);
+                }
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        /// <summary>导入 Samples unitypackage（不触发重定位，Samples 直接解压到目标路径）。</summary>
+        private void ImportSamplesPackage(string displayName, string packagePath)
+        {
+            if (!File.Exists(packagePath))
+            {
+                statusMessage = $"{displayName} Samples was not found.";
+                return;
+            }
+
+            TryGenerateSkillExecutorBindingsBeforeSampleImport(displayName);
+            statusMessage = $"Importing {displayName} Samples...";
+            AssetDatabase.ImportPackage(packagePath, false);
+            AssetDatabase.Refresh();
+            Debug.Log($"[MemoFramework] {displayName} Samples imported.");
+            Repaint();
+        }
+
+        /// <summary>导入 Skill Samples 前尝试刷新 Executor 绑定代码，避免旧空绑定文件缺少稳定查询 API。</summary>
+        private static void TryGenerateSkillExecutorBindingsBeforeSampleImport(string displayName)
+        {
+            if (!string.Equals(displayName, SkillOptionalPackageName, StringComparison.Ordinal))
+                return;
+
+            try
+            {
+                if (!EditorApplication.ExecuteMenuItem(SkillExecutorGenerateMenuPath))
+                    Debug.LogWarning($"[MemoFramework] Could not execute menu '{SkillExecutorGenerateMenuPath}' before importing {displayName} Samples.");
+            }
+            catch (Exception exception)
+            {
+                Debug.LogWarning($"[MemoFramework] Could not generate Skill executor bindings before importing {displayName} Samples: {exception.Message}");
+            }
         }
 
         private void DrawFooter()
@@ -534,14 +695,41 @@ namespace MemoFramework.Editor.Dependencies
             public readonly string ImportedSourcePath;
             public readonly string BundledAssetPath;
             public readonly string Description;
+            /// <summary>Samples unitypackage 路径；null/空表示无 Samples。</summary>
+            public readonly string SamplesUnityPackagePath;
+            /// <summary>Samples 导入后的目标路径，用于判断 Samples 是否已导入。</summary>
+            public readonly string SamplesImportedPath;
+            public readonly string[] RequiredRootPaths;
+            public readonly string MissingDependencyMessage;
 
-            public OptionalPackage(string displayName, string rootPath, string importedSourcePath, string bundledAssetPath, string description)
+            public bool HasSamples => !string.IsNullOrEmpty(SamplesUnityPackagePath);
+
+            public OptionalPackage(string displayName, string rootPath, string importedSourcePath, string bundledAssetPath, string description, string samplesUnityPackagePath, string samplesImportedPath, string[] requiredRootPaths = null, string missingDependencyMessage = "")
             {
                 DisplayName = displayName;
                 RootPath = rootPath;
                 ImportedSourcePath = importedSourcePath;
                 BundledAssetPath = bundledAssetPath;
                 Description = description;
+                SamplesUnityPackagePath = samplesUnityPackagePath;
+                SamplesImportedPath = samplesImportedPath;
+                RequiredRootPaths = requiredRootPaths;
+                MissingDependencyMessage = missingDependencyMessage;
+            }
+        }
+
+        /// <summary>主框架 Samples 条目（不依附于可选包）。</summary>
+        private readonly struct FrameworkSample
+        {
+            public readonly string DisplayName;
+            public readonly string UnityPackagePath;
+            public readonly string ImportedPath;
+
+            public FrameworkSample(string displayName, string unityPackagePath, string importedPath)
+            {
+                DisplayName = displayName;
+                UnityPackagePath = unityPackagePath;
+                ImportedPath = importedPath;
             }
         }
 

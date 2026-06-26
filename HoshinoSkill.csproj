@@ -47,34 +47,34 @@
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Generated\SkillGeneratedSerializationServices.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\CodeGen\SkillSerializationCodeGenerationOnImport.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Generated\SkillSerializationAttributes.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Clip\MultiDamageClip.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\CodeGen\SkillSerializationCodeGenerator.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\Compiler\SkillDefinitionCompiler.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Draw\SkillPreviewUtility.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\SkillData.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\SkillBlackboardCache.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\SpecialData\DamageGroupData.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\SkillFileRef.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Clip\SetVelocityClip.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Generated\SkillBuiltInExternalTypes.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Clip\AttributeModifierClip.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Clip\TeleportClip.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\SkillFileManager.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Compiled\SkillDefinition.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Compiled\SkillTickUtility.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\SkillEditor.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\SkillGeneratedEditorSerializationServices.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\SkillBlackboardWindow.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Track\SkillActionTrack.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\SkillSerializer.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Editor\CodeGen\SkillCodeGenUtilities.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Clip\SingleDamageClip.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Draw\SkillDraw.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Runtime\Compiled\SkillNodePayloads.cs" />
-    <None Include="Assets\MemoFramework_Skill\Skill\HoshinoSkill.asmdef" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillData.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillGeneratedEditorSerializationServices.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Clip\MultiDamageClip.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Clip\TeleportClip.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Track\SkillActionTrack.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Generated\SkillGeneratedSerializationServices.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\CodeGen\SkillSerializationCodeGenerator.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Generated\SkillSerializationAttributes.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\CodeGen\SkillSerializationCodeGenerationOnImport.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillBlackboardCache.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Clip\SingleDamageClip.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\CodeGen\SkillCodeGenUtilities.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Clip\SetVelocityClip.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\SkillFileRef.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\SpecialData\DamageGroupData.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Draw\SkillPreviewUtility.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Clip\AttributeModifierClip.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillFileManager.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillSerializer.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Compiled\SkillTickUtility.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\Compiler\SkillDefinitionCompiler.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillBlackboardWindow.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Generated\SkillBuiltInExternalTypes.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Compiled\SkillNodePayloads.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillEditor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Draw\SkillDraw.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Compiled\SkillDefinition.cs" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\HoshinoSkill.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -511,7 +511,7 @@
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="FishNet.CodeAnalysis">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Serialization">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>

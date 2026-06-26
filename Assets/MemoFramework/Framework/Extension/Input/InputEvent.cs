@@ -8,6 +8,8 @@ namespace MemoFramework.Extension
         None = 0,
         Move = 1,
         Shoot = 1 << 1,
+        Jump = 1 << 2,
+        Dash = 1 << 3
     }
 
 

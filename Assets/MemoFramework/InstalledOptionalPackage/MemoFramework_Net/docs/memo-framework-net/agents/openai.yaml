@@ -1,0 +1,4 @@
+interface:
+  display_name: "MemoFramework Net"
+  short_description: "Use MemoFramework Net FishNet package."
+  default_prompt: "Use $memo-framework-net to work on MemoFramework_Net networking tasks."

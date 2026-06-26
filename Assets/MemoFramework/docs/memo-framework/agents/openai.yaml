@@ -1,0 +1,4 @@
+interface:
+  display_name: "MemoFramework"
+  short_description: "Work with the MemoFramework Unity core."
+  default_prompt: "Use $memo-framework to modify or debug MemoFramework core systems."

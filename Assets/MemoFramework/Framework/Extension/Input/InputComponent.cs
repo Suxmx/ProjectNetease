@@ -27,7 +27,9 @@ namespace MemoFramework.Extension
 
             _eventActionDict = new()
             {
-                { InputEvent.Shoot, _gameplayActions.Shoot }
+                { InputEvent.Shoot, _gameplayActions.Shoot },
+                { InputEvent.Jump, _gameplayActions.Jump },
+                { InputEvent.Dash, _gameplayActions.Dash }
             };
             _uiEventActionDict = new()
             {

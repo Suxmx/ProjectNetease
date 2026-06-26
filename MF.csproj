@@ -534,7 +534,7 @@
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="FishNet.CodeAnalysis">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Serialization">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>
@@ -967,6 +967,12 @@
     </Reference>
     <Reference Include="System.Xml.Serialization">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Addressables.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.ResourceManager.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>

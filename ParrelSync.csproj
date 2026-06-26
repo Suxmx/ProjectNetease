@@ -47,21 +47,21 @@
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\ClonesManagerWindow.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\AssetModBlock\ParrelSyncAssetModificationProcessor.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\NonCore\AskFeedbackDialog.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\AssetModBlock\EditorQuit.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\NonCore\OtherMenuItem.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\ParrelSyncProjectSettings.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\Project.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\FileUtilities.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\UpdateChecker.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\ValidateCopiedFoldersIntegrity.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\ClonesManager.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\ExternalLinks.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\Editor\Preferences.cs" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\package.json" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\ParrelSync\projectCloner.asmdef" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\UpdateChecker.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\FileUtilities.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\AssetModBlock\EditorQuit.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\ParrelSyncProjectSettings.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\NonCore\AskFeedbackDialog.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\ValidateCopiedFoldersIntegrity.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\Preferences.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\ClonesManagerWindow.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\ExternalLinks.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\ClonesManager.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\Project.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\AssetModBlock\ParrelSyncAssetModificationProcessor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\Editor\NonCore\OtherMenuItem.cs" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\package.json" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\ParrelSync\projectCloner.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -507,7 +507,7 @@
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="FishNet.CodeAnalysis">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Serialization">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>

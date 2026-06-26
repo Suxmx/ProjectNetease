@@ -47,16 +47,17 @@
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Executor\Runtime\Base\ISkillPreloadedNodeData.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Executor\Runtime\Attribute\SkillExecutorDomainAttribute.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Executor\Runtime\Attribute\SkillExecutorAttribute.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Executor\Runtime\Base\ISkillExecutionContext.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Executor\Editor\CodeGen\SkillExecutorCodeGenerator.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Executor\Runtime\ESkillNodeLifecyclePhase.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Executor\Runtime\Base\ISkillNodeExecutor.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Executor\Runtime\Base\SkillNodeExecutor.cs" />
-    <Compile Include="Assets\MemoFramework_Skill\Skill\Executor\Runtime\Base\LifecycleSkillNodeExecutor.cs" />
-    <None Include="Assets\MemoFramework_Skill\Skill\Executor\HoshinoSkill.Executor.asmdef" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\Runtime\Attribute\SkillExecutorDomainAttribute.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\Runtime\Base\ISkillNodeExecutor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\Editor\CodeGen\SkillExecutorPostCompileCodeGeneration.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\Runtime\Base\SkillNodeExecutor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\Editor\CodeGen\SkillExecutorCodeGenerator.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\Runtime\Base\ISkillPreloadedNodeData.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\Runtime\Attribute\SkillExecutorAttribute.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\Runtime\Base\ISkillExecutionContext.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\Runtime\Base\LifecycleSkillNodeExecutor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\Runtime\ESkillNodeLifecyclePhase.cs" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Executor\HoshinoSkill.Executor.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -493,7 +494,7 @@
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="FishNet.CodeAnalysis">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Serialization">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>

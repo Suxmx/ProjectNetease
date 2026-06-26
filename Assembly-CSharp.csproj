@@ -45,27 +45,50 @@
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
-    <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Movement\MemoThirdPersonMotor3C.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Input\InputEvent.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Upgrading\MirrorUpgrade.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Samples\MemoThreeCSampleLauncher.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Samples\Executor\SingleDamageExecutor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Movement\MemoCharacterMotor3C.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Input\InputData.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Input\MainInputs.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Camera\Cinemachine\MemoCinemachineInputAxisController3C.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Upgrading\MirrorUpgrade.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Samples\SkillRuntimePlayer.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Movement\ECharacterMotor3CMode.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Upgrading\UpgradeFromMirrorMenu.cs" />
     <Compile Include="Assets\Scripts\Generated\Skill\Runtime\SkillGeneratedSerialization.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net3C\Runtime\MemoNetTopDownMotor.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Input\InputComponent.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Camera\MemoCameraTarget3C.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Input\MemoThreeCLookInputProvider.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Samples\Executor\MultiDamageExecutor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Camera\Cinemachine\MemoCinemachineCameraBinder3C.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net3C\Runtime\MemoNetThirdPersonMotor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net3C\Runtime\MemoNetFirstPersonMotor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net3C\Runtime\MemoNet3COwnerCameraActivator.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Movement\MemoFirstPersonMotor3C.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net3C\Runtime\MemoNetLocalAuthorityMotor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Input\MemoThreeCInputData.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\MF.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Upgrading\UpgradeFromMirrorMenu.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Movement\MemoTopDownMotor3C.cs" />
+    <Compile Include="Assets\Scripts\Generated\Skill\Runtime\SkillGeneratedExecutorBindings.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net3C\Samples\LocalAuthorityMovement\MemoNetSampleLauncher.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Movement\MemoCameraRelativeMotor3C.cs" />
     <None Include="Assets\SkillData\新技能.skill.json" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\FishNet\LICENSE.txt" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\LICENSE.txt" />
     <None Include="Assets\MemoFramework\ThirdParty\Demigiant\readme_DOTweenPro.txt" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.Serialization.Config.xml" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.OdinInspector.Editor.xml" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\FishNet\package.json" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\package.json" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.OdinInspector.Attributes.xml" />
     <None Include="Assets\MemoFramework\ThirdParty\Animancer\Package.json" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.Utilities.xml" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\FishNet\DOCUMENTATION.txt" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\DOCUMENTATION.txt" />
     <None Include="Assets\SkillData\Compiled\新技能.compiled.json" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Readme.txt" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\link.xml" />
@@ -492,7 +515,7 @@
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="FishNet.CodeAnalysis">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Serialization">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>
@@ -920,6 +943,9 @@
     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ScriptableBuildPipeline">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
     </Reference>
@@ -944,6 +970,9 @@
     <Reference Include="Unity.PathTracing.Runtime">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.PathTracing.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Addressables.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime.Shared">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.Shared.dll</HintPath>
     </Reference>
@@ -952,6 +981,9 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Shared.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ScriptableBuildPipeline.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.ScriptableBuildPipeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Searcher.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
@@ -1001,6 +1033,9 @@
     <Reference Include="Unity.VisualScripting.Flow.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ResourceManager">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.ResourceManager.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
@@ -1012,6 +1047,9 @@
     </Reference>
     <Reference Include="Unity.InputSystem.ForUI">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.InputSystem.ForUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Profiling.Core">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Profiling.Core.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.GPUDriven.Runtime">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.GPUDriven.Runtime.dll</HintPath>
@@ -1079,11 +1117,18 @@
     <Reference Include="Unity.Splines">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Splines.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Addressables.Editor">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Addressables.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="HoshinoSkill.csproj">
+      <Project>{49033bc7-8051-573f-6b41-1e95af32f318}</Project>
+      <Name>HoshinoSkill</Name>
+    </ProjectReference>
     <ProjectReference Include="DOTween.Modules.csproj">
       <Project>{b503d373-4b65-9028-a5e9-d3f1e4a7388d}</Project>
       <Name>DOTween.Modules</Name>
@@ -1092,21 +1137,13 @@
       <Project>{20e3b2e6-59f6-45e6-d2a5-89b14ac54cc3}</Project>
       <Name>Sirenix.OdinInspector.Modules.UnityMathematics</Name>
     </ProjectReference>
-    <ProjectReference Include="SLATE.csproj">
-      <Project>{55901934-992c-01b8-a55c-d6d251eb4486}</Project>
-      <Name>SLATE</Name>
-    </ProjectReference>
-    <ProjectReference Include="FishNet.Runtime.csproj">
-      <Project>{86dfd987-b9be-260d-495d-a79a153d6339}</Project>
-      <Name>FishNet.Runtime</Name>
-    </ProjectReference>
     <ProjectReference Include="DOTweenPro.Scripts.csproj">
       <Project>{7d4eef30-0a7c-389b-20cf-48f7062e3724}</Project>
       <Name>DOTweenPro.Scripts</Name>
     </ProjectReference>
-    <ProjectReference Include="GameKit.Dependencies.csproj">
-      <Project>{45159dbe-9cb2-b6b6-731e-33dda4173c68}</Project>
-      <Name>GameKit.Dependencies</Name>
+    <ProjectReference Include="FishNet.Codegen.Cecil.csproj">
+      <Project>{7a15c32f-e1c1-6aea-2e4d-9e5d66a05dcc}</Project>
+      <Name>FishNet.Codegen.Cecil</Name>
     </ProjectReference>
     <ProjectReference Include="MF.Editor.csproj">
       <Project>{102652e0-2e4c-a4ac-c82e-f2feb9402eb0}</Project>
@@ -1120,21 +1157,17 @@
       <Project>{8cdcbc94-3d55-f3cf-ad49-9e5b08fe8531}</Project>
       <Name>ALINEPackageToolsEditor</Name>
     </ProjectReference>
-    <ProjectReference Include="FishNet.Demos.csproj">
-      <Project>{a4fa2f3d-7588-cdcc-47af-3bb352b7dc7e}</Project>
-      <Name>FishNet.Demos</Name>
+    <ProjectReference Include="ParrelSync.csproj">
+      <Project>{5fd24082-9209-f03f-b0d5-03a706a2e8a3}</Project>
+      <Name>ParrelSync</Name>
     </ProjectReference>
-    <ProjectReference Include="HoshinoSkill.Executor.csproj">
-      <Project>{fa8f6869-5c6b-304d-f2b1-639a72266faa}</Project>
-      <Name>HoshinoSkill.Executor</Name>
+    <ProjectReference Include="GameKit.Dependencies.csproj">
+      <Project>{45159dbe-9cb2-b6b6-731e-33dda4173c68}</Project>
+      <Name>GameKit.Dependencies</Name>
     </ProjectReference>
     <ProjectReference Include="MF.csproj">
       <Project>{856505a3-9e70-fba2-13e8-2c966a2ba029}</Project>
       <Name>MF</Name>
-    </ProjectReference>
-    <ProjectReference Include="FishNet.Codegen.Cecil.csproj">
-      <Project>{7a15c32f-e1c1-6aea-2e4d-9e5d66a05dcc}</Project>
-      <Name>FishNet.Codegen.Cecil</Name>
     </ProjectReference>
     <ProjectReference Include="EnhancedScroller.csproj">
       <Project>{798c5f1f-2d71-707b-824f-e2298106f2aa}</Project>
@@ -1144,6 +1177,10 @@
       <Project>{6972eee9-8334-03c7-9d1f-edc2893da80d}</Project>
       <Name>ALINEEditor</Name>
     </ProjectReference>
+    <ProjectReference Include="SLATE.csproj">
+      <Project>{55901934-992c-01b8-a55c-d6d251eb4486}</Project>
+      <Name>SLATE</Name>
+    </ProjectReference>
     <ProjectReference Include="Kybernetik.Animancer.Editor.csproj">
       <Project>{5a90d7b1-110d-1bf4-89bb-e236b1ed0b3e}</Project>
       <Name>Kybernetik.Animancer.Editor</Name>
@@ -1152,13 +1189,17 @@
       <Project>{864c23aa-3479-2db8-309b-ebdf0c75d197}</Project>
       <Name>MF.DependencyInstaller.Editor</Name>
     </ProjectReference>
+    <ProjectReference Include="HoshinoSkill.Executor.csproj">
+      <Project>{fa8f6869-5c6b-304d-f2b1-639a72266faa}</Project>
+      <Name>HoshinoSkill.Executor</Name>
+    </ProjectReference>
     <ProjectReference Include="Kybernetik.Animancer.FSM.csproj">
       <Project>{7a283799-97cb-6385-4932-dc2eb7bcdf5e}</Project>
       <Name>Kybernetik.Animancer.FSM</Name>
     </ProjectReference>
-    <ProjectReference Include="ParrelSync.csproj">
-      <Project>{5fd24082-9209-f03f-b0d5-03a706a2e8a3}</Project>
-      <Name>ParrelSync</Name>
+    <ProjectReference Include="FishNet.Demos.csproj">
+      <Project>{a4fa2f3d-7588-cdcc-47af-3bb352b7dc7e}</Project>
+      <Name>FishNet.Demos</Name>
     </ProjectReference>
     <ProjectReference Include="UnityFsm.csproj">
       <Project>{2696a942-d4ca-8594-1d29-3b428dc1f4f3}</Project>
@@ -1168,17 +1209,21 @@
       <Project>{84e098ba-37d2-25eb-5c76-fa33dabc0685}</Project>
       <Name>Kybernetik.Animancer</Name>
     </ProjectReference>
-    <ProjectReference Include="HoshinoSkill.csproj">
-      <Project>{49033bc7-8051-573f-6b41-1e95af32f318}</Project>
-      <Name>HoshinoSkill</Name>
-    </ProjectReference>
     <ProjectReference Include="SynapseSocket.csproj">
       <Project>{9331b437-b52a-229e-f959-d75efdb47180}</Project>
       <Name>SynapseSocket</Name>
     </ProjectReference>
+    <ProjectReference Include="Sirenix.OdinInspector.Modules.Unity.Addressables.csproj">
+      <Project>{b6a9c3ca-81b2-6309-3cc0-8cec50c4e842}</Project>
+      <Name>Sirenix.OdinInspector.Modules.Unity.Addressables</Name>
+    </ProjectReference>
     <ProjectReference Include="ALINE.csproj">
       <Project>{b7babb3f-a7d5-1e5f-0356-19ae5e66c591}</Project>
       <Name>ALINE</Name>
+    </ProjectReference>
+    <ProjectReference Include="FishNet.Runtime.csproj">
+      <Project>{86dfd987-b9be-260d-495d-a79a153d6339}</Project>
+      <Name>FishNet.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

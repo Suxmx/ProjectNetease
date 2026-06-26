@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "MainInputs",
     "maps": [
         {
@@ -18,6 +19,24 @@
                     "name": "Shoot",
                     "type": "Button",
                     "id": "8a43c4bd-69b7-4d2d-a64a-805cf87f1418",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "d2c0e31e-95cd-48c4-9158-3377205b95be",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "534c9a2b-0844-419f-b06f-eb5adf996db5",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -121,6 +140,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4f61b56-4016-48cb-95ef-10a21049cc8b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48ab505b-d150-4665-88ee-4c071f3015bc",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

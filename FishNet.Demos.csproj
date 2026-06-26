@@ -45,52 +45,53 @@
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
-    <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\Rigidbody\Scripts\RigidbodyPrediction.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\CharacterController\Scripts\CharacterControllerPrediction.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Authenticator\Scripts\HostAuthenticator.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Rollback Visualization\TextCanvas.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\CustomSyncType\Component State Sync\ComponentStateSync.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Strafe.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Rollback Visualization\RollbackVisualizer.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Player\PlayerMotor.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager\Additive Scenes\Scripts\LevelLoader.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Player\PlayerCamera.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\Rigidbody\Scripts\Boost.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Authenticator\Scripts\Broadcasts.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager\Additive Scenes\Scripts\Waypoint.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\HashGrid\Scripts\GridSpawner.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\CustomSyncType\Component State Sync\ComponentSyncStateBehaviour.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\Rigidbody\Scripts\Spring.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\CustomSyncType\Component State Sync\AMonoScript.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\DestroyAfterDelay.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\HashGrid\Scripts\MoveRandomly.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\IntermediateLayer\Scripts\IntermediateLayerCipher.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Benchmarks\NetworkTransform\Scripts\PrefabSpawner.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Authenticator\Scripts\PasswordAuthenticator.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager (Old Examples)\Scripts\SceneUnloaderExample.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Benchmarks\NetworkTransform\Scripts\MoveRandomlyPhysics.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager (Old Examples)\Scripts\SceneLoaderExample.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\CharacterController\Scripts\StaminaCanvas.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager\Additive Scenes\Scripts\Player.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Benchmarks\NetworkTransform\Scripts\MoveRandomlyNonPhysics.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager\Additive Scenes\Scripts\ServerScenePrewarmer.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Player\Fire.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\CustomSyncType\Custom Struct Sync\StructySync.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Scripts\NetworkHudCanvases.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\CustomSyncType\Custom Struct Sync\StructSyncBehaviour.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager (Old Examples)\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Player\Aim.cs" />
-    <Compile Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\CharacterController\Scripts\MovingPlatform.cs" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\HashGrid\ReadMe.txt" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager\Additive Scenes\ReadMe.txt" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Benchmarks\NetworkTransform\ReadMe.txt" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\CharacterController\ReadMe.txt" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\Benchmarks\License.txt" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\ReadMe.txt" />
-    <None Include="Assets\MemoFramework_Net\ThirdParty\FishNet\Demos\FishNet.Demos.asmdef" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Authenticator\Scripts\Broadcasts.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Strafe.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\CustomSyncType\Component State Sync\ComponentStateSync.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager (Old Examples)\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\Rigidbody\Scripts\Boost.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Scripts\NetworkHudCanvases.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\CustomSyncType\Component State Sync\ComponentSyncStateBehaviour.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\HashGrid\Scripts\GridSpawner.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager (Old Examples)\Scripts\SceneUnloaderExample.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\CharacterController\Scripts\StaminaCanvas.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Rollback Visualization\TextCanvas.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Benchmarks\NetworkTransform\Scripts\MoveRandomlyNonPhysics.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Player\PlayerCamera.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Benchmarks\NetworkTransform\Scripts\PrefabSpawner.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Benchmarks\NetworkTransform\Scripts\MoveRandomlyPhysics.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\CustomSyncType\Custom Struct Sync\StructySync.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager (Old Examples)\Scripts\SceneLoaderExample.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\CharacterController\Scripts\CharacterControllerPrediction.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\DestroyAfterDelay.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\IntermediateLayer\Scripts\IntermediateLayerCipher.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Player\PlayerMotor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\CharacterController\Scripts\MovingPlatform.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\CustomSyncType\Component State Sync\AMonoScript.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager\Additive Scenes\Scripts\LevelLoader.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\Rigidbody\Scripts\RigidbodyPrediction.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\Rigidbody\Scripts\Spring.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Player\Fire.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Authenticator\Scripts\PasswordAuthenticator.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager\Additive Scenes\Scripts\Waypoint.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\HashGrid\Scripts\MoveRandomly.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\CustomSyncType\Custom Struct Sync\StructSyncBehaviour.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager\Additive Scenes\Scripts\Player.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Authenticator\Scripts\HostAuthenticator.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Rollback Visualization\RollbackVisualizer.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\Scripts\Player\Aim.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager\Additive Scenes\Scripts\ServerScenePrewarmer.cs" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\HashGrid\ReadMe.txt" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\SceneManager\Additive Scenes\ReadMe.txt" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Benchmarks\NetworkTransform\ReadMe.txt" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Prediction\CharacterController\ReadMe.txt" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\Benchmarks\License.txt" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\ColliderRollback\ReadMe.txt" />
+    <None Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Demos\FishNet.Demos.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityEditor\Unity 6000.4.10\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -527,7 +528,7 @@
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="FishNet.CodeAnalysis">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Serialization">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.Serialization.dll</HintPath>
