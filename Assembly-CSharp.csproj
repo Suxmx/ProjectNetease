@@ -106,6 +106,7 @@
     <Compile Include="Assets\Scripts\Party3C\Runtime\PartyKccCharacterController.cs" />
     <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\ExampleMovingPlatform.cs" />
     <Compile Include="Assets\Scripts\Party3C\Runtime\PartyKccCharacterInputs.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Networking\PartyKccNetworkCharacterController.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\9- Custom collision filtering\Scripts\MyCharacterController.cs" />
     <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\PrefabLauncher.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\2- Basic Movement and Gravity\Scripts\MyPlayer.cs" />

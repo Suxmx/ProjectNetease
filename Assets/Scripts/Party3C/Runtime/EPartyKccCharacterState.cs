@@ -1,7 +1,7 @@
 namespace Party3C
 {
     /// <summary>
-    /// Describes the mutually exclusive movement states used by the party character controller.
+    /// 描述派对角色控制器中互斥的移动状态。
     /// </summary>
     public enum EPartyKccCharacterState
     {

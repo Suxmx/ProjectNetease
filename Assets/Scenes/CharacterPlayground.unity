@@ -17988,6 +17988,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 224017663050097440, guid: 6babfe004051e72409d5321118266db5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 191
+      objectReference: {fileID: 0}
     - target: {fileID: 224221452225482132, guid: 6babfe004051e72409d5321118266db5, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -42562,7 +42566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 211a9f6ec51ddc14f908f5acc0cd0423, type: 3}
   m_Name: 
   m_EditorClassIdentifier: FishNet.Runtime::FishNet.Component.Spawning.PlayerSpawner
-  _playerPrefab: {fileID: 5696496923355170217, guid: e7d70f6c08df9644aa7f471ec86140fa, type: 3}
+  _playerPrefab: {fileID: 7379592838531274542, guid: 8257e8275b5547c4a85a1f8f9d2bdfa8, type: 3}
   _addToDefaultScene: 1
   Spawns:
   - {fileID: 376702499}

@@ -7,18 +7,24 @@ using UnityEngine;
 namespace Party3C.Editor
 {
     /// <summary>
-    /// Creates starter prefabs for the KCC party character and its independent Cinemachine camera templates.
+    /// 为派对 KCC 角色和独立 Cinemachine 相机模板创建起步预制体。
     /// </summary>
     public static class PartyKccPrefabGenerator
     {
+        #region Constants
+
         private const string MenuPath = "Tools/Party3C/Generate KCC Character Prefabs";
         private const string PrefabFolder = "Assets/Scripts/Party3C/GeneratedPrefabs";
         private const string CharacterPrefabPath = PrefabFolder + "/PartyKccCharacter.prefab";
         private const string ThirdPersonCameraPrefabPath = PrefabFolder + "/PartyThirdPersonCamera.prefab";
         private const string TopdownCameraPrefabPath = PrefabFolder + "/PartyTopdownCamera.prefab";
 
+        #endregion
+
+        #region Menu
+
         /// <summary>
-        /// Generates the character prefab and the two independent Cinemachine camera prefabs.
+        /// 生成角色预制体和两个独立 Cinemachine 相机预制体。
         /// </summary>
         [MenuItem(MenuPath)]
         public static void GeneratePrefabs()
@@ -33,11 +39,15 @@ namespace Party3C.Editor
             AssetDatabase.Refresh();
             Selection.activeObject = characterPrefab;
 
-            Debug.Log($"Generated Party3C prefabs in {PrefabFolder}.");
+            Debug.Log($"已在 {PrefabFolder} 生成 Party3C 预制体。");
         }
 
+        #endregion
+
+        #region Character
+
         /// <summary>
-        /// Builds the temporary character hierarchy before saving it as a prefab.
+        /// 构建临时角色层级，再保存为预制体。
         /// </summary>
         private static GameObject CreateCharacterObject()
         {
@@ -57,7 +67,7 @@ namespace Party3C.Editor
         }
 
         /// <summary>
-        /// Creates a collider-free visual placeholder under the character.
+        /// 在角色下创建不带碰撞体的临时视觉占位。
         /// </summary>
         private static Transform CreateMeshRoot(Transform parent)
         {
@@ -80,7 +90,7 @@ namespace Party3C.Editor
         }
 
         /// <summary>
-        /// Creates the target transform that camera prefabs should follow and look at.
+        /// 创建供相机预制体跟随和注视的目标点。
         /// </summary>
         private static Transform CreateCameraFollowPoint(Transform parent)
         {
@@ -91,8 +101,12 @@ namespace Party3C.Editor
             return followPoint.transform;
         }
 
+        #endregion
+
+        #region Camera
+
         /// <summary>
-        /// Builds the third-person Cinemachine camera template with an empty target.
+        /// 构建目标为空的第三人称 Cinemachine 相机模板。
         /// </summary>
         private static GameObject CreateThirdPersonCameraObject()
         {
@@ -116,7 +130,7 @@ namespace Party3C.Editor
         }
 
         /// <summary>
-        /// Builds the topdown Cinemachine camera template with an empty target.
+        /// 构建目标为空的俯视 Cinemachine 相机模板。
         /// </summary>
         private static GameObject CreateTopdownCameraObject()
         {
@@ -144,7 +158,7 @@ namespace Party3C.Editor
         }
 
         /// <summary>
-        /// Creates a perspective lens preset for the third-person camera.
+        /// 创建第三人称相机使用的透视镜头配置。
         /// </summary>
         private static LensSettings CreatePerspectiveLens(float fieldOfView)
         {
@@ -157,7 +171,7 @@ namespace Party3C.Editor
         }
 
         /// <summary>
-        /// Creates an orthographic lens preset for the topdown camera.
+        /// 创建俯视相机使用的正交镜头配置。
         /// </summary>
         private static LensSettings CreateOrthographicLens(float orthographicSize)
         {
@@ -169,8 +183,12 @@ namespace Party3C.Editor
             return lens;
         }
 
+        #endregion
+
+        #region Asset
+
         /// <summary>
-        /// Saves a temporary object as a prefab asset and destroys the temporary object.
+        /// 将临时对象保存为预制体资产，并销毁临时对象。
         /// </summary>
         private static GameObject SavePrefab(GameObject temporaryObject, string prefabPath)
         {
@@ -180,7 +198,7 @@ namespace Party3C.Editor
         }
 
         /// <summary>
-        /// Creates each missing folder segment for the target project-relative folder path.
+        /// 为项目相对目录路径逐段创建缺失文件夹。
         /// </summary>
         private static void EnsureFolder(string folderPath)
         {
@@ -196,5 +214,7 @@ namespace Party3C.Editor
                 currentPath = nextPath;
             }
         }
+
+        #endregion
     }
 }

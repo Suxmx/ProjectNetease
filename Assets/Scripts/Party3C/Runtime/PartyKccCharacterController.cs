@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using KinematicCharacterController;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Party3C
 {
     /// <summary>
-    /// Owns KCC locomotion for party brawler characters and exposes extension points for combat and networking.
+    /// 负责派对大乱斗角色的 KCC 移动模拟，并向战斗、输入和联网层暴露扩展入口。
     /// </summary>
     public sealed class PartyKccCharacterController : MonoBehaviour, ICharacterController, IPartyKccCharacterMotor
     {
+        #region Serialized Fields
+
         [Header("References")]
         [SerializeField] private KinematicCharacterMotor _motor;
         [SerializeField] private Transform _meshRoot;
@@ -16,40 +19,47 @@ namespace Party3C
 
         [Header("Camera Target")]
         [SerializeField] private bool _stabilizeCameraFollowPointRotation = true;
-        [SerializeField] private float _cameraYawSensitivity = 0.12f;
-        [SerializeField] private float _cameraPitchSensitivity = 0.08f;
-        [SerializeField] private float _cameraMinPitch = -25f;
-        [SerializeField] private float _cameraMaxPitch = 65f;
+        [SerializeField, MinValue(0f)] private float _cameraYawSensitivity = 0.12f;
+        [SerializeField, MinValue(0f)] private float _cameraPitchSensitivity = 0.08f;
+        [SerializeField, ValidateInput(nameof(IsCameraPitchRangeValid), "最小俯仰角不能大于最大俯仰角。")]
+        private float _cameraMinPitch = -25f;
+        [SerializeField, ValidateInput(nameof(IsCameraPitchRangeValid), "最大俯仰角不能小于最小俯仰角。")]
+        private float _cameraMaxPitch = 65f;
 
         [Header("Stable Movement")]
-        [SerializeField] private float _walkSpeed = 5f;
-        [SerializeField] private float _runSpeed = 8f;
-        [SerializeField] private float _stableMovementSharpness = 15f;
-        [SerializeField] private float _rotationSharpness = 12f;
+        [SerializeField, MinValue(0f)] private float _walkSpeed = 5f;
+        [SerializeField, MinValue(0f), ValidateInput(nameof(IsRunSpeedValid), "跑步速度不能小于走路速度。")]
+        private float _runSpeed = 8f;
+        [SerializeField, MinValue(0f)] private float _stableMovementSharpness = 15f;
+        [SerializeField, MinValue(0f)] private float _rotationSharpness = 12f;
 
         [Header("Air Movement")]
-        [SerializeField] private float _maxAirMoveSpeed = 7f;
-        [SerializeField] private float _airAccelerationSpeed = 18f;
-        [SerializeField] private float _airDrag = 0.1f;
-        [SerializeField] private Vector3 _gravity = new Vector3(0f, -30f, 0f);
+        [SerializeField, MinValue(0f)] private float _maxAirMoveSpeed = 7f;
+        [SerializeField, MinValue(0f)] private float _airAccelerationSpeed = 18f;
+        [SerializeField, MinValue(0f)] private float _airDrag = 0.1f;
+        [SerializeField] private Vector3 _gravity = new(0f, -30f, 0f);
 
         [Header("Jump")]
-        [SerializeField] private int _maxJumpCount = 2;
-        [SerializeField] private float _jumpSpeed = 10f;
-        [SerializeField] private float _coyoteTime = 0.12f;
-        [SerializeField] private float _jumpRequestBufferTime = 0.12f;
+        [SerializeField, MinValue(0)] private int _maxJumpCount = 2;
+        [SerializeField, MinValue(0f)] private float _jumpSpeed = 10f;
+        [SerializeField, MinValue(0f)] private float _coyoteTime = 0.12f;
+        [SerializeField, MinValue(0f)] private float _jumpRequestBufferTime = 0.12f;
 
         [Header("Dash")]
-        [SerializeField] private int _maxDashCharges = 1;
-        [SerializeField] private float _dashSpeed = 13f;
-        [SerializeField] private float _dashDuration = 0.18f;
-        [SerializeField] private float _dashRechargeTime = 1f;
+        [SerializeField, MinValue(0)] private int _maxDashCharges = 1;
+        [SerializeField, MinValue(0f)] private float _dashSpeed = 13f;
+        [SerializeField, MinValue(0.01f)] private float _dashDuration = 0.18f;
+        [SerializeField, MinValue(0.01f)] private float _dashRechargeTime = 1f;
 
         [Header("Knockback")]
-        [SerializeField] private float _knockbackDrag = 0.02f;
+        [SerializeField, MinValue(0f)] private float _knockbackDrag = 0.02f;
 
         [Header("Collision")]
         [SerializeField] private List<Collider> _ignoredColliders = new();
+
+        #endregion
+
+        #region Runtime State
 
         private PartyKccCharacterInputs _inputs;
         private Vector3 _moveInputVector;
@@ -70,6 +80,10 @@ namespace Party3C
         private float _cameraYaw;
         private float _cameraPitch;
 
+        #endregion
+
+        #region Properties
+
         public EPartyKccCharacterState CurrentState { get; private set; } = EPartyKccCharacterState.Default;
         public Vector3 CurrentVelocity => _motor != null ? _motor.BaseVelocity : Vector3.zero;
         public int CurrentDashCharges => _dashCharges;
@@ -78,8 +92,12 @@ namespace Party3C
         public Transform CameraFollowPoint => _cameraFollowPoint;
         public Vector3 CharacterUp => _motor != null ? _motor.CharacterUp : transform.up;
 
+        #endregion
+
+        #region Setup
+
         /// <summary>
-        /// Assigns serialized references created by editor tooling or custom spawners.
+        /// 设置由编辑器工具或自定义生成器创建的运行时引用。
         /// </summary>
         public void ConfigureReferences(KinematicCharacterMotor motor, Transform meshRoot, Transform cameraFollowPoint)
         {
@@ -92,7 +110,7 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Finds the KCC motor and initializes reusable charge counters.
+        /// 查找 KCC Motor，并初始化冲刺次数与摄像机跟随点角度。
         /// </summary>
         private void Awake()
         {
@@ -110,47 +128,19 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Keeps inspector values in valid ranges while editing.
-        /// </summary>
-        private void OnValidate()
-        {
-            _walkSpeed = Mathf.Max(0f, _walkSpeed);
-            _cameraYawSensitivity = Mathf.Max(0f, _cameraYawSensitivity);
-            _cameraPitchSensitivity = Mathf.Max(0f, _cameraPitchSensitivity);
-            if (_cameraMinPitch > _cameraMaxPitch)
-            {
-                float previousMinPitch = _cameraMinPitch;
-                _cameraMinPitch = _cameraMaxPitch;
-                _cameraMaxPitch = previousMinPitch;
-            }
-
-            _runSpeed = Mathf.Max(_walkSpeed, _runSpeed);
-            _stableMovementSharpness = Mathf.Max(0f, _stableMovementSharpness);
-            _rotationSharpness = Mathf.Max(0f, _rotationSharpness);
-            _maxAirMoveSpeed = Mathf.Max(0f, _maxAirMoveSpeed);
-            _airAccelerationSpeed = Mathf.Max(0f, _airAccelerationSpeed);
-            _airDrag = Mathf.Max(0f, _airDrag);
-            _maxJumpCount = Mathf.Max(0, _maxJumpCount);
-            _jumpSpeed = Mathf.Max(0f, _jumpSpeed);
-            _coyoteTime = Mathf.Max(0f, _coyoteTime);
-            _jumpRequestBufferTime = Mathf.Max(0f, _jumpRequestBufferTime);
-            _maxDashCharges = Mathf.Max(0, _maxDashCharges);
-            _dashSpeed = Mathf.Max(0f, _dashSpeed);
-            _dashDuration = Mathf.Max(0.01f, _dashDuration);
-            _dashRechargeTime = Mathf.Max(0.01f, _dashRechargeTime);
-            _knockbackDrag = Mathf.Max(0f, _knockbackDrag);
-        }
-
-        /// <summary>
-        /// Reapplies the camera target rotation after movement so follow cameras do not inherit character yaw.
+        /// 在移动更新后重设摄像机跟随点旋转，避免它继承角色身体朝向。
         /// </summary>
         private void LateUpdate()
         {
             ApplyCameraFollowPointRotation();
         }
 
+        #endregion
+
+        #region Input
+
         /// <summary>
-        /// Stores player, AI, or network-owned movement intent for the next KCC simulation tick.
+        /// 保存玩家、AI 或网络所有者提供的移动意图，等待下一次 KCC 模拟消费。
         /// </summary>
         public void SetInputs(in PartyKccCharacterInputs inputs)
         {
@@ -175,47 +165,20 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Applies a high-priority knockback velocity and locks regular movement for the supplied time.
+        /// 清空当前移动输入和仍在等待消费的跳跃、冲刺请求。
         /// </summary>
-        public void ApplyKnockback(Vector3 velocity, float lockTime)
+        public void ClearInputs()
         {
-            _knockbackVelocity = velocity;
-            _knockbackTimeRemaining = Mathf.Max(0f, lockTime);
+            _inputs = default;
+            _moveInputVector = Vector3.zero;
+            _lookInputVector = Vector3.zero;
             _jumpRequested = false;
             _dashRequested = false;
-
-            if (_motor != null && Vector3.Dot(velocity, CharacterUp) > 0.01f)
-                _motor.ForceUnground();
-
-            TransitionToState(EPartyKccCharacterState.Knockback);
+            _jumpRequestAge = Mathf.Infinity;
         }
 
         /// <summary>
-        /// Queues an additive velocity to be consumed during the next KCC velocity update.
-        /// </summary>
-        public void AddExternalVelocity(Vector3 velocity)
-        {
-            _externalVelocityAdd += velocity;
-
-            if (_motor != null && Vector3.Dot(velocity, CharacterUp) > 0.01f)
-                _motor.ForceUnground();
-        }
-
-        /// <summary>
-        /// Changes the dash charge cap and fills any newly added capacity.
-        /// </summary>
-        public void SetDashChargeLimit(int dashChargeLimit)
-        {
-            int previousLimit = _maxDashCharges;
-            _maxDashCharges = Mathf.Max(0, dashChargeLimit);
-            _dashCharges = Mathf.Clamp(_dashCharges + Mathf.Max(0, _maxDashCharges - previousLimit), 0, _maxDashCharges);
-
-            if (_dashCharges == _maxDashCharges)
-                _dashRechargeTimer = 0f;
-        }
-
-        /// <summary>
-        /// Rotates the independent camera follow target from local look input without rotating the character body directly.
+        /// 根据本地视角输入旋转独立摄像机跟随点，不直接旋转角色身体。
         /// </summary>
         public void AddCameraLookInput(Vector2 lookDelta)
         {
@@ -231,15 +194,63 @@ namespace Party3C
             ApplyCameraFollowPointRotation();
         }
 
+        #endregion
+
+        #region External Forces
+
         /// <summary>
-        /// Runs before KCC updates grounding and movement.
+        /// 施加最高优先级击退速度，并在指定时间内锁定普通移动输入。
+        /// </summary>
+        public void ApplyKnockback(Vector3 velocity, float lockTime)
+        {
+            _knockbackVelocity = velocity;
+            _knockbackTimeRemaining = Mathf.Max(0f, lockTime);
+            _jumpRequested = false;
+            _dashRequested = false;
+
+            if (_motor != null && Vector3.Dot(velocity, CharacterUp) > 0.01f)
+                _motor.ForceUnground();
+
+            TransitionToState(EPartyKccCharacterState.Knockback);
+        }
+
+        /// <summary>
+        /// 缓存一段额外速度，在下一次 KCC 速度更新末尾叠加。
+        /// </summary>
+        public void AddExternalVelocity(Vector3 velocity)
+        {
+            _externalVelocityAdd += velocity;
+
+            if (_motor != null && Vector3.Dot(velocity, CharacterUp) > 0.01f)
+                _motor.ForceUnground();
+        }
+
+        /// <summary>
+        /// 修改冲刺次数上限，并补足新增的可用次数。
+        /// </summary>
+        public void SetDashChargeLimit(int dashChargeLimit)
+        {
+            int previousLimit = _maxDashCharges;
+            _maxDashCharges = Mathf.Max(0, dashChargeLimit);
+            _dashCharges = Mathf.Clamp(_dashCharges + Mathf.Max(0, _maxDashCharges - previousLimit), 0, _maxDashCharges);
+
+            if (_dashCharges == _maxDashCharges)
+                _dashRechargeTimer = 0f;
+        }
+
+        #endregion
+
+        #region KCC Callbacks
+
+        /// <summary>
+        /// KCC 刷新接地和移动前调用，当前保留给后续扩展。
         /// </summary>
         public void BeforeCharacterUpdate(float deltaTime)
         {
         }
 
         /// <summary>
-        /// Rotates the character toward the active movement state's facing direction.
+        /// 根据当前移动状态把角色转向目标朝向。
         /// </summary>
         public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
         {
@@ -255,7 +266,7 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Calculates the authoritative KCC base velocity for the current simulation tick.
+        /// 计算当前模拟帧的权威 KCC 基础速度。
         /// </summary>
         public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -279,7 +290,7 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Tracks post-simulation timers and performs time-based state exits.
+        /// 维护模拟后的计时器，并处理按时间退出的状态。
         /// </summary>
         public void AfterCharacterUpdate(float deltaTime)
         {
@@ -303,7 +314,7 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Detects landing and leaving stable ground after KCC refreshes grounding.
+        /// 在 KCC 刷新接地后检测落地和离地。
         /// </summary>
         public void PostGroundingUpdate(float deltaTime)
         {
@@ -315,7 +326,7 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Filters colliders that should not block this character.
+        /// 过滤不应该阻挡当前角色的碰撞体。
         /// </summary>
         public bool IsColliderValidForCollisions(Collider coll)
         {
@@ -323,55 +334,39 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Receives stable ground hits from KCC; reserved for later surface-specific extensions.
+        /// 接收稳定地面命中，保留给后续按地表类型扩展。
         /// </summary>
         public void OnGroundHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
         {
         }
 
         /// <summary>
-        /// Receives movement hits from KCC; reserved for later wall or hazard extensions.
+        /// 接收移动命中，保留给后续墙面、机关或受击扩展。
         /// </summary>
         public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
         {
         }
 
         /// <summary>
-        /// Allows later extensions to override KCC hit stability classification.
+        /// 允许后续扩展重写 KCC 的命中稳定性判断。
         /// </summary>
         public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport)
         {
         }
 
         /// <summary>
-        /// Receives discrete collision notifications when enabled on the KCC motor.
+        /// 接收离散碰撞通知，需在 KCC Motor 上启用对应选项。
         /// </summary>
         public void OnDiscreteCollisionDetected(Collider hitCollider)
         {
         }
 
-        /// <summary>
-        /// Switches movement state and clears state-local transient requests.
-        /// </summary>
-        private void TransitionToState(EPartyKccCharacterState newState)
-        {
-            if (CurrentState == newState)
-                return;
+        #endregion
 
-            CurrentState = newState;
-        }
+        #region Camera
 
         /// <summary>
-        /// Projects and clamps a vector onto the character movement plane.
-        /// </summary>
-        private Vector3 ClampToCharacterPlane(Vector3 vector)
-        {
-            Vector3 planar = Vector3.ProjectOnPlane(vector, CharacterUp);
-            return Vector3.ClampMagnitude(planar, 1f);
-        }
-
-        /// <summary>
-        /// Initializes the independent camera target angles from the current follow point orientation.
+        /// 从当前跟随点旋转初始化独立摄像机角度。
         /// </summary>
         private void InitializeCameraFollowRotation()
         {
@@ -387,7 +382,7 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Keeps the camera target rotation controlled by stored look angles instead of inherited character yaw.
+        /// 用缓存的视角角度驱动摄像机跟随点旋转，避免它继承角色身体朝向。
         /// </summary>
         private void ApplyCameraFollowPointRotation()
         {
@@ -399,7 +394,7 @@ namespace Party3C
             if (planarForward.sqrMagnitude <= 0.0001f)
                 return;
 
-            // Apply pitch around the camera target's right axis so Cinemachine can orbit vertically.
+            // 先构造水平偏航，再绕跟随点右轴叠加俯仰，供 Cinemachine 读取。
             Quaternion yawRotation = Quaternion.LookRotation(planarForward.normalized, CharacterUp);
             Vector3 pitchAxis = Vector3.Cross(CharacterUp, planarForward).normalized;
             Quaternion pitchRotation = Quaternion.AngleAxis(_cameraPitch, pitchAxis);
@@ -407,7 +402,7 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Returns the stable world forward used as the zero-yaw basis for the camera target.
+        /// 获取作为摄像机零偏航基准的稳定世界前向。
         /// </summary>
         private Vector3 GetCameraReferenceForward()
         {
@@ -418,23 +413,27 @@ namespace Party3C
             return referenceForward.sqrMagnitude > 0.0001f ? referenceForward.normalized : Vector3.forward;
         }
 
+        #endregion
+
+        #region Movement
+
         /// <summary>
-        /// Applies regular grounded or airborne movement, then consumes jump requests.
+        /// 应用常规地面或空中移动，然后消费跳跃请求。
         /// </summary>
         private void UpdateDefaultVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
-            // Resolve the base movement path first so walk and run share identical collision behavior.
+            // 先处理走跑共用的基础移动路径，保持碰撞行为一致。
             if (_motor.GroundingStatus.IsStableOnGround)
                 UpdateStableMovement(ref currentVelocity, deltaTime);
             else
                 UpdateAirMovement(ref currentVelocity, deltaTime);
 
-            // Consume jump after movement so the upward velocity cleanly overrides ground snapping.
+            // 最后处理跳跃，让向上速度明确覆盖地面吸附。
             TryConsumeJump(ref currentVelocity);
         }
 
         /// <summary>
-        /// Smooths grounded velocity toward the current walk or run target speed.
+        /// 将地面速度平滑到当前走路或跑步目标速度。
         /// </summary>
         private void UpdateStableMovement(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -451,7 +450,7 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Adds planar air control, gravity, and drag while respecting the air speed cap.
+        /// 应用空中平面控制、重力和阻力，并限制平面空中速度。
         /// </summary>
         private void UpdateAirMovement(ref Vector3 currentVelocity, float deltaTime)
         {
@@ -478,65 +477,34 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Starts a dash when a buffered dash request and charge are both available.
+        /// 切换移动状态，并清理状态内的临时请求。
         /// </summary>
-        private void TryStartDash()
+        private void TransitionToState(EPartyKccCharacterState newState)
         {
-            if (!_dashRequested)
+            if (CurrentState == newState)
                 return;
 
-            _dashRequested = false;
-            if (_dashCharges <= 0 || _maxDashCharges <= 0)
+            CurrentState = newState;
+        }
+
+        /// <summary>
+        /// 在当前状态计算完速度后叠加外部扩展速度。
+        /// </summary>
+        private void ConsumeExternalVelocity(ref Vector3 currentVelocity)
+        {
+            if (_externalVelocityAdd.sqrMagnitude <= 0f)
                 return;
 
-            _dashCharges--;
-            _dashTimeRemaining = Mathf.Max(0.01f, _dashDuration);
-            _dashDirection = ResolveDashDirection();
-
-            if (_dashCharges < _maxDashCharges && _dashRechargeTimer <= 0f)
-                _dashRechargeTimer = 0f;
-
-            TransitionToState(EPartyKccCharacterState.Dash);
+            currentVelocity += _externalVelocityAdd;
+            _externalVelocityAdd = Vector3.zero;
         }
 
-        /// <summary>
-        /// Locks horizontal dash speed while preserving and updating vertical velocity.
-        /// </summary>
-        private void UpdateDashVelocity(ref Vector3 currentVelocity, float deltaTime)
-        {
-            Vector3 verticalVelocity = Vector3.Project(currentVelocity, _motor.CharacterUp);
-            verticalVelocity += Vector3.Project(_gravity * deltaTime, _motor.CharacterUp);
-            currentVelocity = (_dashDirection * _dashSpeed) + verticalVelocity;
-        }
+        #endregion
+
+        #region Jump
 
         /// <summary>
-        /// Applies the active knockback velocity and lets gravity/drag decay it over time.
-        /// </summary>
-        private void UpdateKnockbackVelocity(ref Vector3 currentVelocity, float deltaTime)
-        {
-            currentVelocity = _knockbackVelocity;
-            _knockbackVelocity += _gravity * deltaTime;
-            _knockbackVelocity *= 1f / (1f + _knockbackDrag * deltaTime);
-        }
-
-        /// <summary>
-        /// Chooses a dash direction from input, current velocity, or character facing.
-        /// </summary>
-        private Vector3 ResolveDashDirection()
-        {
-            if (_moveInputVector.sqrMagnitude > 0.0001f)
-                return _moveInputVector.normalized;
-
-            Vector3 planarVelocity = Vector3.ProjectOnPlane(CurrentVelocity, _motor.CharacterUp);
-            if (planarVelocity.sqrMagnitude > 0.0001f)
-                return planarVelocity.normalized;
-
-            Vector3 forward = Vector3.ProjectOnPlane(_motor.CharacterForward, _motor.CharacterUp);
-            return forward.sqrMagnitude > 0.0001f ? forward.normalized : transform.forward;
-        }
-
-        /// <summary>
-        /// Consumes a jump request when grounded, within coyote time, or below the configured jump count.
+        /// 在接地、土狼时间内或剩余多段跳次数可用时消费跳跃请求。
         /// </summary>
         private void TryConsumeJump(ref Vector3 currentVelocity)
         {
@@ -558,7 +526,7 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Ages jump/coyote timers and expires jump requests that were not consumed.
+        /// 推进跳跃缓冲和土狼时间计时，并清理过期跳跃请求。
         /// </summary>
         private void UpdateJumpTimers(float deltaTime)
         {
@@ -585,8 +553,60 @@ namespace Party3C
             _jumpedThisFrame = false;
         }
 
+        #endregion
+
+        #region Dash
+
         /// <summary>
-        /// Restores dash charges one by one on the configured cooldown.
+        /// 在冲刺请求和可用次数同时满足时进入冲刺状态。
+        /// </summary>
+        private void TryStartDash()
+        {
+            if (!_dashRequested)
+                return;
+
+            _dashRequested = false;
+            if (_dashCharges <= 0 || _maxDashCharges <= 0)
+                return;
+
+            _dashCharges--;
+            _dashTimeRemaining = Mathf.Max(0.01f, _dashDuration);
+            _dashDirection = ResolveDashDirection();
+
+            if (_dashCharges < _maxDashCharges && _dashRechargeTimer <= 0f)
+                _dashRechargeTimer = 0f;
+
+            TransitionToState(EPartyKccCharacterState.Dash);
+        }
+
+        /// <summary>
+        /// 锁定水平冲刺速度，同时保留并继续更新竖直速度。
+        /// </summary>
+        private void UpdateDashVelocity(ref Vector3 currentVelocity, float deltaTime)
+        {
+            Vector3 verticalVelocity = Vector3.Project(currentVelocity, _motor.CharacterUp);
+            verticalVelocity += Vector3.Project(_gravity * deltaTime, _motor.CharacterUp);
+            currentVelocity = (_dashDirection * _dashSpeed) + verticalVelocity;
+        }
+
+        /// <summary>
+        /// 从移动输入、当前速度或角色朝向中选择冲刺方向。
+        /// </summary>
+        private Vector3 ResolveDashDirection()
+        {
+            if (_moveInputVector.sqrMagnitude > 0.0001f)
+                return _moveInputVector.normalized;
+
+            Vector3 planarVelocity = Vector3.ProjectOnPlane(CurrentVelocity, _motor.CharacterUp);
+            if (planarVelocity.sqrMagnitude > 0.0001f)
+                return planarVelocity.normalized;
+
+            Vector3 forward = Vector3.ProjectOnPlane(_motor.CharacterForward, _motor.CharacterUp);
+            return forward.sqrMagnitude > 0.0001f ? forward.normalized : transform.forward;
+        }
+
+        /// <summary>
+        /// 按配置冷却逐个恢复冲刺次数。
         /// </summary>
         private void UpdateDashRecharge(float deltaTime)
         {
@@ -604,16 +624,53 @@ namespace Party3C
                 _dashRechargeTimer = 0f;
         }
 
-        /// <summary>
-        /// Adds queued extension velocity after the active state has calculated its own velocity.
-        /// </summary>
-        private void ConsumeExternalVelocity(ref Vector3 currentVelocity)
-        {
-            if (_externalVelocityAdd.sqrMagnitude <= 0f)
-                return;
+        #endregion
 
-            currentVelocity += _externalVelocityAdd;
-            _externalVelocityAdd = Vector3.zero;
+        #region Knockback
+
+        /// <summary>
+        /// 应用当前击退速度，并通过重力和阻力让击退逐步衰减。
+        /// </summary>
+        private void UpdateKnockbackVelocity(ref Vector3 currentVelocity, float deltaTime)
+        {
+            currentVelocity = _knockbackVelocity;
+            _knockbackVelocity += _gravity * deltaTime;
+            _knockbackVelocity *= 1f / (1f + _knockbackDrag * deltaTime);
         }
+
+        #endregion
+
+        #region Validation
+
+        /// <summary>
+        /// 验证跑步速度不低于走路速度。
+        /// </summary>
+        private bool IsRunSpeedValid(float value)
+        {
+            return value >= _walkSpeed;
+        }
+
+        /// <summary>
+        /// 验证摄像机俯仰角范围有效。
+        /// </summary>
+        private bool IsCameraPitchRangeValid()
+        {
+            return _cameraMinPitch <= _cameraMaxPitch;
+        }
+
+        #endregion
+
+        #region Utility
+
+        /// <summary>
+        /// 将向量投影并限制到角色移动平面上。
+        /// </summary>
+        private Vector3 ClampToCharacterPlane(Vector3 vector)
+        {
+            Vector3 planar = Vector3.ProjectOnPlane(vector, CharacterUp);
+            return Vector3.ClampMagnitude(planar, 1f);
+        }
+
+        #endregion
     }
 }
