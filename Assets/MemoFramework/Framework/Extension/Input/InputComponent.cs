@@ -29,7 +29,8 @@ namespace MemoFramework.Extension
             {
                 { InputEvent.Shoot, _gameplayActions.Shoot },
                 { InputEvent.Jump, _gameplayActions.Jump },
-                { InputEvent.Dash, _gameplayActions.Dash }
+                { InputEvent.Dash, _gameplayActions.Dash },
+                { InputEvent.Run, _gameplayActions.Run }
             };
             _uiEventActionDict = new()
             {
@@ -66,6 +67,7 @@ namespace MemoFramework.Extension
 
             InputData.Clear();
             InputData.MouseScreenPosition = Mouse.current.position.ReadValue();
+            InputData.MouseDelta = Mouse.current.delta.ReadValue();
             CheckEventStart();
             CheckHasEvent();
             

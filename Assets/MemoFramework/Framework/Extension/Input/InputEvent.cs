@@ -9,7 +9,8 @@ namespace MemoFramework.Extension
         Move = 1,
         Shoot = 1 << 1,
         Jump = 1 << 2,
-        Dash = 1 << 3
+        Dash = 1 << 3,
+        Run = 1 << 4
     }
 
 

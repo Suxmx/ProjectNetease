@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.FishNet.Codegen", "Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynapseSocket", "SynapseSocket.csproj", "{9331b437-b52a-229e-f959-d75efdb47180}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FishNet.Demos", "FishNet.Demos.csproj", "{a4fa2f3d-7588-cdcc-47af-3bb352b7dc7e}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MF", "MF.csproj", "{856505a3-9e70-fba2-13e8-2c966a2ba029}"
@@ -39,8 +41,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kybernetik.Animancer.FSM", "Kybernetik.Animancer.FSM.csproj", "{7a283799-97cb-6385-4932-dc2eb7bcdf5e}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImprovedTimers", "ImprovedTimers.csproj", "{81a2babd-671b-b60c-e8fb-5839ca517966}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTween.Modules", "DOTween.Modules.csproj", "{b503d373-4b65-9028-a5e9-d3f1e4a7388d}"
@@ -48,6 +48,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALINEEditor", "ALINEEditor.csproj", "{6972eee9-8334-03c7-9d1f-edc2893da80d}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrelSync", "ParrelSync.csproj", "{5fd24082-9209-f03f-b0d5-03a706a2e8a3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinematicCharacterController.Core.Editor", "KinematicCharacterController.Core.Editor.csproj", "{c1a5662a-67b7-dc3c-82d4-3f8320c6ca56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinematicCharacterController.Core", "KinematicCharacterController.Core.csproj", "{a68d00dc-8e8c-e32d-ebc2-4cbf6036e385}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALINEPackageToolsEditor", "ALINEPackageToolsEditor.csproj", "{8cdcbc94-3d55-f3cf-ad49-9e5b08fe8531}"
 EndProject
@@ -86,6 +90,8 @@ Global
 		{6566fc5a-ad75-b8df-3257-0f08358ddac9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9331b437-b52a-229e-f959-d75efdb47180}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9331b437-b52a-229e-f959-d75efdb47180}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{a4fa2f3d-7588-cdcc-47af-3bb352b7dc7e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{a4fa2f3d-7588-cdcc-47af-3bb352b7dc7e}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{856505a3-9e70-fba2-13e8-2c966a2ba029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -102,8 +108,6 @@ Global
 		{0bbe9eb1-8aed-cdde-a12e-efde534d7c8c}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7a283799-97cb-6385-4932-dc2eb7bcdf5e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7a283799-97cb-6385-4932-dc2eb7bcdf5e}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ccc21274-5dd2-6e81-fee5-fe9a23e9b9ca}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81a2babd-671b-b60c-e8fb-5839ca517966}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81a2babd-671b-b60c-e8fb-5839ca517966}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{b503d373-4b65-9028-a5e9-d3f1e4a7388d}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -112,6 +116,10 @@ Global
 		{6972eee9-8334-03c7-9d1f-edc2893da80d}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5fd24082-9209-f03f-b0d5-03a706a2e8a3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5fd24082-9209-f03f-b0d5-03a706a2e8a3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{c1a5662a-67b7-dc3c-82d4-3f8320c6ca56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{c1a5662a-67b7-dc3c-82d4-3f8320c6ca56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{a68d00dc-8e8c-e32d-ebc2-4cbf6036e385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{a68d00dc-8e8c-e32d-ebc2-4cbf6036e385}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8cdcbc94-3d55-f3cf-ad49-9e5b08fe8531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8cdcbc94-3d55-f3cf-ad49-9e5b08fe8531}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{102652e0-2e4c-a4ac-c82e-f2feb9402eb0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

@@ -1310,6 +1310,10 @@
       <Project>{45159dbe-9cb2-b6b6-731e-33dda4173c68}</Project>
       <Name>GameKit.Dependencies</Name>
     </ProjectReference>
+    <ProjectReference Include="KinematicCharacterController.Core.csproj">
+      <Project>{a68d00dc-8e8c-e32d-ebc2-4cbf6036e385}</Project>
+      <Name>KinematicCharacterController.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

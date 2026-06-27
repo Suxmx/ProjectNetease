@@ -52,8 +52,9 @@
     <Compile Include="Assets\MemoFramework\Framework\Extension\Editor\UI\UIEditorUtils.cs" />
     <Compile Include="Assets\Scripts\Generated\Skill\Editor\SkillGeneratedEditorSerialization.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Editor\ToolbarExt.cs" />
+    <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\Editor\PauseStateHandler.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Editor\UI\UIEditorUtils.3rd.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Editor\MemoThreeCSampleAssetGenerator.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Editor\PartyKccPrefabGenerator.cs" />
     <None Include="Assets\MemoFramework\ThirdParty\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Odin Inspector\Assets\Editor\Hidden\ExtractSpriteShader.shader" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Odin Inspector\Assets\Editor\Hidden\GUIUtilShader.shader" />
@@ -1209,6 +1210,10 @@
       <Project>{798c5f1f-2d71-707b-824f-e2298106f2aa}</Project>
       <Name>EnhancedScroller</Name>
     </ProjectReference>
+    <ProjectReference Include="KinematicCharacterController.Core.Editor.csproj">
+      <Project>{c1a5662a-67b7-dc3c-82d4-3f8320c6ca56}</Project>
+      <Name>KinematicCharacterController.Core.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="ALINEEditor.csproj">
       <Project>{6972eee9-8334-03c7-9d1f-edc2893da80d}</Project>
       <Name>ALINEEditor</Name>
@@ -1260,6 +1265,10 @@
     <ProjectReference Include="FishNet.Runtime.csproj">
       <Project>{86dfd987-b9be-260d-495d-a79a153d6339}</Project>
       <Name>FishNet.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="KinematicCharacterController.Core.csproj">
+      <Project>{a68d00dc-8e8c-e32d-ebc2-4cbf6036e385}</Project>
+      <Name>KinematicCharacterController.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

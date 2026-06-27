@@ -10,6 +10,7 @@ using FishNet.Object;
 using FishNet.Serializing;
 using FishNet.Transporting;
 using GameKit.Dependencies.Utilities;
+using KinematicCharacterController;
 using System;
 using System.Collections.Generic;
 using FishNet.Managing.Timing;
@@ -31,7 +32,8 @@ namespace FishNet.Component.Transforming
             Disabled = 0,
             CharacterController = 1,
             Rigidbody = 2,
-            Rigidbody2D = 3
+            Rigidbody2D = 3,
+            KinematicCharacterMotor = 4
         }
 
         private struct ReceivedClientData
@@ -893,6 +895,28 @@ namespace FishNet.Component.Transforming
                     }
                 }
             }
+            //KCC.
+            else if (_componentConfiguration == ComponentConfigurationType.KinematicCharacterMotor)
+            {
+                if (TryGetComponent(out KinematicCharacterMotor c))
+                {
+                    //Client auth.
+                    if (_clientAuthoritative)
+                    {
+                        c.enabled = IsController;
+                    }
+                    //Server auth.
+                    else
+                    {
+                        //Not CSP.
+                        if (_sendToOwner)
+                            c.enabled = IsServerInitialized;
+                        //Most likely CSP.
+                        else
+                            c.enabled = IsServerInitialized || IsOwner;
+                    }
+                }
+            }
 
             bool CanMakeKinematic()
             {
@@ -1690,6 +1714,8 @@ namespace FishNet.Component.Transforming
                     timeRemaining = -delta;
                 rd.TimeRemaining = timeRemaining;
 
+                ApplyNetworkTransformToKinematicCharacterMotor();
+
                 if (rd.TimeRemaining <= 0f)
                 {
                     float leftOver = Mathf.Abs(rd.TimeRemaining);
@@ -1738,6 +1764,20 @@ namespace FishNet.Component.Transforming
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Applies the synchronized transform to KCC Motor state when NetworkTransform drives the object.
+        /// </summary>
+        private void ApplyNetworkTransformToKinematicCharacterMotor()
+        {
+            if (_componentConfiguration != ComponentConfigurationType.KinematicCharacterMotor)
+                return;
+            if (!TryGetComponent(out KinematicCharacterMotor motor))
+                return;
+
+            Transform t = _cachedTransform;
+            motor.SetPositionAndRotation(t.position, t.rotation);
         }
 
         /// <summary>

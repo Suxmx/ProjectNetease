@@ -1,0 +1,4 @@
+interface:
+  display_name: "KCC"
+  short_description: "Unity Kinematic Character Controller workflow"
+  default_prompt: "Use $kcc to implement or debug a Unity Kinematic Character Controller feature."

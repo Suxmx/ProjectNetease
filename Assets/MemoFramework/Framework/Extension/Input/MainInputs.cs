@@ -129,6 +129,15 @@ namespace M2
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c75b71e-d855-43b7-8e1e-1e303b3f8476"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -245,11 +254,22 @@ namespace M2
                 {
                     ""name"": """",
                     ""id"": ""48ab505b-d150-4665-88ee-4c071f3015bc"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5da96cc-f369-436d-a2c8-f6463453bdb5"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -334,6 +354,7 @@ namespace M2
             m_GamePlay_Shoot = m_GamePlay.FindAction("Shoot", throwIfNotFound: true);
             m_GamePlay_Jump = m_GamePlay.FindAction("Jump", throwIfNotFound: true);
             m_GamePlay_Dash = m_GamePlay.FindAction("Dash", throwIfNotFound: true);
+            m_GamePlay_Run = m_GamePlay.FindAction("Run", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Return = m_UI.FindAction("Return", throwIfNotFound: true);
@@ -423,6 +444,7 @@ namespace M2
         private readonly InputAction m_GamePlay_Shoot;
         private readonly InputAction m_GamePlay_Jump;
         private readonly InputAction m_GamePlay_Dash;
+        private readonly InputAction m_GamePlay_Run;
         /// <summary>
         /// Provides access to input actions defined in input action map "GamePlay".
         /// </summary>
@@ -450,6 +472,10 @@ namespace M2
             /// Provides access to the underlying input action "GamePlay/Dash".
             /// </summary>
             public InputAction @Dash => m_Wrapper.m_GamePlay_Dash;
+            /// <summary>
+            /// Provides access to the underlying input action "GamePlay/Run".
+            /// </summary>
+            public InputAction @Run => m_Wrapper.m_GamePlay_Run;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -488,6 +514,9 @@ namespace M2
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
             }
 
             /// <summary>
@@ -511,6 +540,9 @@ namespace M2
                 @Dash.started -= instance.OnDash;
                 @Dash.performed -= instance.OnDash;
                 @Dash.canceled -= instance.OnDash;
+                @Run.started -= instance.OnRun;
+                @Run.performed -= instance.OnRun;
+                @Run.canceled -= instance.OnRun;
             }
 
             /// <summary>
@@ -686,6 +718,13 @@ namespace M2
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnDash(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Run" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnRun(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

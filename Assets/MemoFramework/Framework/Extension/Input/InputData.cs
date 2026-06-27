@@ -14,6 +14,7 @@ namespace MemoFramework.Extension
         public static Vector2 MoveInput;
         public static Vector2 RawInput;
         public static Vector2 MouseScreenPosition;
+        public static Vector2 MouseDelta;
 
         public static void Clear()
         {
@@ -26,6 +27,7 @@ namespace MemoFramework.Extension
             MoveInput = Vector2.zero;
             RawInput = Vector2.zero;
             MouseScreenPosition = Vector2.zero;
+            MouseDelta = Vector2.zero;
         }
 
         #region NormalInputEvent
