@@ -63,8 +63,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\NativeType.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\CallSite.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\MetadataResolver.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil.PE\BinaryStreamWriter.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\rocks\Mono.Cecil.Rocks\DocCommentId.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil.PE\BinaryStreamWriter.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil.Metadata\Row.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\FunctionPointerType.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\TypeResolver.cs" />
@@ -176,8 +176,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\ReferenceType.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono\Empty.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil.Metadata\StringHeap.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\MetadataSystem.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil.Metadata\TokenType.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\MetadataSystem.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\SentinelType.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil.Cil\OpCode.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\TypeComparisonMode.cs" />
@@ -185,8 +185,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\GenericInstanceMethod.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\MethodCallingConvention.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\MethodDefinition.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\ModuleKind.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil.Cil\Symbols.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\ModuleKind.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\rocks\Mono.Cecil.Rocks\Functional.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil\TypeParser.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\CodeGenerating\cecil-0.11.4\Mono.Cecil.Cil\VariableDefinition.cs" />

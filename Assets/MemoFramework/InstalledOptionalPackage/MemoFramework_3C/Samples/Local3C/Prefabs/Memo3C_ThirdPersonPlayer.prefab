@@ -213,8 +213,8 @@ CharacterController:
   m_Radius: 0.35
   m_SlopeLimit: 50
   m_StepOffset: 0.35
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_SkinWidth: 0.03
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &2540973232670641783
 MonoBehaviour:
@@ -246,6 +246,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   _groundProbeDistance: 0.35
+  _groundContactDistance: 0.03
+  _groundSnapDistance: 0.12
   _slopeLimit: 50
   _steepSlopeSlideSpeed: 4
   _dashSpeed: 12

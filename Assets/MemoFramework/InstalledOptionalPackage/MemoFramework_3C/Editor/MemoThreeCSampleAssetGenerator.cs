@@ -148,7 +148,7 @@ namespace MemoFramework.ThreeC.Editor
             CreateCube("Obstacle_Block_A", environmentRoot.transform, new Vector3(3f, 0.75f, 2.5f), Quaternion.Euler(0f, 20f, 0f), new Vector3(2.2f, 1.5f, 1.4f), obstacleMaterial);
             CreateCube("Obstacle_Block_B", environmentRoot.transform, new Vector3(-3.5f, 0.6f, -2.5f), Quaternion.Euler(0f, -35f, 0f), new Vector3(1.4f, 1.2f, 2.4f), obstacleMaterial);
             CreateCube("Obstacle_Block_C", environmentRoot.transform, new Vector3(6f, 1f, -1.5f), Quaternion.identity, new Vector3(1.5f, 2f, 1.5f), obstacleMaterial);
-            CreateCube("Slope_Test_Ramp", environmentRoot.transform, new Vector3(-0.5f, 0.35f, 5f), Quaternion.Euler(-18f, 0f, 0f), new Vector3(4f, 0.35f, 4f), obstacleMaterial);
+            CreateWedgeRamp("Slope_Test_Ramp", environmentRoot.transform, new Vector3(-0.5f, 0f, 5f), 4f, 4f, 1.3f, obstacleMaterial);
             CreateCube("WallClimb_Test_Wall", environmentRoot.transform, new Vector3(-6f, 1.5f, 3.5f), Quaternion.identity, new Vector3(0.4f, 3f, 4f), obstacleMaterial);
 
             GameObject lightObject = new GameObject("Directional Light");
@@ -177,6 +177,8 @@ namespace MemoFramework.ThreeC.Editor
             characterController.radius = 0.35f;
             characterController.stepOffset = 0.35f;
             characterController.slopeLimit = 50f;
+            characterController.skinWidth = 0.03f;
+            characterController.minMoveDistance = 0f;
 
             root.AddComponent<TMotor>();
             MemoCameraTarget3C cameraTarget = root.AddComponent<MemoCameraTarget3C>();
@@ -363,6 +365,64 @@ namespace MemoFramework.ThreeC.Editor
             cube.transform.localScale = scale;
             SetRendererMaterial(cube, material);
             return cube;
+        }
+
+        /// <summary>
+        /// 创建一个低边贴地的楔形斜坡，避免旋转盒体碰撞边缘干扰 CharacterController。
+        /// </summary>
+        /// <param name="name">对象名。</param>
+        /// <param name="parent">父节点。</param>
+        /// <param name="position">低边贴地的世界坐标中心。</param>
+        /// <param name="width">斜坡宽度。</param>
+        /// <param name="length">斜坡前后长度。</param>
+        /// <param name="height">斜坡最高处高度。</param>
+        /// <param name="material">显示材质。</param>
+        /// <returns>创建出的斜坡。</returns>
+        private static GameObject CreateWedgeRamp(string name, Transform parent, Vector3 position, float width, float length, float height, Material material)
+        {
+            GameObject ramp = new GameObject(name);
+            ramp.transform.SetParent(parent);
+            ramp.transform.position = position;
+
+            // 构建一个底面贴地、顶面向 +Z 抬升的楔形体。
+            float halfWidth = width * 0.5f;
+            float halfLength = length * 0.5f;
+            Vector3[] vertices =
+            {
+                new Vector3(-halfWidth, 0f, -halfLength),
+                new Vector3(halfWidth, 0f, -halfLength),
+                new Vector3(-halfWidth, height, halfLength),
+                new Vector3(halfWidth, height, halfLength),
+                new Vector3(-halfWidth, 0f, halfLength),
+                new Vector3(halfWidth, 0f, halfLength)
+            };
+
+            int[] triangles =
+            {
+                0, 2, 3, 0, 3, 1,
+                0, 1, 5, 0, 5, 4,
+                2, 4, 5, 2, 5, 3,
+                0, 4, 2,
+                1, 3, 5
+            };
+
+            // MeshCollider 直接使用同一份楔形网格，让显示和碰撞保持一致。
+            Mesh mesh = new Mesh
+            {
+                name = name + "_Mesh",
+                vertices = vertices,
+                triangles = triangles
+            };
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+
+            MeshFilter meshFilter = ramp.AddComponent<MeshFilter>();
+            meshFilter.sharedMesh = mesh;
+            MeshRenderer meshRenderer = ramp.AddComponent<MeshRenderer>();
+            meshRenderer.sharedMaterial = material;
+            MeshCollider meshCollider = ramp.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = mesh;
+            return ramp;
         }
 
         /// <summary>

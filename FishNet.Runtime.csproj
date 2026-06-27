@@ -46,7 +46,6 @@
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
     <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\NetUtils.cs" />
@@ -81,8 +80,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\NetConstants.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\ColliderRollback\Scripts\RollbackCollection.Threaded.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Serializing\UnityMathmatics\Serializers.UnityMathmaticsHalf.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\NetworkBehaviour\NetworkBehaviour.RPCLinks.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\BuildIdentifier.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\NetworkBehaviour\NetworkBehaviour.RPCLinks.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Server\Object\ServerObjects.Parsing.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\Utils\Preserve.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\NetworkObject\NetworkObject.RpcLinks.cs" />
@@ -90,8 +89,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Serializing\AutoPackType.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Generated\Component\TickSmoothing\TickSmoothingManager.Types.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\NetworkBehaviour\NetworkBehaviour.Prediction.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\Yak\Core\ClientSocket.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Client\ClientManager.QOL.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\Yak\Core\ClientSocket.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Serializing\Helping\QuaternionDeltaPrecisionCompression.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\NetworkObject\NetworkObject.Observers.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Synchronizing\SyncListOperation.cs" />
@@ -101,9 +100,9 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Statistic\StatisticsManager.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Timing\PhysicsMode.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Prediction\MoveRates.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Scened\Events\ClientPresenceChangeEventArgs.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Object\PrefabObjects\DefaultPrefabObjects.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\NetDebug.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Scened\Events\ClientPresenceChangeEventArgs.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Utility\Performance\DefaultObjectPool.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Serializing\Reader.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\Utils\NtpPacket.cs" />
@@ -131,8 +130,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\NetStatistics.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Object\PrefabObjects\DualPrefabObjects.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\Core\Supporting.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Timing\TickRounding.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\NetworkManager.ObjectPooling.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Timing\TickRounding.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Logging\LoggingConfiguration.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\Configuring\BetaModeMenu.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Serializing\GenericDeltaWriter.cs" />
@@ -219,8 +218,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Synchronizing\SyncStopwatch.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\Utils\NetPacketProcessor.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\INetEventListener.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Broadcast\IBroadcast.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Serializing\SceneComparer.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Broadcast\IBroadcast.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\CodeGenerating\Attributes.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Serializing\GenericDeltaReader.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Serializing\TransformPackingData.cs" />
@@ -231,8 +230,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Logging\Editor\LevelLoggingConfigurationEditor.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\PrefabCollectionGenerator\SettingsProvider.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Client\Object\ClientObjects.RpcLinks.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Synchronizing\SyncTypeSetting.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Server\Object\ServerObjects.Observers.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Synchronizing\SyncTypeSetting.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\NetworkReaderLoop.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Connection\Buffer.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\ColliderRollback\Scripts\ColliderRollback.Types.cs" />
@@ -244,8 +243,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\PlayModeTracker.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Utility\Performance\ByteArrayPool.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Utility\Extension\Transforms.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Generated\Component\TickSmoothing\Editor\MovementSettingsDrawer.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\Core\ClientSocket.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Generated\Component\TickSmoothing\Editor\MovementSettingsDrawer.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Synchronizing\SyncStopwatchOperation.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\Configuring\Configuring.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\Utils\NetDataWriter.cs" />
@@ -255,8 +254,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\Configuring\EditorCloning\EditorCloneType.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\ConnectionRequest.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\Configuring\ConfigurationData.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Synchronizing\SyncTimer.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Object\PrefabObjects\SinglePrefabObjects.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Synchronizing\SyncTimer.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Broadcast\Helping\BroadcastHelpers.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\IPAddressType.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Serializing\SubStream\Writer.SubStream.cs" />
@@ -302,10 +301,10 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Authenticating\Authenticator.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\ScriptingDefines.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\NetworkObject\NetworkObject.Broadcast.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Synchronizing\SyncHashset.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\PrefabCollectionGenerator\Generator.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\PausedSocketFix.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Synchronizing\SyncHashset.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\NewNetworkBehaviour\CreateNewNetworkBehaviour.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\PausedSocketFix.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\NetworkObject\NetworkObject.SyncTypes.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\NetworkObject\NetworkObject.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\ChangedTransformProperties.cs" />
@@ -364,9 +363,9 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\NetPacket.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Scened\SceneLookupData.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Connection\NetworkConnection.QOL.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\NetworkBehaviour\NetworkBehaviour.Logging.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Editor\NetworkManagerEditor.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Object\ManagedObjects.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Editor\NetworkManagerEditor.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\NetworkBehaviour\NetworkBehaviour.Logging.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Generated\Component\Prediction\NetworkTrigger2D.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Object\Prediction\Interfaces.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Object\DualPrefab.cs" />
@@ -389,8 +388,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Observing\Conditions\DistanceCondition.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\NetworkManager.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Utility\Performance\ObjectPoolRetrieveOption.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Generated\Component\TickSmoothing\Editor\MovementSettingsDrawer.Threaded.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\NetManager.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Generated\Component\TickSmoothing\Editor\MovementSettingsDrawer.Threaded.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Connection\NetworkConnection.Buffer.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Scened\DefaultSceneProcessor.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Connection\OldTickOption.cs" />
@@ -402,8 +401,8 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Generated\Component\Spawning\PlayerSpawner.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Editor\Configuring\DelayedEditorTasks.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Logging\LoggingType.cs" />
-    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Documenting\Attributes.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Object\ObjectSpawnType.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Documenting\Attributes.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Managing\Scened\LoadUnloadDatas\LoadOptions.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Generated\Component\TakeOwnership\PredictedSpawn.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Transporting\Transports\Tugboat\LiteNetLib\Trimming.cs" />

@@ -33,9 +33,9 @@
 3. `Samples/Local3C/Scenes/Memo3C_LocalSample.unity`
 4. `Samples/Local3C/Materials/*`
 
-生成的场景包含 `MF` 根对象、`GameStateComponent` 样例 launcher、`InputComponent`、主相机、`CinemachineBrain`、`MemoThreeCLookInputProvider`、地面、障碍物、斜坡和可爬墙面。场景默认启用 `Mode_ThirdPerson_Active`，`Mode_TopDown_Inactive` 默认关闭；如果要测试 TopDown，关闭 ThirdPerson 根物体并启用 TopDown 根物体即可。
+生成的场景包含 `MF` 根对象、`GameStateComponent` 样例 launcher、`InputComponent`、主相机、`CinemachineBrain`、`MemoThreeCLookInputProvider`、地面、障碍物、斜坡和可爬墙面。场景默认启用 `Mode_ThirdPerson_Active`，`Mode_TopDown_Inactive` 默认关闭；如果要测试 TopDown，关闭 ThirdPerson 根物体并启用 TopDown 根物体即可。样例斜坡使用低边贴地的楔形 MeshCollider，预期从低边可顺滑上坡，左右侧面会阻挡角色但不应弹飞。
 
-如果已经生成过旧版样例，修复或更新脚本后需要重新点击该菜单，旧场景和 prefab 才会被新的生成器配置覆盖。
+如果已经生成过旧版样例，修复或更新脚本后需要重新点击该菜单，旧场景和 prefab 才会被新的生成器配置覆盖。地面检测、斜坡几何或 `CharacterController` 参数调整后，也需要重新生成才能更新样例场景和 prefab。
 
 ## Camera
 

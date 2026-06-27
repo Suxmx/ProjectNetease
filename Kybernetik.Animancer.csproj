@@ -129,8 +129,8 @@
     <Compile Include="Assets\MemoFramework\ThirdParty\Animancer\Runtime\Utilities\Transitions\Transition Types\ManualMixerTransition.cs" />
     <Compile Include="Assets\MemoFramework\ThirdParty\Animancer\Runtime\Data Types\FastEnumerator.cs" />
     <Compile Include="Assets\MemoFramework\ThirdParty\Animancer\Runtime\Utilities\Custom Fade\FadeGroupExtensions.cs" />
-    <Compile Include="Assets\MemoFramework\ThirdParty\Animancer\Runtime\Editor\SimpleTimer.cs" />
     <Compile Include="Assets\MemoFramework\ThirdParty\Animancer\Runtime\Data Types\Static.cs" />
+    <Compile Include="Assets\MemoFramework\ThirdParty\Animancer\Runtime\Editor\SimpleTimer.cs" />
     <Compile Include="Assets\MemoFramework\ThirdParty\Animancer\Runtime\Utilities\Animation Jobs\AnimatedInt.cs" />
     <Compile Include="Assets\MemoFramework\ThirdParty\Animancer\Runtime\Core\Events\Invokables\UnityEvent.cs" />
     <Compile Include="Assets\MemoFramework\ThirdParty\Animancer\Runtime\Utilities\Transitions\Transition Libraries\TransitionLibraryAsset.cs" />

@@ -11,6 +11,8 @@ namespace MemoFramework.ThreeC
     public class MemoCharacterMotor3C : MonoBehaviour
     {
         protected const float MinDirectionSqrMagnitude = 0.0001f;
+        private const int GroundProbeHitBufferSize = 8;
+        private const float MinGroundSupportUpDot = 0.05f;
 
         [Header("Control")]
         [SerializeField] private bool _controlEnabled = true;
@@ -35,7 +37,8 @@ namespace MemoFramework.ThreeC
         [Header("Slope")]
         [SerializeField] private LayerMask _groundMask = ~0;
         [SerializeField, Min(0f)] private float _groundProbeDistance = 0.35f;
-        [SerializeField, Min(0f)] private float _groundedProbeDistance = 0.08f;
+        [SerializeField, Min(0f)] private float _groundContactDistance = 0.03f;
+        [SerializeField, Min(0f)] private float _groundSnapDistance = 0.12f;
         [SerializeField, Range(0f, 89f)] private float _slopeLimit = 50f;
         [SerializeField, Min(0f)] private float _steepSlopeSlideSpeed = 4f;
 
@@ -68,6 +71,9 @@ namespace MemoFramework.ThreeC
         private float _dashCooldownTimer;
         private float _wallClimbTimer;
         private Vector3 _dashVelocity;
+        private bool _hasGroundSupport;
+        private bool _groundSupportIsWalkable;
+        private readonly RaycastHit[] _groundProbeHits = new RaycastHit[GroundProbeHitBufferSize];
 
         /// <summary>
         /// 当前 CharacterController。
@@ -133,6 +139,11 @@ namespace MemoFramework.ThreeC
         /// 当前地面法线。
         /// </summary>
         public Vector3 GroundNormal { get; protected set; } = Vector3.up;
+
+        /// <summary>
+        /// 当前脚底到地面支撑面的距离，未检测到地面时为正无穷。
+        /// </summary>
+        public float GroundDistance { get; protected set; } = float.PositiveInfinity;
 
         /// <summary>
         /// 最近一次检测到的墙面法线。
@@ -311,6 +322,11 @@ namespace MemoFramework.ThreeC
             LastCollisionFlags = characterController.Move(Velocity * deltaTime);
             ProcessCollisionFlags();
 
+            // Move 后重新检测地面支撑，并按真实碰撞/极近距离接触刷新落地状态。
+            ProbeGround();
+            TrySnapToGround(characterController);
+            RefreshGroundedState();
+
             // 刷新模式和朝向。
             RefreshMovementMode();
             RotateByMotion(moveDirection, deltaTime);
@@ -422,24 +438,174 @@ namespace MemoFramework.ThreeC
         protected virtual void ProbeGround()
         {
             CharacterController characterController = CacheCharacterController();
-            IsGrounded = characterController.isGrounded;
             GroundNormal = Vector3.up;
+            GroundDistance = float.PositiveInfinity;
+            _hasGroundSupport = false;
+            _groundSupportIsWalkable = false;
 
-            // 从 CharacterController 中心向下检测，距离换算到脚底后再判断是否足够接近地面。
-            Vector3 origin = transform.TransformPoint(characterController.center);
-            float halfHeight = characterController.height * 0.5f;
-            float rayDistance = halfHeight + _groundProbeDistance;
-            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, rayDistance, _groundMask, QueryTriggerInteraction.Ignore))
+            // 使用接近 CharacterController 底部球体的 SphereCast，避免单点 ray 在台阶和边缘处误判。
+            if (!TryGetGroundSupportHit(characterController, out RaycastHit hit, out float distanceBelowFeet))
+                return;
+
+            // 缓存地面支撑信息。是否 grounded 由 Move 后的碰撞和极近距离接触统一判断。
+            GroundNormal = hit.normal;
+            GroundDistance = distanceBelowFeet;
+            _hasGroundSupport = true;
+            _groundSupportIsWalkable = IsGroundSupportWalkable(hit.normal);
+        }
+
+        /// <summary>
+        /// 使用 CharacterController 底部球体近似检测地面支撑。
+        /// </summary>
+        /// <param name="characterController">当前 CharacterController。</param>
+        /// <param name="bestHit">最近的有效地面命中。</param>
+        /// <param name="distanceBelowFeet">脚底到命中面的距离。</param>
+        /// <returns>是否找到有效地面支撑。</returns>
+        protected virtual bool TryGetGroundSupportHit(CharacterController characterController, out RaycastHit bestHit, out float distanceBelowFeet)
+        {
+            bestHit = default;
+            distanceBelowFeet = float.PositiveInfinity;
+
+            float radius = characterController.radius;
+            float probeRadius = Mathf.Max(0.01f, radius - Mathf.Max(0.01f, characterController.skinWidth * 0.5f));
+            float sphereCenterOffset = Mathf.Max(0f, characterController.height * 0.5f - radius);
+            Vector3 bottomSphereCenter = transform.TransformPoint(characterController.center + Vector3.down * sphereCenterOffset);
+
+            // 从底部球体略上方开始检测，避免初始贴地时 SphereCast 因重叠漏报。
+            float castOriginOffset = Mathf.Max(0.02f, characterController.skinWidth);
+            Vector3 castOrigin = bottomSphereCenter + Vector3.up * castOriginOffset;
+            float castDistance = _groundProbeDistance + castOriginOffset + (radius - probeRadius);
+            int hitCount = Physics.SphereCastNonAlloc(castOrigin, probeRadius, Vector3.down, _groundProbeHits, castDistance, _groundMask, QueryTriggerInteraction.Ignore);
+
+            // 分类所有向上的支撑面：优先可行走坡面，找不到时才保留陡坡用于滑落。
+            float bestWalkableDistance = float.PositiveInfinity;
+            float bestSteepDistance = float.PositiveInfinity;
+            RaycastHit bestWalkableHit = default;
+            RaycastHit bestSteepHit = default;
+            for (int i = 0; i < hitCount; i++)
             {
-                // 缓存地面法线用于坡面投影和陡坡滑落；不把远距离命中直接当作落地。
-                GroundNormal = hit.normal;
-                bool isWalkableGround = Vector3.Angle(hit.normal, Vector3.up) <= _slopeLimit + 0.1f;
+                RaycastHit hit = _groundProbeHits[i];
+                if (!IsValidGroundSupportHit(characterController, hit))
+                    continue;
 
-                // 只有脚底接近地面且角色没有上升时，才补充 CharacterController 的 grounded 状态。
-                float distanceBelowFeet = hit.distance - halfHeight;
-                bool isCloseToGround = distanceBelowFeet <= _groundedProbeDistance;
-                IsGrounded |= isWalkableGround && isCloseToGround && VerticalVelocity <= 0f;
+                if (!HasUpwardGroundSupport(hit.normal))
+                    continue;
+
+                float currentDistanceBelowFeet = Mathf.Max(0f, hit.distance - castOriginOffset - (radius - probeRadius));
+                if (IsGroundSupportWalkable(hit.normal))
+                {
+                    if (currentDistanceBelowFeet >= bestWalkableDistance)
+                        continue;
+
+                    bestWalkableHit = hit;
+                    bestWalkableDistance = currentDistanceBelowFeet;
+                    continue;
+                }
+
+                if (currentDistanceBelowFeet >= bestSteepDistance)
+                    continue;
+
+                bestSteepHit = hit;
+                bestSteepDistance = currentDistanceBelowFeet;
             }
+
+            // 先返回最近的可行走支撑，避免侧边或陡坡边缘污染 GroundNormal。
+            if (bestWalkableDistance < float.PositiveInfinity)
+            {
+                bestHit = bestWalkableHit;
+                distanceBelowFeet = bestWalkableDistance;
+                return true;
+            }
+
+            if (bestSteepDistance < float.PositiveInfinity)
+            {
+                bestHit = bestSteepHit;
+                distanceBelowFeet = bestSteepDistance;
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断一次地面支撑命中是否可用于当前角色。
+        /// </summary>
+        /// <param name="characterController">当前 CharacterController。</param>
+        /// <param name="hit">待检查命中。</param>
+        /// <returns>是否为有效地面支撑。</returns>
+        protected virtual bool IsValidGroundSupportHit(CharacterController characterController, RaycastHit hit)
+        {
+            if (hit.collider == null || hit.collider == characterController)
+                return false;
+
+            Transform hitTransform = hit.collider.transform;
+            return hitTransform != transform && !hitTransform.IsChildOf(transform);
+        }
+
+        /// <summary>
+        /// 判断命中法线是否具有可作为地面支撑的向上分量。
+        /// </summary>
+        /// <param name="normal">待检查法线。</param>
+        /// <returns>是否可作为地面支撑。</returns>
+        protected virtual bool HasUpwardGroundSupport(Vector3 normal)
+        {
+            return Vector3.Dot(normal, Vector3.up) > MinGroundSupportUpDot;
+        }
+
+        /// <summary>
+        /// 判断地面支撑法线是否处于可行走坡度内。
+        /// </summary>
+        /// <param name="normal">待检查法线。</param>
+        /// <returns>是否为可行走地面。</returns>
+        protected virtual bool IsGroundSupportWalkable(Vector3 normal)
+        {
+            return Vector3.Angle(normal, Vector3.up) <= _slopeLimit + 0.1f;
+        }
+
+        /// <summary>
+        /// 角色下降且离地很近时，将 CharacterController 轻微吸附到地面。
+        /// </summary>
+        /// <param name="characterController">当前 CharacterController。</param>
+        /// <returns>是否执行了贴地移动。</returns>
+        protected virtual bool TrySnapToGround(CharacterController characterController)
+        {
+            if (_groundSnapDistance <= 0f || !_hasGroundSupport || !_groundSupportIsWalkable)
+                return false;
+
+            if (IsWallClimbing || VerticalVelocity > 0f)
+                return false;
+
+            if ((LastCollisionFlags & CollisionFlags.Below) != 0)
+                return false;
+
+            if ((LastCollisionFlags & CollisionFlags.Sides) != 0)
+                return false;
+
+            if (GroundDistance <= _groundContactDistance || GroundDistance > _groundSnapDistance)
+                return false;
+
+            // 向下移动略多于当前间隙，让 CharacterController 产生真实 Below 碰撞并消除视觉浮空。
+            float snapDistance = Mathf.Min(_groundSnapDistance, GroundDistance + _groundContactDistance);
+            CollisionFlags snapFlags = characterController.Move(Vector3.down * snapDistance);
+            LastCollisionFlags |= snapFlags;
+            ProbeGround();
+            return (snapFlags & CollisionFlags.Below) != 0;
+        }
+
+        /// <summary>
+        /// 根据 Move 碰撞结果和极近距离地面支撑刷新最终 grounded 状态。
+        /// </summary>
+        protected virtual void RefreshGroundedState()
+        {
+            bool hitGround = (LastCollisionFlags & CollisionFlags.Below) != 0;
+            bool hasContactSupport = _hasGroundSupport &&
+                                     _groundSupportIsWalkable &&
+                                     GroundDistance <= _groundContactDistance &&
+                                     VerticalVelocity <= 0f;
+
+            IsGrounded = hitGround || hasContactSupport;
+            if (IsGrounded && VerticalVelocity < 0f)
+                VerticalVelocity = -_groundStickVelocity;
         }
 
         /// <summary>
@@ -543,13 +709,17 @@ namespace MemoFramework.ThreeC
             float speed = IsRunning ? _runSpeed : _walkSpeed;
             Vector3 targetVelocity = moveDirection * (speed * MoveInput.magnitude);
 
-            if (IsGrounded && IsSlopeWalkable())
+            if (IsGrounded && _hasGroundSupport && _groundSupportIsWalkable)
                 targetVelocity = Vector3.ProjectOnPlane(targetVelocity, GroundNormal);
 
             float acceleration = IsGrounded ? _groundAcceleration : _airAcceleration;
             PlanarVelocity = Vector3.MoveTowards(PlanarVelocity, targetVelocity, acceleration * deltaTime);
 
-            if (IsGrounded && !IsSlopeWalkable())
+            bool hasSteepGroundSupport = _hasGroundSupport &&
+                                         !_groundSupportIsWalkable &&
+                                         GroundDistance <= _groundSnapDistance &&
+                                         VerticalVelocity <= 0f;
+            if (hasSteepGroundSupport)
                 PlanarVelocity += Vector3.ProjectOnPlane(Vector3.down, GroundNormal).normalized * _steepSlopeSlideSpeed;
 
             return PlanarVelocity;

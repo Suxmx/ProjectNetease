@@ -46,7 +46,6 @@
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="E:\UnityEditor\Unity 6000.4.10\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
     <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="E:\UnityProject\NeteaseMiniProject\Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Runtime\Plugins\CodeAnalysis\FishNet.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_3C\Runtime\Movement\MemoThirdPersonMotor3C.cs" />
@@ -1045,14 +1044,11 @@
     <Reference Include="Unity.Collections">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.InputSystem.ForUI">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.InputSystem.ForUI.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Profiling.Core">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Profiling.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.RenderPipelines.GPUDriven.Runtime">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.GPUDriven.Runtime.dll</HintPath>
+    <Reference Include="Unity.InputSystem.ForUI">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.InputSystem.ForUI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
@@ -1086,6 +1082,9 @@
     </Reference>
     <Reference Include="Unity.PathTracing.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.PathTracing.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RenderPipelines.GPUDriven.Runtime">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.GPUDriven.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
