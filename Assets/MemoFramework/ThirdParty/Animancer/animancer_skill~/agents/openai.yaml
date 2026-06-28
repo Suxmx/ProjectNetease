@@ -1,0 +1,4 @@
+interface:
+  display_name: "Animancer"
+  short_description: "Unity Animancer animation workflow"
+  default_prompt: "Use $animancer to implement or debug a Unity animation feature with Animancer."

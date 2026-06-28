@@ -33,11 +33,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnhancedScroller", "Enhance
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALINE", "ALINE.csproj", "{b7babb3f-a7d5-1e5f-0356-19ae5e66c591}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{0bbe9eb1-8aed-cdde-a12e-efde534d7c8c}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTweenPro.Scripts", "DOTweenPro.Scripts.csproj", "{7d4eef30-0a7c-389b-20cf-48f7062e3724}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityFsm", "UnityFsm.csproj", "{2696a942-d4ca-8594-1d29-3b428dc1f4f3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{0bbe9eb1-8aed-cdde-a12e-efde534d7c8c}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kybernetik.Animancer.FSM", "Kybernetik.Animancer.FSM.csproj", "{7a283799-97cb-6385-4932-dc2eb7bcdf5e}"
 EndProject
@@ -100,12 +100,12 @@ Global
 		{798c5f1f-2d71-707b-824f-e2298106f2aa}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{b7babb3f-a7d5-1e5f-0356-19ae5e66c591}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{b7babb3f-a7d5-1e5f-0356-19ae5e66c591}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0bbe9eb1-8aed-cdde-a12e-efde534d7c8c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0bbe9eb1-8aed-cdde-a12e-efde534d7c8c}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7d4eef30-0a7c-389b-20cf-48f7062e3724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7d4eef30-0a7c-389b-20cf-48f7062e3724}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2696a942-d4ca-8594-1d29-3b428dc1f4f3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2696a942-d4ca-8594-1d29-3b428dc1f4f3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0bbe9eb1-8aed-cdde-a12e-efde534d7c8c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0bbe9eb1-8aed-cdde-a12e-efde534d7c8c}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7a283799-97cb-6385-4932-dc2eb7bcdf5e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7a283799-97cb-6385-4932-dc2eb7bcdf5e}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81a2babd-671b-b60c-e8fb-5839ca517966}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
