@@ -18,6 +18,7 @@ namespace Hoshino
         {
             { SkillGeneratedIds.SingleDamageClip, new ExecutorEntry { Executor = new global::Hoshino.Skill.Samples.SingleDamageExecutor(), Domain = 0 } },
             { SkillGeneratedIds.MultiDamageClip, new ExecutorEntry { Executor = new global::Hoshino.Skill.Samples.MultiDamageExecutor(), Domain = 0 } },
+            { SkillGeneratedIds.PlayAnimancerClip, new ExecutorEntry { Executor = new global::Party3C.PlayAnimancerExecutor(), Domain = 1 } },
         };
 
         public static bool TryGetExecutor<TContext>(uint clipId, out ISkillNodeExecutor<TContext> executor)

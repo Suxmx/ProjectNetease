@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55ec19295d371c84ba6f6381bcad8f57, type: 3}
+  m_Name: UnityChanSet
+  m_EditorClassIdentifier: Assembly-CSharp::Party3C.PartyCharacterAnimationSet
+  _entries:
+  - Key: Attack1
+    Transition:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 47135879acf1891478ce439bc876806c, type: 2}
+      _NormalizedStartTime: NaN
+  - Key: Attack2
+    Transition:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 756ace49ea7f39448babee6610cca609, type: 2}
+      _NormalizedStartTime: NaN
+  - Key: Attack3
+    Transition:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 00b2210ff9b82014294355859a27ac2b, type: 2}
+      _NormalizedStartTime: NaN
+  - Key: Attack4
+    Transition:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 5420f1186e53d6945b302db9b24d086c, type: 2}
+      _NormalizedStartTime: NaN
+  - Key: Attack5
+    Transition:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: edc676db09699f44ca1480950ed3f791, type: 2}
+      _NormalizedStartTime: NaN
+  - Key: Idle
+    Transition:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 2c15a6365695c2246bcd6281ee60a6f4, type: 2}
+      _NormalizedStartTime: NaN
+  - Key: Walk
+    Transition:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 5eb135ff784e1b249bdeeb23142a1ad5, type: 2}
+      _NormalizedStartTime: NaN
+  - Key: Run
+    Transition:
+      _FadeDuration: 0.25
+      _Speed: 1
+      _Events:
+        _NormalizedTimes: []
+        _Callbacks: []
+        _Names: []
+      _Clip: {fileID: 7400000, guid: 0e1b5fc8b15ff134b994c1ceda726724, type: 2}
+      _NormalizedStartTime: NaN
+  references:
+    version: 2
+    RefIds: []

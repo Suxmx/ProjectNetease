@@ -57,6 +57,7 @@
     <Compile Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\Editor\RemoveUnusedMaterialProperties.cs" />
     <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\Editor\PauseStateHandler.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Editor\UI\UIEditorUtils.3rd.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Editor\Skill\PlayAnimancerClipInspector.cs" />
     <Compile Include="Assets\Scripts\Party3C\Editor\PartyKccPrefabGenerator.cs" />
     <None Include="Assets\MemoFramework\ThirdParty\Demigiant\DemiLib\Core\Editor\DemiEditor.xml" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Odin Inspector\Assets\Editor\Hidden\ExtractSpriteShader.shader" />
@@ -1012,6 +1013,9 @@
     <Reference Include="Unity.RenderPipelines.Core.Runtime.Shared">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.Shared.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.FilmInternalUtilities">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.FilmInternalUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.2D.Runtime">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.2D.Runtime.dll</HintPath>
     </Reference>
@@ -1029,9 +1033,6 @@
     </Reference>
     <Reference Include="Unity.Toonshader">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Toonshader.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.FilmInternalUtilities">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.FilmInternalUtilities.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>

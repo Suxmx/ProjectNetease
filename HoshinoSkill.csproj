@@ -53,6 +53,7 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Clip\TeleportClip.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Track\SkillActionTrack.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Generated\SkillGeneratedSerializationServices.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillActorBindingCache.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\CodeGen\SkillSerializationCodeGenerator.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Generated\SkillSerializationAttributes.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\CodeGen\SkillSerializationCodeGenerationOnImport.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillFileManager.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillSerializer.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Compiled\SkillTickUtility.cs" />
+    <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillPreviewScene.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\Compiler\SkillDefinitionCompiler.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Editor\SkillBlackboardWindow.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Skill\Runtime\Generated\SkillBuiltInExternalTypes.cs" />

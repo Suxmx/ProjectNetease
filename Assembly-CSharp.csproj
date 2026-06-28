@@ -53,20 +53,26 @@
     <Compile Include="Assets\Scripts\Party3C\Runtime\IPartyKccCharacterMotor.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\16- FramePerfect Rotation\Scripts\MyCharacterController.cs" />
     <Compile Include="Assets\KinematicCharacterController\ExampleCharacter\Scripts\ExampleCharacterController.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Skill\PartySkillRuntime.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Animation\PartyAnimationSetAddressableCache.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\2- Basic Movement and Gravity\Scripts\MyCharacterController.cs" />
     <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\Teleporter.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Animation\PartyAnimancerPresenter.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Input\InputEvent.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\3- Jumping\Scripts\c- Wall Jumping\MyCharacterController.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Samples\Executor\SingleDamageExecutor.cs" />
     <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\ExampleAIController.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Skill\PartySkillExecutionContext.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\7- Orienting towards arbitrary up direction\Scripts\MyCharacterController.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\10- Multiple movement states setup\Scripts\MyPlayer.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\4- Landing and leaving ground\Scripts\MyPlayer.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Skill\Executors\PlayAnimancerExecutor.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Input\InputData.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\3- Jumping\Scripts\c- Wall Jumping\MyPlayer.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\Input\MainInputs.cs" />
     <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\StressTestManager.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\6- Crouching\Scripts\MyPlayer.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Animation\PartyCharacterAnimationSet.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\16- FramePerfect Rotation\Scripts\MyPlayer.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\14- Climbing Ladders\Scripts\MyPlayer.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Net\ThirdParty\FishNet\Upgrading\MirrorUpgrade.cs" />
@@ -92,14 +98,18 @@
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\9- Custom collision filtering\Scripts\MyPlayer.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\5- Adding velocities and impulses\Scripts\MyCharacterController.cs" />
     <Compile Include="Assets\MemoFramework\InstalledOptionalPackage\MemoFramework_Skill\Samples\Executor\MultiDamageExecutor.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Skill\Executors\PartyPresentationSkillExecutor.cs" />
     <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\BuildManager.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\8- Creating a moving platform\Scripts\MyPlayer.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\3- Jumping\Scripts\a- Simple Jumping\MyPlayer.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\15- Root motion example\Scripts\MyPlayer.cs" />
     <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\PlanetManager.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\8- Creating a moving platform\Scripts\MyCharacterController.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Skill\EPartySkillExecutionDomain.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\14- Climbing Ladders\Scripts\MyLadder.cs" />
     <Compile Include="Assets\MemoFramework\Framework\Extension\MF.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Skill\IPartySkillDamageReceiver.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Skill\PartySkillInputDriver.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\12- NoClip state\Scripts\MyPlayer.cs" />
     <Compile Include="Assets\Scripts\Generated\Skill\Runtime\SkillGeneratedExecutorBindings.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\6- Crouching\Scripts\MyCharacterController.cs" />
@@ -107,11 +117,14 @@
     <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\ExampleMovingPlatform.cs" />
     <Compile Include="Assets\Scripts\Party3C\Runtime\PartyKccCharacterInputs.cs" />
     <Compile Include="Assets\Scripts\Party3C\Runtime\Networking\PartyKccNetworkCharacterController.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Skill\PartySkillLibrary.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\9- Custom collision filtering\Scripts\MyCharacterController.cs" />
     <Compile Include="Assets\KinematicCharacterController\Examples\Scripts\PrefabLauncher.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\2- Basic Movement and Gravity\Scripts\MyPlayer.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\1- Player Camera Character Setup\Scripts\MyPlayer.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Networking\PartyNetworkSkillController.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\3- Jumping\Scripts\b- Double Jumping\MyCharacterController.cs" />
+    <Compile Include="Assets\Scripts\Party3C\Runtime\Skill\Clips\PlayAnimancerClip.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\11- Charging state\Scripts\MyPlayer.cs" />
     <Compile Include="Assets\KinematicCharacterController\ExampleCharacter\Scripts\ExampleCharacterCamera.cs" />
     <Compile Include="Assets\KinematicCharacterController\Walkthrough\11- Charging state\Scripts\MyCharacterController.cs" />
@@ -119,7 +132,6 @@
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\Toon_DoubleShadeWithFeather_Mobile_TransClipping_StencilMask.shader" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\Toon_ShadingGradeMap_Mobile_StencilMask.shader" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\UCTS_DoubleShadeWithFeather.cginc" />
-    <None Include="Assets\SkillData\新技能.skill.json" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\ToonColor_ShadingGradeMap_TransClipping_StencilOut.shader" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\ToonColor_DoubleShadeWithFeather_StencilMask.shader" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\Toon_DoubleShadeWithFeather_Mobile_Clipping_StencilMask.shader" />
@@ -152,6 +164,7 @@
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\ToonColor_ShadingGradeMap_Transparent.shader" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\ToonColor_DoubleShadeWithFeather_Transparent.shader" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\ToonColor_DoubleShadeWithFeather_Clipping_OnlyColor.shader" />
+    <None Include="Assets\SkillData\Compiled\Attack.compiled.json" />
     <None Include="Assets\MemoFramework\ThirdParty\Animancer\Package.json" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\ToonColor_DoubleShadeWithFeather_Clipping_StencilOut.shader" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\Sirenix.Utilities.xml" />
@@ -171,6 +184,7 @@
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\Toon_ShadingGradeMap_AngelRing.shader" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\Toon_ShadingGradeMap_StencilMask.shader" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\Toon_ShadingGradeMap.shader" />
+    <None Include="Assets\SkillData\Attack.skill.json" />
     <None Include="Assets\MemoFramework\ThirdParty\Sirenix\Assemblies\link.xml" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\ToonColor_DoubleShadeWithFeather_Transparent_StencilOut.shader" />
     <None Include="Assets\SD Unity-Chan Haon Custom\Shader\Unity-chan Toon Shader Ver 2.0.6\ToonColor_ShadingGradeMap_TransClipping_StencilMask.shader" />
@@ -1079,6 +1093,9 @@
     <Reference Include="Unity.RenderPipelines.Core.Runtime.Shared">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.Shared.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.FilmInternalUtilities">
+      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.FilmInternalUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.2D.Runtime">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.2D.Runtime.dll</HintPath>
     </Reference>
@@ -1096,9 +1113,6 @@
     </Reference>
     <Reference Include="Unity.Toonshader">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Toonshader.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.FilmInternalUtilities">
-      <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.FilmInternalUtilities.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst.Editor">
       <HintPath>E:\UnityProject\NeteaseMiniProject\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>

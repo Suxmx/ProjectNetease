@@ -33,6 +33,7 @@ namespace Hoshino
             if (type == typeof(AttributeModifierClip)) { id = SkillGeneratedIds.AttributeModifierClip; return true; }
             if (type == typeof(SingleDamageClip)) { id = SkillGeneratedIds.SingleDamageClip; return true; }
             if (type == typeof(MultiDamageClip)) { id = SkillGeneratedIds.MultiDamageClip; return true; }
+            if (type == typeof(global::Party3C.PlayAnimancerClip)) { id = SkillGeneratedIds.PlayAnimancerClip; return true; }
             id = 0u;
             return false;
         }
@@ -85,6 +86,7 @@ namespace Hoshino
                 SkillGeneratedIds.AttributeModifierClip => typeof(AttributeModifierClip),
                 SkillGeneratedIds.SingleDamageClip => typeof(SingleDamageClip),
                 SkillGeneratedIds.MultiDamageClip => typeof(MultiDamageClip),
+                SkillGeneratedIds.PlayAnimancerClip => typeof(global::Party3C.PlayAnimancerClip),
                 _ => null
             };
             if (type == null) return null;
@@ -132,6 +134,11 @@ namespace Hoshino
                 {
                     MultiDamageClip typed = (MultiDamageClip)clip;
                     return new MultiDamageNodeData { Shape = typed.Shape, Space = typed.Space, Offset = typed.Offset, HalfExtents = typed.HalfExtents, Radius = typed.Radius, Distance = typed.Distance, HitMask = typed.HitMask, Damage = typed.Damage, DamageGroupId = typed.DamageGroupId, HitIntervalTicks = typed.HitIntervalTicks };
+                }
+                case SkillGeneratedIds.PlayAnimancerClip:
+                {
+                    global::Party3C.PlayAnimancerClip typed = (global::Party3C.PlayAnimancerClip)clip;
+                    return new PlayAnimancerNodeData { AnimationSetFileName = typed.AnimationSetFileName, AnimationKey = typed.AnimationKey, LayerIndex = typed.LayerIndex, FadeDuration = typed.FadeDuration, Speed = typed.Speed, NormalizedStartTime = typed.NormalizedStartTime, RestartFromStart = typed.RestartFromStart };
                 }
                 default: throw new InvalidOperationException($"No generated custom data capture for clip id {clipId}.");
             }
@@ -200,6 +207,19 @@ namespace Hoshino
                     typed.HitIntervalTicks = value.HitIntervalTicks;
                     break;
                 }
+                case SkillGeneratedIds.PlayAnimancerClip:
+                {
+                    global::Party3C.PlayAnimancerClip typed = (global::Party3C.PlayAnimancerClip)clip;
+                    PlayAnimancerNodeData value = data is PlayAnimancerNodeData d ? d : default;
+                    typed.AnimationSetFileName = value.AnimationSetFileName;
+                    typed.AnimationKey = value.AnimationKey;
+                    typed.LayerIndex = value.LayerIndex;
+                    typed.FadeDuration = value.FadeDuration;
+                    typed.Speed = value.Speed;
+                    typed.NormalizedStartTime = value.NormalizedStartTime;
+                    typed.RestartFromStart = value.RestartFromStart;
+                    break;
+                }
             }
         }
 
@@ -222,6 +242,8 @@ namespace Hoshino
                     return new SingleDamageNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32(), DamageGroupId = reader.ReadByte() };
                 case SkillGeneratedIds.MultiDamageClip:
                     return new MultiDamageNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32(), DamageGroupId = reader.ReadByte(), HitIntervalTicks = reader.ReadByte() };
+                case SkillGeneratedIds.PlayAnimancerClip:
+                    return new PlayAnimancerNodeData { AnimationSetFileName = reader.ReadString(), AnimationKey = reader.ReadString(), LayerIndex = reader.ReadInt32(), FadeDuration = reader.ReadSingle(), Speed = reader.ReadSingle(), NormalizedStartTime = reader.ReadSingle(), RestartFromStart = reader.ReadBoolean() };
                 default: throw new InvalidOperationException($"No generated custom data reader for clip id {clipId}.");
             }
         }
@@ -282,6 +304,18 @@ namespace Hoshino
                     writer.Write(value.Damage);
                     writer.Write(value.DamageGroupId);
                     writer.Write(value.HitIntervalTicks);
+                    break;
+                }
+                case SkillGeneratedIds.PlayAnimancerClip:
+                {
+                    PlayAnimancerNodeData value = data is PlayAnimancerNodeData d ? d : default;
+                    writer.Write(value.AnimationSetFileName ?? string.Empty);
+                    writer.Write(value.AnimationKey ?? string.Empty);
+                    writer.Write(value.LayerIndex);
+                    writer.Write(value.FadeDuration);
+                    writer.Write(value.Speed);
+                    writer.Write(value.NormalizedStartTime);
+                    writer.Write(value.RestartFromStart);
                     break;
                 }
                 default: throw new InvalidOperationException($"No generated custom data writer for clip id {clipId}.");
@@ -345,6 +379,18 @@ namespace Hoshino
                     Add(fields, "Damage", value.Damage);
                     Add(fields, "DamageGroupId", value.DamageGroupId);
                     Add(fields, "HitIntervalTicks", value.HitIntervalTicks);
+                    break;
+                }
+                case SkillGeneratedIds.PlayAnimancerClip:
+                {
+                    PlayAnimancerNodeData value = data is PlayAnimancerNodeData d ? d : default;
+                    Add(fields, "AnimationSetFileName", value.AnimationSetFileName);
+                    Add(fields, "AnimationKey", value.AnimationKey);
+                    Add(fields, "LayerIndex", value.LayerIndex);
+                    Add(fields, "FadeDuration", value.FadeDuration);
+                    Add(fields, "Speed", value.Speed);
+                    Add(fields, "NormalizedStartTime", value.NormalizedStartTime);
+                    Add(fields, "RestartFromStart", value.RestartFromStart);
                     break;
                 }
             }

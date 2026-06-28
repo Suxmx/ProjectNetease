@@ -16,6 +16,7 @@ namespace Hoshino
         public const uint AttributeModifierClip = 1006u;
         public const uint SingleDamageClip = 1007u;
         public const uint MultiDamageClip = 1008u;
+        public const uint PlayAnimancerClip = 1009u;
         public const uint DamageGroupData = 2001u;
     }
 
@@ -71,6 +72,18 @@ namespace Hoshino
         public int Damage;
         public byte DamageGroupId;
         public byte HitIntervalTicks;
+    }
+
+    [Serializable]
+    public struct PlayAnimancerNodeData
+    {
+        public string AnimationSetFileName;
+        public string AnimationKey;
+        public int LayerIndex;
+        public float FadeDuration;
+        public float Speed;
+        public float NormalizedStartTime;
+        public bool RestartFromStart;
     }
 
     [Serializable]
@@ -178,6 +191,18 @@ namespace Hoshino
                     writer.Write(value.HitIntervalTicks);
                     break;
                 }
+                case SkillGeneratedIds.PlayAnimancerClip:
+                {
+                    PlayAnimancerNodeData value = data is PlayAnimancerNodeData typed ? typed : default;
+                    writer.Write(value.AnimationSetFileName ?? string.Empty);
+                    writer.Write(value.AnimationKey ?? string.Empty);
+                    writer.Write(value.LayerIndex);
+                    writer.Write(value.FadeDuration);
+                    writer.Write(value.Speed);
+                    writer.Write(value.NormalizedStartTime);
+                    writer.Write(value.RestartFromStart);
+                    break;
+                }
                 default: throw new InvalidOperationException($"No generated node data writer for clip id {clipId}.");
             }
         }
@@ -251,6 +276,8 @@ namespace Hoshino
                     return new SingleDamageNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32(), DamageGroupId = reader.ReadByte() };
                 case SkillGeneratedIds.MultiDamageClip:
                     return new MultiDamageNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32(), DamageGroupId = reader.ReadByte(), HitIntervalTicks = reader.ReadByte() };
+                case SkillGeneratedIds.PlayAnimancerClip:
+                    return new PlayAnimancerNodeData { AnimationSetFileName = reader.ReadString(), AnimationKey = reader.ReadString(), LayerIndex = reader.ReadInt32(), FadeDuration = reader.ReadSingle(), Speed = reader.ReadSingle(), NormalizedStartTime = reader.ReadSingle(), RestartFromStart = reader.ReadBoolean() };
                 default: throw new InvalidOperationException($"No generated node data reader for clip id {clipId}.");
             }
         }
@@ -268,6 +295,8 @@ namespace Hoshino
                 case SkillGeneratedIds.SingleDamageClip:
                     return true;
                 case SkillGeneratedIds.MultiDamageClip:
+                    return true;
+                case SkillGeneratedIds.PlayAnimancerClip:
                     return true;
                 default:
                     return false;
@@ -354,13 +383,15 @@ namespace Hoshino
           ISkillPreloadedNodeData<TeleportNodeData>,
           ISkillPreloadedNodeData<AttributeModifierNodeData>,
           ISkillPreloadedNodeData<SingleDamageNodeData>,
-          ISkillPreloadedNodeData<MultiDamageNodeData>
+          ISkillPreloadedNodeData<MultiDamageNodeData>,
+          ISkillPreloadedNodeData<PlayAnimancerNodeData>
     {
         private readonly Dictionary<int, SetVelocityNodeData> _SetVelocityClip = new();
         private readonly Dictionary<int, TeleportNodeData> _TeleportClip = new();
         private readonly Dictionary<int, AttributeModifierNodeData> _AttributeModifierClip = new();
         private readonly Dictionary<int, SingleDamageNodeData> _SingleDamageClip = new();
         private readonly Dictionary<int, MultiDamageNodeData> _MultiDamageClip = new();
+        private readonly Dictionary<int, PlayAnimancerNodeData> _PlayAnimancerClip = new();
 
         bool ISkillPreloadedNodeData<SetVelocityNodeData>.TryGetValue(int nodeId, out SetVelocityNodeData data)
             => _SetVelocityClip.TryGetValue(nodeId, out data);
@@ -376,6 +407,9 @@ namespace Hoshino
 
         bool ISkillPreloadedNodeData<MultiDamageNodeData>.TryGetValue(int nodeId, out MultiDamageNodeData data)
             => _MultiDamageClip.TryGetValue(nodeId, out data);
+
+        bool ISkillPreloadedNodeData<PlayAnimancerNodeData>.TryGetValue(int nodeId, out PlayAnimancerNodeData data)
+            => _PlayAnimancerClip.TryGetValue(nodeId, out data);
 
         internal void Add(uint clipId, int nodeId, object value)
         {
@@ -395,6 +429,9 @@ namespace Hoshino
                     break;
                 case SkillGeneratedIds.MultiDamageClip:
                     _MultiDamageClip[nodeId] = (MultiDamageNodeData)value;
+                    break;
+                case SkillGeneratedIds.PlayAnimancerClip:
+                    _PlayAnimancerClip[nodeId] = (PlayAnimancerNodeData)value;
                     break;
                 default:
                     break;

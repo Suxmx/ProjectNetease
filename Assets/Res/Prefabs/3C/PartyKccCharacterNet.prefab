@@ -372,7 +372,6 @@ MonoBehaviour:
   _autoFindCamera: 1
   _inputEnabled: 1
   _driveCameraLook: 1
-  _faceCameraForwardWhenNoMove: 1
 --- !u!114 &-4715899805527762230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,7 +450,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 4
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 6776089426148507727
+  <AssetPathHash>k__BackingField: 624458169974720109
   SceneId: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
@@ -495,6 +494,11 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 7379592838531274542}
   _character: {fileID: 0}
   _inputDriver: {fileID: 0}
+  _skillInputDriver: {fileID: 0}
   _motor: {fileID: 0}
   _disableRemoteMotorSimulation: 1
   _disableInputBeforeOwnershipReady: 1
+  _bindLocalCinemachineCameras: 1
+  _autoFindLocalCinemachineCameras: 1
+  _bindCameraLookAtTarget: 1
+  _localCinemachineCameras: []
