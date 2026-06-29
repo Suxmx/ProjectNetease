@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Hoshino;
 using Hoshino.Skill.Executor;
@@ -19,22 +20,42 @@ namespace Party3C
             public int LocalTick;
             public float TickAccumulator;
             public bool RequestServerHits;
+            public bool Stopped;
             public readonly HashSet<int> ActiveNodeIds = new();
             public readonly HashSet<int> RequestedHitKeys = new();
         }
 
         [SerializeField] private PartyAnimancerPresenter _animancerPresenter;
         [SerializeField] private PartyNetworkSkillController _networkController;
+        [SerializeField] private PartySkillComboController _comboController;
+        [SerializeField] private PartyKccCharacterController _characterMotor;
 
         private readonly List<SkillInstance> _instances = new();
 
         /// <summary>
+        /// Raised after a skill instance has been added to this runtime.
+        /// </summary>
+        public event Action<int, int> SkillStarted;
+
+        /// <summary>
+        /// Raised after a skill instance has ended or been interrupted.
+        /// </summary>
+        public event Action<int, int> SkillEnded;
+
+        /// <summary>
+        /// Gets whether any skill timeline instance is currently active.
+        /// </summary>
+        public bool HasActiveSkill => _instances.Count > 0;
+
+        /// <summary>
         /// Assigns runtime service references used by skill node execution.
         /// </summary>
-        public void Configure(PartyAnimancerPresenter animancerPresenter, PartyNetworkSkillController networkController)
+        public void Configure(PartyAnimancerPresenter animancerPresenter, PartyNetworkSkillController networkController, PartySkillComboController comboController, PartyKccCharacterController characterMotor)
         {
             _animancerPresenter = animancerPresenter;
             _networkController = networkController;
+            _comboController = comboController;
+            _characterMotor = characterMotor;
         }
 
         /// <summary>
@@ -56,8 +77,66 @@ namespace Party3C
             };
 
             _instances.Add(instance);
+            SkillStarted?.Invoke(skill.SkillId, sequence);
             ProcessTick(instance);
-            instance.LocalTick++;
+            if (!instance.Stopped)
+                instance.LocalTick++;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Stops one active skill instance by network sequence.
+        /// </summary>
+        public bool StopSkill(int sequence)
+        {
+            for (int i = _instances.Count - 1; i >= 0; i--)
+            {
+                SkillInstance instance = _instances[i];
+                if (instance.Sequence != sequence)
+                    continue;
+
+                StopInstance(instance);
+                instance.Stopped = true;
+                _instances.RemoveAt(i);
+                SkillEnded?.Invoke(instance.Skill.SkillId, instance.Sequence);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Stops every active skill instance owned by this runtime.
+        /// </summary>
+        public void StopAllSkills()
+        {
+            for (int i = _instances.Count - 1; i >= 0; i--)
+            {
+                SkillInstance instance = _instances[i];
+                StopInstance(instance);
+                instance.Stopped = true;
+                SkillEnded?.Invoke(instance.Skill.SkillId, instance.Sequence);
+            }
+
+            _instances.Clear();
+        }
+
+        /// <summary>
+        /// Reads the newest active skill identity.
+        /// </summary>
+        public bool TryGetCurrentSkill(out int skillId, out int sequence)
+        {
+            if (_instances.Count == 0)
+            {
+                skillId = 0;
+                sequence = 0;
+                return false;
+            }
+
+            SkillInstance instance = _instances[_instances.Count - 1];
+            skillId = instance.Skill.SkillId;
+            sequence = instance.Sequence;
             return true;
         }
 
@@ -79,15 +158,23 @@ namespace Party3C
                 instance.TickAccumulator += Time.deltaTime;
                 while (instance.TickAccumulator >= tickDelta)
                 {
+                    if (instance.Stopped)
+                        break;
+
                     instance.TickAccumulator -= tickDelta;
                     if (instance.LocalTick > instance.Skill.LengthTicks)
                     {
                         StopInstance(instance);
+                        instance.Stopped = true;
                         _instances.RemoveAt(i);
+                        SkillEnded?.Invoke(instance.Skill.SkillId, instance.Sequence);
                         break;
                     }
 
                     ProcessTick(instance);
+                    if (instance.Stopped)
+                        break;
+
                     instance.LocalTick++;
                 }
             }
@@ -136,6 +223,9 @@ namespace Party3C
                 transform,
                 _animancerPresenter,
                 _networkController,
+                _comboController,
+                _characterMotor,
+                instance.Sequence,
                 instance.LocalTick,
                 instance.AimDirection);
 
@@ -231,6 +321,12 @@ namespace Party3C
 
             if (_networkController == null)
                 _networkController = GetComponentInParent<PartyNetworkSkillController>();
+
+            if (_comboController == null)
+                _comboController = GetComponent<PartySkillComboController>();
+
+            if (_characterMotor == null)
+                _characterMotor = GetComponent<PartyKccCharacterController>();
         }
 
         /// <summary>

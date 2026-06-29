@@ -32,5 +32,20 @@ namespace Party3C
         /// 修改冲刺次数上限，并补足新增的可用次数。
         /// </summary>
         void SetDashChargeLimit(int dashChargeLimit);
+
+        /// <summary>
+        /// Adds or replaces a temporary motor restriction for one gameplay source.
+        /// </summary>
+        void AddMotorRestriction(int sourceId, EPartyKccMotorRestriction restriction);
+
+        /// <summary>
+        /// Removes the temporary motor restriction owned by one gameplay source.
+        /// </summary>
+        void RemoveMotorRestriction(int sourceId);
+
+        /// <summary>
+        /// Returns whether the requested motor restriction flag is currently active.
+        /// </summary>
+        bool HasMotorRestriction(EPartyKccMotorRestriction restriction);
     }
 }

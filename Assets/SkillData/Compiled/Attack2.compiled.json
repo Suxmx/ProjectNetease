@@ -1,0 +1,40 @@
+{
+    "version": 1,
+    "skillId": 1680125592,
+    "skillKey": "Attack2",
+    "sourceTickRate": 60,
+    "lengthTicks": 40,
+    "nodeDataBlobLength": 97,
+    "nodes": [
+        {
+            "nodeId": 1,
+            "sourceTrackName": "Skill Action Track",
+            "clipId": 1009,
+            "sourceLine": 1,
+            "startTick": 0,
+            "endTick": 40,
+            "dataOffset": 0,
+            "dataLength": 38
+        },
+        {
+            "nodeId": 2,
+            "sourceTrackName": "Skill Action Track",
+            "clipId": 1008,
+            "sourceLine": 1,
+            "startTick": 15,
+            "endTick": 21,
+            "dataOffset": 38,
+            "dataLength": 50
+        },
+        {
+            "nodeId": 3,
+            "sourceTrackName": "Skill Action Track",
+            "clipId": 1010,
+            "sourceLine": 1,
+            "startTick": 28,
+            "endTick": 40,
+            "dataOffset": 88,
+            "dataLength": 9
+        }
+    ]
+}

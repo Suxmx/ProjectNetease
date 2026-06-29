@@ -15,13 +15,16 @@ namespace Party3C
         public Transform Actor { get; }
         public PartyAnimancerPresenter AnimancerPresenter { get; }
         public PartyNetworkSkillController NetworkController { get; }
+        public PartySkillComboController ComboController { get; }
+        public IPartyKccCharacterMotor Motor { get; }
+        public int Sequence { get; }
         public int LocalSkillTick { get; }
         public Vector3 AimDirection { get; }
 
         /// <summary>
         /// Creates an execution context for a skill node lifecycle call.
         /// </summary>
-        public PartySkillExecutionContext(SkillDefinition skill, SkillRuntimeNode node, ESkillNodeLifecyclePhase lifecyclePhase, Transform actor, PartyAnimancerPresenter animancerPresenter, PartyNetworkSkillController networkController, int localSkillTick, Vector3 aimDirection)
+        public PartySkillExecutionContext(SkillDefinition skill, SkillRuntimeNode node, ESkillNodeLifecyclePhase lifecyclePhase, Transform actor, PartyAnimancerPresenter animancerPresenter, PartyNetworkSkillController networkController, PartySkillComboController comboController, IPartyKccCharacterMotor motor, int sequence, int localSkillTick, Vector3 aimDirection)
         {
             Skill = skill;
             Node = node;
@@ -29,6 +32,9 @@ namespace Party3C
             Actor = actor;
             AnimancerPresenter = animancerPresenter;
             NetworkController = networkController;
+            ComboController = comboController;
+            Motor = motor;
+            Sequence = sequence;
             LocalSkillTick = localSkillTick;
             AimDirection = aimDirection;
         }

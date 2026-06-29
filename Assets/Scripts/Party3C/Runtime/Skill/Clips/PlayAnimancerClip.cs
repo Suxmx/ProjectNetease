@@ -20,7 +20,7 @@ namespace Party3C
 
         [SkillCustomData] public string AnimationSetFileName;
         [SkillCustomData] public string AnimationKey;
-        [SkillCustomData] public int LayerIndex;
+        [SkillCustomData] public EPartyAnimancerLayerRole LayerRole = EPartyAnimancerLayerRole.UpperBodyAction;
         [SkillCustomData] public float FadeDuration = 0.1f;
         [SkillCustomData] public float Speed = 1f;
         [SkillCustomData] public float NormalizedStartTime;
@@ -64,7 +64,7 @@ namespace Party3C
 
         public override bool isValid => !string.IsNullOrWhiteSpace(AnimationKey);
 
-        public override string info => !string.IsNullOrWhiteSpace(AnimationKey) ? AnimationKey : base.info;
+        public override string info => !string.IsNullOrWhiteSpace(AnimationKey) ? $"{LayerRole}: {AnimationKey}" : base.info;
 
         /// <summary>
         /// Clamps timeline values after Slate validates the clip.
@@ -72,7 +72,6 @@ namespace Party3C
         protected override void OnAfterValidate()
         {
             _length = Mathf.Max(0.0167f, _length);
-            LayerIndex = Mathf.Max(0, LayerIndex);
             FadeDuration = Mathf.Max(0f, FadeDuration);
             NormalizedStartTime = Mathf.Clamp01(NormalizedStartTime);
         }

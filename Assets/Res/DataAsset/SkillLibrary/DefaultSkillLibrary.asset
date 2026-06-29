@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222e4a6e2aa9e194ba47a97b8edfe997, type: 3}
+  m_Name: DefaultSkillLibrary
+  m_EditorClassIdentifier: Assembly-CSharp::Party3C.PartySkillLibrary
+  _compiledSkills:
+  - {fileID: 4900000, guid: 4c86960a38e702e429ed57e08646ed34, type: 3}
+  - {fileID: 4900000, guid: d4e916b2b4968dc448d0e522350907ee, type: 3}
+  - {fileID: 4900000, guid: 090f83ce3976e2b4cb8ad824cb8a0187, type: 3}
+  - {fileID: 4900000, guid: 075ce2eea4eb95f4d8fff101740ba633, type: 3}
+  - {fileID: 4900000, guid: 27eb24eac56ba64469443c6f1a0a575e, type: 3}

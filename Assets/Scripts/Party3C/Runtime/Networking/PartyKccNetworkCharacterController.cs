@@ -18,6 +18,7 @@ namespace Party3C
         [SerializeField] private PartyKccCharacterController _character;
         [SerializeField] private PartyKccInputDriver _inputDriver;
         [SerializeField] private PartySkillInputDriver _skillInputDriver;
+        [SerializeField] private PartyCharacterAnimationController _animationController;
         [SerializeField] private KinematicCharacterMotor _motor;
         [SerializeField] private bool _disableRemoteMotorSimulation = true;
         [SerializeField] private bool _disableInputBeforeOwnershipReady = true;
@@ -72,6 +73,9 @@ namespace Party3C
 
             if (_skillInputDriver == null)
                 _skillInputDriver = GetComponent<PartySkillInputDriver>();
+
+            if (_animationController == null)
+                _animationController = GetComponent<PartyCharacterAnimationController>();
 
             if (_motor == null)
                 _motor = GetComponent<KinematicCharacterMotor>();
@@ -130,6 +134,9 @@ namespace Party3C
 
             if (_skillInputDriver != null)
                 _skillInputDriver.SetInputEnabled(hasAuthority);
+
+            if (_animationController != null)
+                _animationController.SetLocalDrivingEnabled(hasAuthority);
 
             if (!hasAuthority && _character != null)
                 _character.ClearInputs();

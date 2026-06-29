@@ -37233,6 +37233,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5239850309391794141, guid: 02674e680ac043e4d9f4a82a86d2b9bf, type: 3}
+      propertyPath: m_LauncherTypeName
+      value: Party3C.PartyLauncher
+      objectReference: {fileID: 0}
     - target: {fileID: 9048200837726579797, guid: 02674e680ac043e4d9f4a82a86d2b9bf, type: 3}
       propertyPath: m_Name
       value: MF

@@ -17,7 +17,10 @@ namespace Hoshino
         public const uint SingleDamageClip = 1007u;
         public const uint MultiDamageClip = 1008u;
         public const uint PlayAnimancerClip = 1009u;
+        public const uint ComboWindowClip = 1010u;
+        public const uint MotorRestrictionClip = 1011u;
         public const uint DamageGroupData = 2001u;
+        public const uint SkillUseConditionData = 2002u;
     }
 
     [Serializable]
@@ -79,7 +82,7 @@ namespace Hoshino
     {
         public string AnimationSetFileName;
         public string AnimationKey;
-        public int LayerIndex;
+        public global::Party3C.EPartyAnimancerLayerRole LayerRole;
         public float FadeDuration;
         public float Speed;
         public float NormalizedStartTime;
@@ -87,10 +90,32 @@ namespace Hoshino
     }
 
     [Serializable]
+    public struct ComboWindowNodeData
+    {
+        public global::Party3C.EPartySkillInputAction InputAction;
+        public int NextSkillId;
+        public bool CancelCurrentSkill;
+    }
+
+    [Serializable]
+    public struct MotorRestrictionNodeData
+    {
+        public global::Party3C.EPartyKccMotorRestriction Restrictions;
+    }
+
+    [Serializable]
     public struct RuntimeDamageGroupData
     {
         public byte GroupId;
         public byte MaxHitsPerTarget;
+    }
+
+    [Serializable]
+    public struct RuntimeSkillUseConditionData
+    {
+        public global::Party3C.EPartySkillGroundingRequirement GroundingRequirement;
+        public bool BlockWhileKnockback;
+        public bool BlockWhileDashing;
     }
 
     public sealed class SkillGeneratedRuntimeSerialization : ISkillGeneratedRuntimeSerialization
@@ -196,11 +221,25 @@ namespace Hoshino
                     PlayAnimancerNodeData value = data is PlayAnimancerNodeData typed ? typed : default;
                     writer.Write(value.AnimationSetFileName ?? string.Empty);
                     writer.Write(value.AnimationKey ?? string.Empty);
-                    writer.Write(value.LayerIndex);
+                    writer.Write((int)value.LayerRole);
                     writer.Write(value.FadeDuration);
                     writer.Write(value.Speed);
                     writer.Write(value.NormalizedStartTime);
                     writer.Write(value.RestartFromStart);
+                    break;
+                }
+                case SkillGeneratedIds.ComboWindowClip:
+                {
+                    ComboWindowNodeData value = data is ComboWindowNodeData typed ? typed : default;
+                    writer.Write((int)value.InputAction);
+                    writer.Write(value.NextSkillId);
+                    writer.Write(value.CancelCurrentSkill);
+                    break;
+                }
+                case SkillGeneratedIds.MotorRestrictionClip:
+                {
+                    MotorRestrictionNodeData value = data is MotorRestrictionNodeData typed ? typed : default;
+                    writer.Write((int)value.Restrictions);
                     break;
                 }
                 default: throw new InvalidOperationException($"No generated node data writer for clip id {clipId}.");
@@ -277,7 +316,11 @@ namespace Hoshino
                 case SkillGeneratedIds.MultiDamageClip:
                     return new MultiDamageNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32(), DamageGroupId = reader.ReadByte(), HitIntervalTicks = reader.ReadByte() };
                 case SkillGeneratedIds.PlayAnimancerClip:
-                    return new PlayAnimancerNodeData { AnimationSetFileName = reader.ReadString(), AnimationKey = reader.ReadString(), LayerIndex = reader.ReadInt32(), FadeDuration = reader.ReadSingle(), Speed = reader.ReadSingle(), NormalizedStartTime = reader.ReadSingle(), RestartFromStart = reader.ReadBoolean() };
+                    return new PlayAnimancerNodeData { AnimationSetFileName = reader.ReadString(), AnimationKey = reader.ReadString(), LayerRole = (global::Party3C.EPartyAnimancerLayerRole)reader.ReadInt32(), FadeDuration = reader.ReadSingle(), Speed = reader.ReadSingle(), NormalizedStartTime = reader.ReadSingle(), RestartFromStart = reader.ReadBoolean() };
+                case SkillGeneratedIds.ComboWindowClip:
+                    return new ComboWindowNodeData { InputAction = (global::Party3C.EPartySkillInputAction)reader.ReadInt32(), NextSkillId = reader.ReadInt32(), CancelCurrentSkill = reader.ReadBoolean() };
+                case SkillGeneratedIds.MotorRestrictionClip:
+                    return new MotorRestrictionNodeData { Restrictions = (global::Party3C.EPartyKccMotorRestriction)reader.ReadInt32() };
                 default: throw new InvalidOperationException($"No generated node data reader for clip id {clipId}.");
             }
         }
@@ -297,6 +340,10 @@ namespace Hoshino
                 case SkillGeneratedIds.MultiDamageClip:
                     return true;
                 case SkillGeneratedIds.PlayAnimancerClip:
+                    return true;
+                case SkillGeneratedIds.ComboWindowClip:
+                    return true;
+                case SkillGeneratedIds.MotorRestrictionClip:
                     return true;
                 default:
                     return false;
@@ -384,7 +431,9 @@ namespace Hoshino
           ISkillPreloadedNodeData<AttributeModifierNodeData>,
           ISkillPreloadedNodeData<SingleDamageNodeData>,
           ISkillPreloadedNodeData<MultiDamageNodeData>,
-          ISkillPreloadedNodeData<PlayAnimancerNodeData>
+          ISkillPreloadedNodeData<PlayAnimancerNodeData>,
+          ISkillPreloadedNodeData<ComboWindowNodeData>,
+          ISkillPreloadedNodeData<MotorRestrictionNodeData>
     {
         private readonly Dictionary<int, SetVelocityNodeData> _SetVelocityClip = new();
         private readonly Dictionary<int, TeleportNodeData> _TeleportClip = new();
@@ -392,6 +441,8 @@ namespace Hoshino
         private readonly Dictionary<int, SingleDamageNodeData> _SingleDamageClip = new();
         private readonly Dictionary<int, MultiDamageNodeData> _MultiDamageClip = new();
         private readonly Dictionary<int, PlayAnimancerNodeData> _PlayAnimancerClip = new();
+        private readonly Dictionary<int, ComboWindowNodeData> _ComboWindowClip = new();
+        private readonly Dictionary<int, MotorRestrictionNodeData> _MotorRestrictionClip = new();
 
         bool ISkillPreloadedNodeData<SetVelocityNodeData>.TryGetValue(int nodeId, out SetVelocityNodeData data)
             => _SetVelocityClip.TryGetValue(nodeId, out data);
@@ -410,6 +461,12 @@ namespace Hoshino
 
         bool ISkillPreloadedNodeData<PlayAnimancerNodeData>.TryGetValue(int nodeId, out PlayAnimancerNodeData data)
             => _PlayAnimancerClip.TryGetValue(nodeId, out data);
+
+        bool ISkillPreloadedNodeData<ComboWindowNodeData>.TryGetValue(int nodeId, out ComboWindowNodeData data)
+            => _ComboWindowClip.TryGetValue(nodeId, out data);
+
+        bool ISkillPreloadedNodeData<MotorRestrictionNodeData>.TryGetValue(int nodeId, out MotorRestrictionNodeData data)
+            => _MotorRestrictionClip.TryGetValue(nodeId, out data);
 
         internal void Add(uint clipId, int nodeId, object value)
         {
@@ -433,6 +490,12 @@ namespace Hoshino
                 case SkillGeneratedIds.PlayAnimancerClip:
                     _PlayAnimancerClip[nodeId] = (PlayAnimancerNodeData)value;
                     break;
+                case SkillGeneratedIds.ComboWindowClip:
+                    _ComboWindowClip[nodeId] = (ComboWindowNodeData)value;
+                    break;
+                case SkillGeneratedIds.MotorRestrictionClip:
+                    _MotorRestrictionClip[nodeId] = (MotorRestrictionNodeData)value;
+                    break;
                 default:
                     break;
             }
@@ -450,6 +513,14 @@ namespace Hoshino
                     RuntimeDamageGroupData value = data is RuntimeDamageGroupData typed ? typed : default;
                     writer.Write(value.GroupId);
                     writer.Write(value.MaxHitsPerTarget);
+                    break;
+                }
+                case SkillGeneratedIds.SkillUseConditionData:
+                {
+                    RuntimeSkillUseConditionData value = data is RuntimeSkillUseConditionData typed ? typed : default;
+                    writer.Write((int)value.GroundingRequirement);
+                    writer.Write(value.BlockWhileKnockback);
+                    writer.Write(value.BlockWhileDashing);
                     break;
                 }
                 default: throw new InvalidOperationException($"No generated special data writer for id {specialDataId}.");
@@ -517,6 +588,8 @@ namespace Hoshino
             {
                 case SkillGeneratedIds.DamageGroupData:
                     return new RuntimeDamageGroupData { GroupId = reader.ReadByte(), MaxHitsPerTarget = reader.ReadByte() };
+                case SkillGeneratedIds.SkillUseConditionData:
+                    return new RuntimeSkillUseConditionData { GroundingRequirement = (global::Party3C.EPartySkillGroundingRequirement)reader.ReadInt32(), BlockWhileKnockback = reader.ReadBoolean(), BlockWhileDashing = reader.ReadBoolean() };
                 default: throw new InvalidOperationException($"No generated special data reader for id {specialDataId}.");
             }
         }
@@ -526,6 +599,8 @@ namespace Hoshino
             switch (specialDataId)
             {
                 case SkillGeneratedIds.DamageGroupData:
+                    return true;
+                case SkillGeneratedIds.SkillUseConditionData:
                     return true;
                 default:
                     return false;

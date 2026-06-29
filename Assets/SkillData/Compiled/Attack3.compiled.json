@@ -1,0 +1,50 @@
+{
+    "version": 1,
+    "skillId": 321101326,
+    "skillKey": "Attack3",
+    "sourceTickRate": 60,
+    "lengthTicks": 58,
+    "nodeDataBlobLength": 101,
+    "nodes": [
+        {
+            "nodeId": 2,
+            "sourceTrackName": "Skill Action Track",
+            "clipId": 1009,
+            "sourceLine": 1,
+            "startTick": 0,
+            "endTick": 58,
+            "dataOffset": 4,
+            "dataLength": 38
+        },
+        {
+            "nodeId": 1,
+            "sourceTrackName": "Skill Action Track",
+            "clipId": 1011,
+            "sourceLine": 1,
+            "startTick": 23,
+            "endTick": 58,
+            "dataOffset": 0,
+            "dataLength": 4
+        },
+        {
+            "nodeId": 3,
+            "sourceTrackName": "Skill Action Track",
+            "clipId": 1008,
+            "sourceLine": 1,
+            "startTick": 32,
+            "endTick": 47,
+            "dataOffset": 42,
+            "dataLength": 50
+        },
+        {
+            "nodeId": 4,
+            "sourceTrackName": "Skill Action Track",
+            "clipId": 1010,
+            "sourceLine": 1,
+            "startTick": 35,
+            "endTick": 54,
+            "dataOffset": 92,
+            "dataLength": 9
+        }
+    ]
+}

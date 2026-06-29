@@ -34,6 +34,8 @@ namespace Hoshino
             if (type == typeof(SingleDamageClip)) { id = SkillGeneratedIds.SingleDamageClip; return true; }
             if (type == typeof(MultiDamageClip)) { id = SkillGeneratedIds.MultiDamageClip; return true; }
             if (type == typeof(global::Party3C.PlayAnimancerClip)) { id = SkillGeneratedIds.PlayAnimancerClip; return true; }
+            if (type == typeof(global::Party3C.ComboWindowClip)) { id = SkillGeneratedIds.ComboWindowClip; return true; }
+            if (type == typeof(global::Party3C.MotorRestrictionClip)) { id = SkillGeneratedIds.MotorRestrictionClip; return true; }
             id = 0u;
             return false;
         }
@@ -41,6 +43,7 @@ namespace Hoshino
         public bool TryGetSpecialDataId(Type type, out uint id)
         {
             if (type == typeof(DamageGroupData)) { id = SkillGeneratedIds.DamageGroupData; return true; }
+            if (type == typeof(global::Party3C.SkillUseConditionData)) { id = SkillGeneratedIds.SkillUseConditionData; return true; }
             id = 0u;
             return false;
         }
@@ -87,6 +90,8 @@ namespace Hoshino
                 SkillGeneratedIds.SingleDamageClip => typeof(SingleDamageClip),
                 SkillGeneratedIds.MultiDamageClip => typeof(MultiDamageClip),
                 SkillGeneratedIds.PlayAnimancerClip => typeof(global::Party3C.PlayAnimancerClip),
+                SkillGeneratedIds.ComboWindowClip => typeof(global::Party3C.ComboWindowClip),
+                SkillGeneratedIds.MotorRestrictionClip => typeof(global::Party3C.MotorRestrictionClip),
                 _ => null
             };
             if (type == null) return null;
@@ -100,6 +105,7 @@ namespace Hoshino
             Type type = id switch
             {
                 SkillGeneratedIds.DamageGroupData => typeof(DamageGroupData),
+                SkillGeneratedIds.SkillUseConditionData => typeof(global::Party3C.SkillUseConditionData),
                 _ => null
             };
             if (type == null) return null;
@@ -138,7 +144,17 @@ namespace Hoshino
                 case SkillGeneratedIds.PlayAnimancerClip:
                 {
                     global::Party3C.PlayAnimancerClip typed = (global::Party3C.PlayAnimancerClip)clip;
-                    return new PlayAnimancerNodeData { AnimationSetFileName = typed.AnimationSetFileName, AnimationKey = typed.AnimationKey, LayerIndex = typed.LayerIndex, FadeDuration = typed.FadeDuration, Speed = typed.Speed, NormalizedStartTime = typed.NormalizedStartTime, RestartFromStart = typed.RestartFromStart };
+                    return new PlayAnimancerNodeData { AnimationSetFileName = typed.AnimationSetFileName, AnimationKey = typed.AnimationKey, LayerRole = typed.LayerRole, FadeDuration = typed.FadeDuration, Speed = typed.Speed, NormalizedStartTime = typed.NormalizedStartTime, RestartFromStart = typed.RestartFromStart };
+                }
+                case SkillGeneratedIds.ComboWindowClip:
+                {
+                    global::Party3C.ComboWindowClip typed = (global::Party3C.ComboWindowClip)clip;
+                    return new ComboWindowNodeData { InputAction = typed.InputAction, NextSkillId = typed.NextSkillId, CancelCurrentSkill = typed.CancelCurrentSkill };
+                }
+                case SkillGeneratedIds.MotorRestrictionClip:
+                {
+                    global::Party3C.MotorRestrictionClip typed = (global::Party3C.MotorRestrictionClip)clip;
+                    return new MotorRestrictionNodeData { Restrictions = typed.Restrictions };
                 }
                 default: throw new InvalidOperationException($"No generated custom data capture for clip id {clipId}.");
             }
@@ -213,11 +229,27 @@ namespace Hoshino
                     PlayAnimancerNodeData value = data is PlayAnimancerNodeData d ? d : default;
                     typed.AnimationSetFileName = value.AnimationSetFileName;
                     typed.AnimationKey = value.AnimationKey;
-                    typed.LayerIndex = value.LayerIndex;
+                    typed.LayerRole = value.LayerRole;
                     typed.FadeDuration = value.FadeDuration;
                     typed.Speed = value.Speed;
                     typed.NormalizedStartTime = value.NormalizedStartTime;
                     typed.RestartFromStart = value.RestartFromStart;
+                    break;
+                }
+                case SkillGeneratedIds.ComboWindowClip:
+                {
+                    global::Party3C.ComboWindowClip typed = (global::Party3C.ComboWindowClip)clip;
+                    ComboWindowNodeData value = data is ComboWindowNodeData d ? d : default;
+                    typed.InputAction = value.InputAction;
+                    typed.NextSkillId = value.NextSkillId;
+                    typed.CancelCurrentSkill = value.CancelCurrentSkill;
+                    break;
+                }
+                case SkillGeneratedIds.MotorRestrictionClip:
+                {
+                    global::Party3C.MotorRestrictionClip typed = (global::Party3C.MotorRestrictionClip)clip;
+                    MotorRestrictionNodeData value = data is MotorRestrictionNodeData d ? d : default;
+                    typed.Restrictions = value.Restrictions;
                     break;
                 }
             }
@@ -243,7 +275,11 @@ namespace Hoshino
                 case SkillGeneratedIds.MultiDamageClip:
                     return new MultiDamageNodeData { Shape = (SkillHitShape)reader.ReadInt32(), Space = (SkillSpace)reader.ReadInt32(), Offset = ReadVector3(reader), HalfExtents = ReadVector3(reader), Radius = reader.ReadSingle(), Distance = reader.ReadSingle(), HitMask = reader.ReadInt32(), Damage = reader.ReadInt32(), DamageGroupId = reader.ReadByte(), HitIntervalTicks = reader.ReadByte() };
                 case SkillGeneratedIds.PlayAnimancerClip:
-                    return new PlayAnimancerNodeData { AnimationSetFileName = reader.ReadString(), AnimationKey = reader.ReadString(), LayerIndex = reader.ReadInt32(), FadeDuration = reader.ReadSingle(), Speed = reader.ReadSingle(), NormalizedStartTime = reader.ReadSingle(), RestartFromStart = reader.ReadBoolean() };
+                    return new PlayAnimancerNodeData { AnimationSetFileName = reader.ReadString(), AnimationKey = reader.ReadString(), LayerRole = (global::Party3C.EPartyAnimancerLayerRole)reader.ReadInt32(), FadeDuration = reader.ReadSingle(), Speed = reader.ReadSingle(), NormalizedStartTime = reader.ReadSingle(), RestartFromStart = reader.ReadBoolean() };
+                case SkillGeneratedIds.ComboWindowClip:
+                    return new ComboWindowNodeData { InputAction = (global::Party3C.EPartySkillInputAction)reader.ReadInt32(), NextSkillId = reader.ReadInt32(), CancelCurrentSkill = reader.ReadBoolean() };
+                case SkillGeneratedIds.MotorRestrictionClip:
+                    return new MotorRestrictionNodeData { Restrictions = (global::Party3C.EPartyKccMotorRestriction)reader.ReadInt32() };
                 default: throw new InvalidOperationException($"No generated custom data reader for clip id {clipId}.");
             }
         }
@@ -311,11 +347,25 @@ namespace Hoshino
                     PlayAnimancerNodeData value = data is PlayAnimancerNodeData d ? d : default;
                     writer.Write(value.AnimationSetFileName ?? string.Empty);
                     writer.Write(value.AnimationKey ?? string.Empty);
-                    writer.Write(value.LayerIndex);
+                    writer.Write((int)value.LayerRole);
                     writer.Write(value.FadeDuration);
                     writer.Write(value.Speed);
                     writer.Write(value.NormalizedStartTime);
                     writer.Write(value.RestartFromStart);
+                    break;
+                }
+                case SkillGeneratedIds.ComboWindowClip:
+                {
+                    ComboWindowNodeData value = data is ComboWindowNodeData d ? d : default;
+                    writer.Write((int)value.InputAction);
+                    writer.Write(value.NextSkillId);
+                    writer.Write(value.CancelCurrentSkill);
+                    break;
+                }
+                case SkillGeneratedIds.MotorRestrictionClip:
+                {
+                    MotorRestrictionNodeData value = data is MotorRestrictionNodeData d ? d : default;
+                    writer.Write((int)value.Restrictions);
                     break;
                 }
                 default: throw new InvalidOperationException($"No generated custom data writer for clip id {clipId}.");
@@ -386,11 +436,25 @@ namespace Hoshino
                     PlayAnimancerNodeData value = data is PlayAnimancerNodeData d ? d : default;
                     Add(fields, "AnimationSetFileName", value.AnimationSetFileName);
                     Add(fields, "AnimationKey", value.AnimationKey);
-                    Add(fields, "LayerIndex", value.LayerIndex);
+                    Add(fields, "LayerRole", value.LayerRole);
                     Add(fields, "FadeDuration", value.FadeDuration);
                     Add(fields, "Speed", value.Speed);
                     Add(fields, "NormalizedStartTime", value.NormalizedStartTime);
                     Add(fields, "RestartFromStart", value.RestartFromStart);
+                    break;
+                }
+                case SkillGeneratedIds.ComboWindowClip:
+                {
+                    ComboWindowNodeData value = data is ComboWindowNodeData d ? d : default;
+                    Add(fields, "InputAction", value.InputAction);
+                    Add(fields, "NextSkillId", value.NextSkillId);
+                    Add(fields, "CancelCurrentSkill", value.CancelCurrentSkill);
+                    break;
+                }
+                case SkillGeneratedIds.MotorRestrictionClip:
+                {
+                    MotorRestrictionNodeData value = data is MotorRestrictionNodeData d ? d : default;
+                    Add(fields, "Restrictions", value.Restrictions);
                     break;
                 }
             }
@@ -404,6 +468,11 @@ namespace Hoshino
                 {
                     DamageGroupData typed = (DamageGroupData)instance;
                     return new RuntimeDamageGroupData { GroupId = typed.GroupId, MaxHitsPerTarget = typed.MaxHitsPerTarget };
+                }
+                case SkillGeneratedIds.SkillUseConditionData:
+                {
+                    global::Party3C.SkillUseConditionData typed = (global::Party3C.SkillUseConditionData)instance;
+                    return new RuntimeSkillUseConditionData { GroundingRequirement = typed.GroundingRequirement, BlockWhileKnockback = typed.BlockWhileKnockback, BlockWhileDashing = typed.BlockWhileDashing };
                 }
                 default: throw new InvalidOperationException($"No generated special data capture for id {specialDataId}.");
             }
@@ -419,6 +488,15 @@ namespace Hoshino
                     RuntimeDamageGroupData value = data is RuntimeDamageGroupData d ? d : default;
                     typed.GroupId = value.GroupId;
                     typed.MaxHitsPerTarget = value.MaxHitsPerTarget;
+                    break;
+                }
+                case SkillGeneratedIds.SkillUseConditionData:
+                {
+                    global::Party3C.SkillUseConditionData typed = (global::Party3C.SkillUseConditionData)instance;
+                    RuntimeSkillUseConditionData value = data is RuntimeSkillUseConditionData d ? d : default;
+                    typed.GroundingRequirement = value.GroundingRequirement;
+                    typed.BlockWhileKnockback = value.BlockWhileKnockback;
+                    typed.BlockWhileDashing = value.BlockWhileDashing;
                     break;
                 }
             }
@@ -440,6 +518,14 @@ namespace Hoshino
                     obj.MaxHitsPerTarget = reader.ReadByte();
                     return obj;
                 }
+                case SkillGeneratedIds.SkillUseConditionData:
+                {
+                    global::Party3C.SkillUseConditionData obj = (global::Party3C.SkillUseConditionData)Activator.CreateInstance(typeof(global::Party3C.SkillUseConditionData));
+                    obj.GroundingRequirement = (global::Party3C.EPartySkillGroundingRequirement)reader.ReadInt32();
+                    obj.BlockWhileKnockback = reader.ReadBoolean();
+                    obj.BlockWhileDashing = reader.ReadBoolean();
+                    return obj;
+                }
                 default: throw new InvalidOperationException($"No generated special data reader for id {specialDataId}.");
             }
         }
@@ -453,6 +539,14 @@ namespace Hoshino
                     RuntimeDamageGroupData value = data is RuntimeDamageGroupData d ? d : default;
                     writer.Write(value.GroupId);
                     writer.Write(value.MaxHitsPerTarget);
+                    break;
+                }
+                case SkillGeneratedIds.SkillUseConditionData:
+                {
+                    RuntimeSkillUseConditionData value = data is RuntimeSkillUseConditionData d ? d : default;
+                    writer.Write((int)value.GroundingRequirement);
+                    writer.Write(value.BlockWhileKnockback);
+                    writer.Write(value.BlockWhileDashing);
                     break;
                 }
                 default: throw new InvalidOperationException($"No generated special data writer for id {specialDataId}.");
@@ -469,6 +563,14 @@ namespace Hoshino
                     RuntimeDamageGroupData value = data is RuntimeDamageGroupData d ? d : default;
                     Add(fields, "GroupId", value.GroupId);
                     Add(fields, "MaxHitsPerTarget", value.MaxHitsPerTarget);
+                    break;
+                }
+                case SkillGeneratedIds.SkillUseConditionData:
+                {
+                    RuntimeSkillUseConditionData value = data is RuntimeSkillUseConditionData d ? d : default;
+                    Add(fields, "GroundingRequirement", value.GroundingRequirement);
+                    Add(fields, "BlockWhileKnockback", value.BlockWhileKnockback);
+                    Add(fields, "BlockWhileDashing", value.BlockWhileDashing);
                     break;
                 }
             }

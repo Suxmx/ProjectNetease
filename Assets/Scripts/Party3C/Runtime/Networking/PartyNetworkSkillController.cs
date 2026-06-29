@@ -26,13 +26,20 @@ namespace Party3C
 
         [SerializeField] private PartySkillLibrary _skillLibrary;
         [SerializeField] private PartySkillRuntime _skillRuntime;
+        [SerializeField] private PartySkillComboController _comboController;
         [SerializeField] private PartyAnimancerPresenter _animancerPresenter;
+        [SerializeField] private PartyKccCharacterController _characterMotor;
         [SerializeField, Min(0)] private int _hitTickTolerance = 8;
         [SerializeField, Min(0f)] private float _serverInstanceKeepSeconds = 2f;
 
         private readonly Dictionary<int, ServerSkillInstance> _serverInstances = new();
         private readonly List<int> _serverInstancesToRemove = new();
         private int _nextSequence;
+
+        /// <summary>
+        /// Gets the configured skill library used by this network controller.
+        /// </summary>
+        public PartySkillLibrary SkillLibrary => _skillLibrary;
 
         /// <summary>
         /// Starts animation set preloading when this network object becomes active on a client.
@@ -74,6 +81,9 @@ namespace Party3C
             if (!_skillLibrary.TryGetSkill(skillId, out SkillDefinition skill))
                 return false;
 
+            if (!CanUseSkill(skill))
+                return false;
+
             if (!_skillLibrary.AreAnimationSetsLoaded(skill))
             {
                 PreloadAnimationSets();
@@ -88,6 +98,28 @@ namespace Party3C
         }
 
         /// <summary>
+        /// Returns true when the owner can start the requested skill immediately.
+        /// </summary>
+        public bool CanStartSkill(int skillId)
+        {
+            ResolveReferences();
+            if (!IsOwner || _skillLibrary == null || _skillRuntime == null)
+                return false;
+
+            if (!_skillLibrary.TryGetSkill(skillId, out SkillDefinition skill))
+                return false;
+
+            if (!CanUseSkill(skill))
+                return false;
+
+            if (_skillLibrary.AreAnimationSetsLoaded(skill))
+                return true;
+
+            PreloadAnimationSets();
+            return false;
+        }
+
+        /// <summary>
         /// Called by the local skill runtime when a damage timeline node reaches a hit tick.
         /// </summary>
         public void RequestSkillHit(int sequence, int nodeId, int localSkillTick, Vector3 aimDirection)
@@ -96,6 +128,17 @@ namespace Party3C
                 return;
 
             RequestSkillHitServerRpc(sequence, nodeId, localSkillTick, NormalizeAimDirection(aimDirection));
+        }
+
+        /// <summary>
+        /// Notifies the server that an owner-cancelled skill sequence should stop on remote observers.
+        /// </summary>
+        public void NotifySkillStopped(int sequence)
+        {
+            if (!IsOwner)
+                return;
+
+            StopSkillServerRpc(sequence);
         }
 
         /// <summary>
@@ -143,6 +186,26 @@ namespace Party3C
 
             int initialTick = GetElapsedSkillTicks(skill, serverStartTick);
             _skillRuntime.BeginSkill(skill, sequence, NormalizeAimDirection(aimDirection), initialTick, requestServerHits: false);
+        }
+
+        /// <summary>
+        /// Stops a server-tracked skill instance and forwards the stop to remote observers.
+        /// </summary>
+        [ServerRpc]
+        private void StopSkillServerRpc(int sequence)
+        {
+            _serverInstances.Remove(sequence);
+            StopSkillObserversRpc(sequence);
+        }
+
+        /// <summary>
+        /// Stops remote presentation for an owner-cancelled skill sequence.
+        /// </summary>
+        [ObserversRpc(ExcludeOwner = true)]
+        private void StopSkillObserversRpc(int sequence)
+        {
+            ResolveReferences();
+            _skillRuntime?.StopSkill(sequence);
         }
 
         /// <summary>
@@ -370,11 +433,28 @@ namespace Party3C
             if (_skillRuntime == null)
                 _skillRuntime = GetComponent<PartySkillRuntime>();
 
+            if (_comboController == null)
+                _comboController = GetComponent<PartySkillComboController>();
+
             if (_animancerPresenter == null)
                 _animancerPresenter = GetComponentInChildren<PartyAnimancerPresenter>();
 
+            if (_characterMotor == null)
+                _characterMotor = GetComponent<PartyKccCharacterController>();
+
             if (_skillRuntime != null)
-                _skillRuntime.Configure(_animancerPresenter, this);
+                _skillRuntime.Configure(_animancerPresenter, this, _comboController, _characterMotor);
+
+            if (_comboController != null)
+                _comboController.Configure(this, _skillRuntime);
+        }
+
+        /// <summary>
+        /// Evaluates configured local skill use conditions.
+        /// </summary>
+        private bool CanUseSkill(SkillDefinition skill)
+        {
+            return PartySkillUseConditionEvaluator.CanStartSkill(skill, new PartySkillUseContext(_characterMotor));
         }
 
         /// <summary>

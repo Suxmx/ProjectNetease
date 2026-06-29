@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d5ebf25323487c81e77f0ecc1b1d18, type: 3}
+  m_Name: UnityChanAnimProfile
+  m_EditorClassIdentifier: Assembly-CSharp::Party3C.PartyCharacterAnimationProfile
+  _baseLayerIndex: 0
+  _baseFadeDuration: 0.15
+  _idle:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 7400000, guid: 2c15a6365695c2246bcd6281ee60a6f4, type: 2}
+    _NormalizedStartTime: NaN
+  _locomotionMixer:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Animations:
+    - {fileID: 7400000, guid: 5eb135ff784e1b249bdeeb23142a1ad5, type: 2}
+    - {fileID: 7400000, guid: 0e1b5fc8b15ff134b994c1ceda726724, type: 2}
+    _Speeds: []
+    _SynchronizeChildren: 
+    _Thresholds:
+    - 0
+    - 1
+    _DefaultParameter: 0
+    _ExtrapolateSpeed: 1
+    _ParameterName: {fileID: 0}
+  _airborne:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _NormalizedStartTime: NaN
+  _dash:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _NormalizedStartTime: NaN
+  _knockback:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _NormalizedStartTime: NaN
+  _crouch:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _NormalizedStartTime: NaN
+  _wallClimb:
+    _FadeDuration: 0.25
+    _Speed: 1
+    _Events:
+      _NormalizedTimes: []
+      _Callbacks: []
+      _Names: []
+    _Clip: {fileID: 0}
+    _NormalizedStartTime: NaN
+  _layerRoles:
+  - _role: 1
+    _layerIndex: 1
+    _avatarMask: {fileID: 31900000, guid: c6312166fbe1a004ca172cdf8d3f2ee9, type: 2}
+    _isAdditive: 0
+    _defaultFadeInDuration: 0.05
+    _defaultFadeOutDuration: 0.1
+  - _role: 2
+    _layerIndex: 2
+    _avatarMask: {fileID: 31900000, guid: 68321948000584346baab8164b293fed, type: 2}
+    _isAdditive: 0
+    _defaultFadeInDuration: 0.05
+    _defaultFadeOutDuration: 0.1
+  - _role: 3
+    _layerIndex: 3
+    _avatarMask: {fileID: 0}
+    _isAdditive: 1
+    _defaultFadeInDuration: 0.05
+    _defaultFadeOutDuration: 0.1
+  - _role: 4
+    _layerIndex: 4
+    _avatarMask: {fileID: 0}
+    _isAdditive: 0
+    _defaultFadeInDuration: 0.03
+    _defaultFadeOutDuration: 0.08
+  references:
+    version: 2
+    RefIds: []

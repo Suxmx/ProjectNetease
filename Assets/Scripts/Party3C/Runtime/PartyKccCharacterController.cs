@@ -79,6 +79,8 @@ namespace Party3C
         private int _dashCharges;
         private float _cameraYaw;
         private float _cameraPitch;
+        private readonly Dictionary<int, EPartyKccMotorRestriction> _motorRestrictions = new();
+        private EPartyKccMotorRestriction _activeMotorRestrictions;
 
         #endregion
 
@@ -91,6 +93,30 @@ namespace Party3C
         public bool IsStableOnGround => _motor != null && _motor.GroundingStatus.IsStableOnGround;
         public Transform CameraFollowPoint => _cameraFollowPoint;
         public Vector3 CharacterUp => _motor != null ? _motor.CharacterUp : transform.up;
+        /// <summary>
+        /// Gets the configured run speed used to normalize locomotion animation.
+        /// </summary>
+        public float RunSpeed => Mathf.Max(0f, _runSpeed);
+
+        /// <summary>
+        /// Gets the latest owner movement input projected onto the character plane.
+        /// </summary>
+        public Vector3 MoveInputWorld => _moveInputVector;
+
+        /// <summary>
+        /// Gets the latest owner look input projected onto the character plane.
+        /// </summary>
+        public Vector3 LookInputWorld => _lookInputVector;
+
+        /// <summary>
+        /// Gets current velocity projected onto the character movement plane.
+        /// </summary>
+        public Vector3 PlanarVelocity => Vector3.ProjectOnPlane(CurrentVelocity, CharacterUp);
+
+        /// <summary>
+        /// Gets current signed vertical velocity relative to the character up axis.
+        /// </summary>
+        public float VerticalSpeed => Vector3.Dot(CurrentVelocity, CharacterUp);
 
         #endregion
 
@@ -156,12 +182,22 @@ namespace Party3C
 
             if (inputs.JumpPressed)
             {
-                _jumpRequested = true;
-                _jumpRequestAge = 0f;
+                if (HasMotorRestriction(EPartyKccMotorRestriction.Jump))
+                    ClearJumpRequest();
+                else
+                {
+                    _jumpRequested = true;
+                    _jumpRequestAge = 0f;
+                }
             }
 
             if (inputs.DashPressed)
-                _dashRequested = true;
+            {
+                if (HasMotorRestriction(EPartyKccMotorRestriction.Dash))
+                    _dashRequested = false;
+                else
+                    _dashRequested = true;
+            }
         }
 
         /// <summary>
@@ -236,6 +272,47 @@ namespace Party3C
 
             if (_dashCharges == _maxDashCharges)
                 _dashRechargeTimer = 0f;
+        }
+
+        /// <summary>
+        /// Adds or replaces a temporary motor restriction for one gameplay source.
+        /// </summary>
+        public void AddMotorRestriction(int sourceId, EPartyKccMotorRestriction restriction)
+        {
+            Debug.Log($"add restriction:source {sourceId} re:{restriction}");
+            if (restriction == EPartyKccMotorRestriction.None)
+            {
+                RemoveMotorRestriction(sourceId);
+                return;
+            }
+
+            _motorRestrictions[sourceId] = restriction;
+            RefreshActiveMotorRestrictions();
+
+            if (HasMotorRestriction(EPartyKccMotorRestriction.Jump))
+                ClearJumpRequest();
+
+            if (HasMotorRestriction(EPartyKccMotorRestriction.Dash))
+                _dashRequested = false;
+        }
+
+        /// <summary>
+        /// Removes the temporary motor restriction owned by one gameplay source.
+        /// </summary>
+        public void RemoveMotorRestriction(int sourceId)
+        {
+            if (!_motorRestrictions.Remove(sourceId))
+                return;
+
+            RefreshActiveMotorRestrictions();
+        }
+
+        /// <summary>
+        /// Returns whether the requested motor restriction flag is currently active.
+        /// </summary>
+        public bool HasMotorRestriction(EPartyKccMotorRestriction restriction)
+        {
+            return restriction != EPartyKccMotorRestriction.None && (_activeMotorRestrictions & restriction) == restriction;
         }
 
         #endregion
@@ -441,8 +518,9 @@ namespace Party3C
             Vector3 effectiveGroundNormal = _motor.GroundingStatus.GroundNormal;
             currentVelocity = _motor.GetDirectionTangentToSurface(currentVelocity, effectiveGroundNormal) * currentVelocityMagnitude;
 
-            Vector3 inputRight = Vector3.Cross(_moveInputVector, _motor.CharacterUp);
-            Vector3 reorientedInput = Vector3.Cross(effectiveGroundNormal, inputRight).normalized * _moveInputVector.magnitude;
+            Vector3 effectiveMoveInput = GetEffectiveMoveInput();
+            Vector3 inputRight = Vector3.Cross(effectiveMoveInput, _motor.CharacterUp);
+            Vector3 reorientedInput = Vector3.Cross(effectiveGroundNormal, inputRight).normalized * effectiveMoveInput.magnitude;
             float targetSpeed = _inputs.RunHeld ? _runSpeed : _walkSpeed;
             Vector3 targetMovementVelocity = reorientedInput * targetSpeed;
 
@@ -454,9 +532,10 @@ namespace Party3C
         /// </summary>
         private void UpdateAirMovement(ref Vector3 currentVelocity, float deltaTime)
         {
-            if (_moveInputVector.sqrMagnitude > 0f)
+            Vector3 effectiveMoveInput = GetEffectiveMoveInput();
+            if (effectiveMoveInput.sqrMagnitude > 0f)
             {
-                Vector3 addedVelocity = _moveInputVector * (_airAccelerationSpeed * deltaTime);
+                Vector3 addedVelocity = effectiveMoveInput * (_airAccelerationSpeed * deltaTime);
                 Vector3 currentVelocityOnInputsPlane = Vector3.ProjectOnPlane(currentVelocity, _motor.CharacterUp);
 
                 if (currentVelocityOnInputsPlane.magnitude < _maxAirMoveSpeed)
@@ -508,6 +587,12 @@ namespace Party3C
         /// </summary>
         private void TryConsumeJump(ref Vector3 currentVelocity)
         {
+            if (HasMotorRestriction(EPartyKccMotorRestriction.Jump))
+            {
+                ClearJumpRequest();
+                return;
+            }
+
             if (!_jumpRequested || _jumpRequestAge > _jumpRequestBufferTime || _maxJumpCount <= 0)
                 return;
 
@@ -566,6 +651,9 @@ namespace Party3C
                 return;
 
             _dashRequested = false;
+            if (HasMotorRestriction(EPartyKccMotorRestriction.Dash))
+                return;
+
             if (_dashCharges <= 0 || _maxDashCharges <= 0)
                 return;
 
@@ -594,8 +682,9 @@ namespace Party3C
         /// </summary>
         private Vector3 ResolveDashDirection()
         {
-            if (_moveInputVector.sqrMagnitude > 0.0001f)
-                return _moveInputVector.normalized;
+            Vector3 effectiveMoveInput = GetEffectiveMoveInput();
+            if (effectiveMoveInput.sqrMagnitude > 0.0001f)
+                return effectiveMoveInput.normalized;
 
             Vector3 planarVelocity = Vector3.ProjectOnPlane(CurrentVelocity, _motor.CharacterUp);
             if (planarVelocity.sqrMagnitude > 0.0001f)
@@ -661,6 +750,35 @@ namespace Party3C
         #endregion
 
         #region Utility
+
+        /// <summary>
+        /// Refreshes the combined restriction flags from all active gameplay sources.
+        /// </summary>
+        private void RefreshActiveMotorRestrictions()
+        {
+            EPartyKccMotorRestriction combined = EPartyKccMotorRestriction.None;
+            foreach (EPartyKccMotorRestriction restriction in _motorRestrictions.Values)
+                combined |= restriction;
+
+            _activeMotorRestrictions = combined;
+        }
+
+        /// <summary>
+        /// Returns the move input currently allowed to affect KCC velocity.
+        /// </summary>
+        private Vector3 GetEffectiveMoveInput()
+        {
+            return HasMotorRestriction(EPartyKccMotorRestriction.Movement) ? Vector3.zero : _moveInputVector;
+        }
+
+        /// <summary>
+        /// Clears the buffered jump request.
+        /// </summary>
+        private void ClearJumpRequest()
+        {
+            _jumpRequested = false;
+            _jumpRequestAge = Mathf.Infinity;
+        }
 
         /// <summary>
         /// 将向量投影并限制到角色移动平面上。

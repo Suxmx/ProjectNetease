@@ -18,12 +18,11 @@ namespace Party3C
         }
 
         /// <summary>
-        /// Fades out the target animation layer when the timeline node ends.
+        /// Fades out the target semantic action layer when the timeline node ends.
         /// </summary>
         protected override void OnEnd(in PartySkillExecutionContext context, in PlayAnimancerNodeData data)
         {
-            if (data.LayerIndex > 0)
-                context.AnimancerPresenter?.FadeOutLayer(data.LayerIndex, data.FadeDuration);
+            context.AnimancerPresenter?.FadeOutAction(data.LayerRole, data.FadeDuration);
         }
     }
 }

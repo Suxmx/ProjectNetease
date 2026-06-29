@@ -13,8 +13,8 @@ namespace Party3C
     {
         [SerializeField] private List<TextAsset> _compiledSkills = new();
 
-        private readonly Dictionary<int, SkillDefinition> _skillsById = new();
-        private bool _loaded;
+        [NonSerialized] private readonly Dictionary<int, SkillDefinition> _skillsById = new();
+        [NonSerialized] private bool _loaded;
 
         /// <summary>
         /// Finds a compiled skill by its runtime id.

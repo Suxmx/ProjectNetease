@@ -4,27 +4,37 @@
     "skillKey": "Attack",
     "sourceTickRate": 60,
     "lengthTicks": 46,
-    "nodeDataBlobLength": 88,
+    "nodeDataBlobLength": 97,
     "nodes": [
         {
-            "nodeId": 2,
+            "nodeId": 3,
             "sourceTrackName": "Skill Action Track",
             "clipId": 1009,
             "sourceLine": 1,
             "startTick": 0,
             "endTick": 46,
-            "dataOffset": 50,
+            "dataOffset": 59,
             "dataLength": 38
         },
         {
-            "nodeId": 1,
+            "nodeId": 2,
             "sourceTrackName": "Skill Action Track",
             "clipId": 1008,
             "sourceLine": 1,
             "startTick": 22,
             "endTick": 28,
-            "dataOffset": 0,
+            "dataOffset": 9,
             "dataLength": 50
+        },
+        {
+            "nodeId": 1,
+            "sourceTrackName": "Skill Action Track",
+            "clipId": 1010,
+            "sourceLine": 1,
+            "startTick": 30,
+            "endTick": 45,
+            "dataOffset": 0,
+            "dataLength": 9
         }
     ]
 }

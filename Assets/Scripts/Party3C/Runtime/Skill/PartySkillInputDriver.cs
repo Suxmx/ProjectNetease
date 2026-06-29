@@ -4,23 +4,22 @@ using UnityEngine;
 namespace Party3C
 {
     /// <summary>
-    /// Converts MemoFramework gameplay input into owner skill start requests.
+    /// Converts MemoFramework gameplay input into buffered skill combo inputs.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class PartySkillInputDriver : MonoBehaviour
     {
-        [SerializeField] private PartyNetworkSkillController _networkSkillController;
+        [SerializeField] private PartySkillComboController _comboController;
         [SerializeField] private Camera _camera;
         [SerializeField] private bool _autoFindCamera = true;
         [SerializeField] private bool _inputEnabled = true;
-        [SerializeField] private int _defaultSkillId = 1;
 
         /// <summary>
-        /// Assigns the network skill controller used by this input bridge.
+        /// Assigns the combo controller used by this input bridge.
         /// </summary>
-        public void Configure(PartyNetworkSkillController networkSkillController)
+        public void Configure(PartySkillComboController comboController)
         {
-            _networkSkillController = networkSkillController;
+            _comboController = comboController;
         }
 
         /// <summary>
@@ -40,11 +39,11 @@ namespace Party3C
                 return;
 
             ResolveReferences();
-            if (_networkSkillController == null)
+            if (_comboController == null)
                 return;
 
             if (InputData.HasEventStart(InputEvent.Shoot))
-                _networkSkillController.TryStartSkill(_defaultSkillId, ResolveAimDirection());
+                _comboController.QueueInput(EPartySkillInputAction.PrimaryAttack, ResolveAimDirection());
         }
 
         /// <summary>
@@ -52,8 +51,8 @@ namespace Party3C
         /// </summary>
         private void ResolveReferences()
         {
-            if (_networkSkillController == null)
-                _networkSkillController = GetComponent<PartyNetworkSkillController>();
+            if (_comboController == null)
+                _comboController = GetComponent<PartySkillComboController>();
 
             if (_autoFindCamera && _camera == null)
                 _camera = Camera.main;

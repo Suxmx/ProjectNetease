@@ -1,0 +1,223 @@
+{
+    "version": 2,
+    "characterReference": "Assets/SD Unity-Chan Haon Custom/Prefabs/Set/Set Costume_02 SD Unity-Chan WGS.prefab",
+    "updateMode": 0,
+    "wrapMode": 0,
+    "stopMode": 0,
+    "playbackSpeed": 1.0,
+    "playOnStart": false,
+    "length": 30.0,
+    "viewTimeMin": 0.0,
+    "viewTimeMax": 1.2804746627807618,
+    "playTimeMin": 2.0,
+    "playTimeMax": 4.0,
+    "groups": [
+        {
+            "groupId": 1,
+            "name": "Set Costume_02 SD Unity-Chan WGS_Preview",
+            "isCollapsed": false,
+            "active": true,
+            "isLocked": false,
+            "actorReference": "",
+            "referenceMode": 0,
+            "initialCoordinates": 0,
+            "initialLocalPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "initialLocalRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "tracks": [
+                {
+                    "trackId": 101,
+                    "name": "Skill Action Track",
+                    "color": {
+                        "r": 0.1899999976158142,
+                        "g": 0.5400000214576721,
+                        "b": 0.9200000166893005,
+                        "a": 1.0
+                    },
+                    "active": true,
+                    "isLocked": false,
+                    "isCollapsed": false,
+                    "clips": [
+                        {
+                            "clipId": 1011,
+                            "startTime": 0.0,
+                            "length": 0.9666669368743897,
+                            "blendIn": 0.0,
+                            "blendOut": 0.0,
+                            "line": 1,
+                            "customFields": [
+                                {
+                                    "name": "Restrictions",
+                                    "value": "Movement"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "trackId": 101,
+                    "name": "Skill Action Track",
+                    "color": {
+                        "r": 0.1899999976158142,
+                        "g": 0.5400000214576721,
+                        "b": 0.9200000166893005,
+                        "a": 1.0
+                    },
+                    "active": true,
+                    "isLocked": false,
+                    "isCollapsed": false,
+                    "clips": [
+                        {
+                            "clipId": 1009,
+                            "startTime": 0.0,
+                            "length": 0.9666669368743897,
+                            "blendIn": 0.0,
+                            "blendOut": 0.0,
+                            "line": 1,
+                            "customFields": [
+                                {
+                                    "name": "AnimationSetFileName",
+                                    "value": "UnityChanSet"
+                                },
+                                {
+                                    "name": "AnimationKey",
+                                    "value": "Attack4"
+                                },
+                                {
+                                    "name": "LayerRole",
+                                    "value": "FullBodyAction"
+                                },
+                                {
+                                    "name": "FadeDuration",
+                                    "value": "0.1"
+                                },
+                                {
+                                    "name": "Speed",
+                                    "value": "1"
+                                },
+                                {
+                                    "name": "NormalizedStartTime",
+                                    "value": "0"
+                                },
+                                {
+                                    "name": "RestartFromStart",
+                                    "value": "True"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "trackId": 101,
+                    "name": "Skill Action Track",
+                    "color": {
+                        "r": 0.1899999976158142,
+                        "g": 0.5400000214576721,
+                        "b": 0.9200000166893005,
+                        "a": 1.0
+                    },
+                    "active": true,
+                    "isLocked": false,
+                    "isCollapsed": false,
+                    "clips": [
+                        {
+                            "clipId": 1008,
+                            "startTime": 0.5166667103767395,
+                            "length": 0.18333333730697633,
+                            "blendIn": 0.0,
+                            "blendOut": 0.0,
+                            "line": 1,
+                            "customFields": [
+                                {
+                                    "name": "Shape",
+                                    "value": "Box"
+                                },
+                                {
+                                    "name": "Space",
+                                    "value": "AimDirection"
+                                },
+                                {
+                                    "name": "Offset",
+                                    "value": "(0.00, 0.60, 0.83)"
+                                },
+                                {
+                                    "name": "HalfExtents",
+                                    "value": "(0.80, 1.14, 0.53)"
+                                },
+                                {
+                                    "name": "Radius",
+                                    "value": "0.6"
+                                },
+                                {
+                                    "name": "Distance",
+                                    "value": "4"
+                                },
+                                {
+                                    "name": "HitMask",
+                                    "value": "UnityEngine.LayerMask"
+                                },
+                                {
+                                    "name": "Damage",
+                                    "value": "10"
+                                },
+                                {
+                                    "name": "DamageGroupId",
+                                    "value": "1"
+                                },
+                                {
+                                    "name": "HitIntervalTicks",
+                                    "value": "1"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "trackId": 101,
+                    "name": "Skill Action Track",
+                    "color": {
+                        "r": 0.1899999976158142,
+                        "g": 0.5400000214576721,
+                        "b": 0.9200000166893005,
+                        "a": 1.0
+                    },
+                    "active": true,
+                    "isLocked": false,
+                    "isCollapsed": false,
+                    "clips": [
+                        {
+                            "clipId": 1010,
+                            "startTime": 0.5166667103767395,
+                            "length": 0.45000022649765017,
+                            "blendIn": 0.0,
+                            "blendOut": 0.0,
+                            "line": 1,
+                            "customFields": [
+                                {
+                                    "name": "InputAction",
+                                    "value": "PrimaryAttack"
+                                },
+                                {
+                                    "name": "NextSkillId",
+                                    "value": "-96453829"
+                                },
+                                {
+                                    "name": "CancelCurrentSkill",
+                                    "value": "True"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "specialDatas": []
+}

@@ -35,6 +35,7 @@ namespace Party3C.Editor
 
             DrawAddressableValidation(animationSet);
             DrawAnimationKeyField(animationSet);
+            DrawLayerRoleField();
             DrawPlaybackFields();
             ShowAnimatableParameters();
 
@@ -117,12 +118,28 @@ namespace Party3C.Editor
         }
 
         /// <summary>
+        /// Draws the semantic layer role resolved by PartyCharacterAnimationProfile at runtime.
+        /// </summary>
+        private void DrawLayerRoleField()
+        {
+            EditorGUI.BeginChangeCheck();
+            EPartyAnimancerLayerRole layerRole = (EPartyAnimancerLayerRole)EditorGUILayout.EnumPopup("Layer Role", action.LayerRole);
+            if (!EditorGUI.EndChangeCheck())
+                return;
+
+            Undo.RecordObject(action, "Change Animancer Layer Role");
+            action.LayerRole = layerRole;
+            ApplyClipChanges();
+        }
+
+        /// <summary>
         /// Draws playback parameters that are serialized into PlayAnimancerNodeData.
         /// </summary>
         private void DrawPlaybackFields()
         {
+            DrawLayerRoleHelp(action.LayerRole);
+
             EditorGUI.BeginChangeCheck();
-            int layerIndex = Mathf.Max(0, EditorGUILayout.IntField("Layer Index", action.LayerIndex));
             float fadeDuration = Mathf.Max(0f, EditorGUILayout.FloatField("Fade Duration", action.FadeDuration));
             float speed = EditorGUILayout.FloatField("Speed", action.Speed);
             float normalizedStartTime = EditorGUILayout.Slider("Normalized Start Time", action.NormalizedStartTime, 0f, 1f);
@@ -131,12 +148,30 @@ namespace Party3C.Editor
                 return;
 
             Undo.RecordObject(action, "Edit Animancer Playback");
-            action.LayerIndex = layerIndex;
             action.FadeDuration = fadeDuration;
             action.Speed = speed;
             action.NormalizedStartTime = normalizedStartTime;
             action.RestartFromStart = restartFromStart;
             ApplyClipChanges();
+        }
+
+        /// <summary>
+        /// Shows the runtime meaning of the selected semantic layer role.
+        /// </summary>
+        private static void DrawLayerRoleHelp(EPartyAnimancerLayerRole layerRole)
+        {
+            string message = layerRole switch
+            {
+                EPartyAnimancerLayerRole.BaseOverride => "BaseOverride plays on the base layer and should only be used for locomotion-style overrides.",
+                EPartyAnimancerLayerRole.UpperBodyAction => "UpperBodyAction is intended for attacks that blend with movement through an upper-body AvatarMask.",
+                EPartyAnimancerLayerRole.FullBodyAction => "FullBodyAction plays on its configured full-body action layer while gameplay movement remains KCC-driven.",
+                EPartyAnimancerLayerRole.AdditiveAction => "AdditiveAction plays on an additive layer configured by the animation profile.",
+                EPartyAnimancerLayerRole.Reaction => "Reaction plays on the reaction layer for hit and flinch presentation.",
+                _ => string.Empty
+            };
+
+            if (!string.IsNullOrEmpty(message))
+                EditorGUILayout.HelpBox(message, MessageType.Info);
         }
 
         /// <summary>
